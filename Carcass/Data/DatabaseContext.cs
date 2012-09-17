@@ -6,10 +6,12 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
+using Carcass.Data.Entities;
+
 namespace Carcass.Data
 {
     public class DatabaseContext : DbContext
     {
-        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<User> Users { get; set; }
     }
 }

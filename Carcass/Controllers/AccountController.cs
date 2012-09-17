@@ -15,6 +15,7 @@ using WebMatrix.WebData;
 
 using Carcass.Models;
 using Carcass.Data;
+using Carcass.Data.Entities;
 
 namespace Carcass.Controllers
 {
@@ -251,13 +252,12 @@ namespace Carcass.Controllers
             {
                 // Insert a new user into the database
                 var context = AutofacDependencyResolver.Current.GetService<Data.DatabaseContext>();
-
-                var user = context.UserProfiles.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
+                var user = context.Users.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
                 // Check if user already exists
                 if (user == null)
                 {
                     // Insert name into the profile table
-                    context.UserProfiles.Add(new UserProfile { UserName = model.UserName });
+                    context.Users.Add(new User { UserName = model.UserName });
                     context.SaveChanges();
 
                     OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);

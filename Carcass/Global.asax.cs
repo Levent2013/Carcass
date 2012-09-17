@@ -51,8 +51,6 @@ namespace Carcass
                 {
                     context.Database.Initialize(true);
                 }
-
-                Data.DatabaseContextInitializer.InitializeMembership();
             }
             catch (Exception ex)
             {
@@ -86,6 +84,8 @@ namespace Carcass
                         context.Database.Initialize(true);
                     }
                 }
+
+                Data.DatabaseContextInitializer.InitializeMembership();
             }
             catch (Exception ex)
             {

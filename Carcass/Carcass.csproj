@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -182,7 +184,8 @@
     <Compile Include="Data\DatabaseContext.cs" />
     <Compile Include="Data\DatabaseContextFactory.cs" />
     <Compile Include="Data\DatabaseContextInitializer.cs" />
-    <Compile Include="Data\UserProfile.cs" />
+    <Compile Include="Data\Entities\BlogPost.cs" />
+    <Compile Include="Data\Entities\User.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -194,6 +197,7 @@
     <Content Include="Content\css\bootstrap-responsive.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\ie7-9.css" />
     <Content Include="Content\html\bootstrap-scaffolding.html" />
     <Content Include="Content\img\bullet.png" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
@@ -272,7 +276,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Filters\" />
     <Folder Include="Infrastructure\" />
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +309,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

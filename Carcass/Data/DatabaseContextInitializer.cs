@@ -28,20 +28,21 @@ namespace Carcass.Data
             {
                 WebSecurity.InitializeDatabaseConnection(
                     "DefaultConnection",
-                    "UserProfiles",
-                    "UserProfileId",
+                    "Users",
+                    "UserId",
                     "UserName",
                     autoCreateTables: true);
+            }
 
-                // setup default admin
-                if (!WebSecurity.UserExists("admin"))
+            // setup default admin
+            if (!WebSecurity.UserExists("admin"))
+            {
+                WebSecurity.CreateUserAndAccount("admin", "password", new
                 {
-                    WebSecurity.CreateUserAndAccount("admin", "password", new
-                    {
-                        FirstName = "System",
-                        LastName = "Admin"
-                    });
-                }
+                    FirstName = "System",
+                    LastName = "Admin",
+                    DateRegistered = DateTime.UtcNow
+                });
             }
         }
 
