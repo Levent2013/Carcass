@@ -197,7 +197,8 @@
     <Content Include="Content\css\bootstrap-responsive.min.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap.min.css" />
-    <Content Include="Content\css\ie7-9.css" />
+    <Content Include="Content\css\ie7.css" />
+    <Content Include="Content\css\ie7-8.css" />
     <Content Include="Content\html\bootstrap-scaffolding.html" />
     <Content Include="Content\img\bullet.png" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />

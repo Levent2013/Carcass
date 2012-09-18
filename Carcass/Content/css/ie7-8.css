@@ -1,0 +1,39 @@
+/* Enable some nice design featured in IE7-8 */
+h1, h2, h3, h4, h5, h6 { }
+
+.btn { 
+    filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fff8f8f8', endColorstr='#ffe6e6e6', GradientType=0); 
+}
+
+.btn-primary {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=true);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+}
+
+.btn-warning {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=true);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fffbb450', endColorstr='#fff89406', GradientType=0);
+}
+
+.btn-danger {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=true);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
+}
+
+.btn-success {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=true);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
+}
+
+.btn-info {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=true);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
+}
+
+.btn-inverse {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=true);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
+}
+
+.nav-collapse.collapse { overflow: visible; }
