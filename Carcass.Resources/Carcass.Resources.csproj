@@ -39,15 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Buttons.Designer.cs">
-      <DependentUpon>Buttons.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <Compile Include="AccountResources.Designer.cs">
-      <DependentUpon>AccountResources.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>AccountResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Buttons.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Buttons.resx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Titles.Designer.cs">
@@ -57,13 +57,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Buttons.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Buttons.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="AccountResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AccountResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Buttons.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Buttons.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Titles.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

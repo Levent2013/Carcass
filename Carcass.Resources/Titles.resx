@@ -126,6 +126,9 @@
   <data name="HomePage" xml:space="preserve">
     <value>Carcass</value>
   </data>
+  <data name="LogIn" xml:space="preserve">
+    <value>Log in</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>

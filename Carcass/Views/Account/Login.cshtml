@@ -1,44 +1,74 @@
 ﻿@model Carcass.Models.LoginModel
+@using Carcass.Resources;
+@{  ViewBag.Title = Titles.LogIn; }
 
-@{
-    ViewBag.Title = "Log in";
-}
-
-<section>
 <h2>Use a local account to log in.</h2>
-@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+<div class="alert alert-comment">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    Legacy MVC login form refactored with <code>.form-horizontal</code> Bootstrap style.
+<pre>
+    @@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @@class = "form-horizontal" }))
+    ...
+    }
+</pre>
+    <code>Popover</code> overlays added to show additional information about form fields. 
+</div>
+
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
+{
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Log in Form</legend>
-        <ol>
-            <li>
-                @Html.LabelFor(m => m.UserName)
-                @Html.TextBoxFor(m => m.UserName)
-                @Html.ValidationMessageFor(m => m.UserName)
-            </li>
-            <li>
-                @Html.LabelFor(m => m.Password)
-                @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
-            </li>
-            <li>
-                <label class="checkbox">
-                    @Html.CheckBoxFor(m => m.RememberMe, new { @class = "checkbox" })
-                    @Html.DisplayNameFor(m => m.RememberMe)
-                </label>
-                
-            </li>
-        </ol>
-
-        <input type="submit" value="Log in" class="btn"/>
-    </fieldset>
+    
+    <div class="control-group">
+        @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+        <div class="controls">
+            @Html.TextBoxFor(m => m.UserName, 
+                new Dictionary<string, object> { 
+                    { "placeholder", Html.DisplayNameFor(m => m.UserName) },
+                    { "rel", "popover" },
+                    { "data-content", "Please enter your user name" },
+                    { "data-original-title", Html.DisplayNameFor(m => m.UserName) }
+                })
+            @Html.ValidationMessageFor(m => m.UserName)
+        </div>
+    </div>
+    <div class="control-group">
+        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+        <div class="controls">
+            @Html.PasswordFor(m => m.Password,  new Dictionary<string, object> { 
+                    { "placeholder", Html.DisplayNameFor(m => m.Password) },
+                    { "rel", "popover" },
+                    { "data-content", "Please enter your password" },
+                    { "data-original-title", Html.DisplayNameFor(m => m.Password) }
+            })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                @Html.CheckBoxFor(m => m.RememberMe,  new Dictionary<string, object> { 
+                    { "rel", "popover" },
+                    { "data-content", "Check if you want to stay logged in after closing of browser" },
+                    // { "data-placement", "left" },
+                    { "data-original-title", Html.DisplayNameFor(m => m.RememberMe) }
+                })
+                @Html.DisplayNameFor(m => m.RememberMe)
+            </label>
+        </div>
+    </div>
+    <div class="control-group">
+        <div class="controls">
+            <input type="submit" class="btn btn-primary" value="@Buttons.Login" />
+        </div>
+    </div>    
 }
+<hr />
     <p>
         @Html.ActionLink("Register", "Register") if you don't have an account.
     </p>
-</section>
+<hr />
 
 <section class="social" id="socialLoginForm">
     <h2>Use another service to log in.</h2>
@@ -47,4 +77,8 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $("input[rel=popover]").popover({
+            html: true, trigger: 'focus'
+        });    </script>
 }

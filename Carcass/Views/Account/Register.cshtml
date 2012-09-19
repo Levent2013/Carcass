@@ -1,12 +1,10 @@
 ﻿@model Carcass.Models.RegisterModel
 @using Carcass.Resources;
-@{ ViewBag.Title = Titles.Register; }
+@{ ViewBag.Title = AccountResources.RegistrationForm; }
 
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
-    <legend>@AccountResources.RegistrationForm</legend>
-
     @Html.ValidationSummary()
     <div class="control-group">
         @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
