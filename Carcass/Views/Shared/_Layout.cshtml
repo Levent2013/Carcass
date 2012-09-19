@@ -52,15 +52,25 @@
         </div>
         <div class="container" id="page-content">
             <div class="row">
-                @RenderSection("PageHead", required: false)
+                @if(ViewBag.Title != null) {
+                    <section class="well">
+                        <h1>@ViewBag.Title</h1>
+                    </section>
+                }
+            </div>
+            <div class="row">
+                @RenderSection("ContentHeader", required: false)
                 @RenderBody()
-                @RenderSection("PageFooter", required: false)
+                @RenderSection("ContentFooter", required: false)
             </div>
         </div>
                     
         <footer class="footer">
             <div class="container">
-                &copy; @DateTime.Now.Year - Carcass
+                <div class="row">
+                    <hr>
+                    &copy; @DateTime.Now.Year - Carcass
+                </div>
             </div>
         </footer>
         @Scripts.Render("~/bundles/common")

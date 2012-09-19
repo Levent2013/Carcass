@@ -215,6 +215,8 @@
     <Content Include="Content\img\orderedList9.png" />
     <Content Include="Content\js\bootstrap.js" />
     <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\html5.js" />
+    <Content Include="Content\js\purl.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
@@ -281,6 +283,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Carcass.Common\Carcass.Common.csproj">
+      <Project>{f1776a13-516f-420c-b343-7ff75564dbf3}</Project>
+      <Name>Carcass.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Carcass.Resources\Carcass.Resources.csproj">
+      <Project>{cca61b3c-e398-428c-bf1c-4d0c88ffdca3}</Project>
+      <Name>Carcass.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

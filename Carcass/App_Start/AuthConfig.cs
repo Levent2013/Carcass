@@ -27,6 +27,7 @@ namespace Carcass
             //    appSecret: "");
 
             OAuthWebSecurity.RegisterGoogleClient();
+            
         }
     }
 }

@@ -257,7 +257,7 @@ namespace Carcass.Controllers
                 if (user == null)
                 {
                     // Insert name into the profile table
-                    context.Users.Add(new User { UserName = model.UserName });
+                    context.Users.Add(new User { UserName = model.UserName, DateRegistered = DateTime.UtcNow });
                     context.SaveChanges();
 
                     OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);

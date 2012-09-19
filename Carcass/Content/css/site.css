@@ -1,9 +1,18 @@
+body { padding-top: 40px;   font-size: 16px;}
+body, input, button, select, textarea {
+  font-family: "Segoe UI", Tahoma, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+
 /* Navbar customization */
-body { padding-top: 40px; }
+.navbar .navbar-inner { 
+    background: #111111 url("../img/bg01.png") repeat; border-bottom: 1px solid #000000; border-top: 1px solid #000000;
+    filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+}
 
 body > .navbar .brand {
   font-weight: bold;
-  color: #464646;
+  color: #666666;
   text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.125);
   -webkit-transition: all .2s linear;
      -moz-transition: all .2s linear;
@@ -16,23 +25,28 @@ body > .navbar .brand:hover { text-decoration: none; text-shadow: 0 1px 0 rgba(2
 #page-content { padding-top: 20px; }
 h1, h2, h3, h4, h5, h6 { text-shadow: 1px 1px 2px #cccccc; }
 
+/* UI Elements */
+.well { background: #f5f5f5 url("../img/bg02.png") repeat; 
+    -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
+
 /* Forms validation */
 .field-validation-error, .validation-summary-errors ul li { color: #b94a48;}
 
-/* Ordered list with images */
+/* Nice numbers icons */
 ol.round { list-style-type: none; padding-left: 0; }
 ol.round li { margin: 25px 0; padding-left: 45px; }
-    ol.round li.zero { background: url("../img/orderedList0.png") no-repeat; }
-    ol.round li.one { background: url("../img/orderedList1.png") no-repeat; }
-    ol.round li.two { background: url("../img/orderedList2.png") no-repeat; }
-    ol.round li.three { background: url("../img/orderedList3.png") no-repeat; }
-    ol.round li.four { background: url("../img/orderedList4.png") no-repeat; }
-    ol.round li.five { background: url("../img/orderedList5.png") no-repeat; }
-    ol.round li.six { background: url("../img/orderedList6.png") no-repeat; }
-    ol.round li.seven { background: url("../img/orderedList7.png") no-repeat; }
-    ol.round li.eight { background: url("../img/orderedList8.png") no-repeat; }
-    ol.round li.nine { background: url("../img/orderedList9.png") no-repeat; }
+.cs-icon-number { display: block; width: 30px; height: 30px; float: left; }
+    ol.round li.zero, .cs-icon-number.zero { background: url("../img/orderedList0.png") no-repeat; }
+    ol.round li.one, .cs-icon-number.one { background: url("../img/orderedList1.png") no-repeat; }
+    ol.round li.two, .cs-icon-number.two { background: url("../img/orderedList2.png") no-repeat; }
+    ol.round li.three, .cs-icon-number.three { background: url("../img/orderedList3.png") no-repeat; }
+    ol.round li.four, .cs-icon-number.four { background: url("../img/orderedList4.png") no-repeat; }
+    ol.round li.five, .cs-icon-number.five { background: url("../img/orderedList5.png") no-repeat; }
+    ol.round li.six, .cs-icon-number.six { background: url("../img/orderedList6.png") no-repeat; }
+    ol.round li.seven, .cs-icon-number.seven { background: url("../img/orderedList7.png") no-repeat; }
+    ol.round li.eight, .cs-icon-number.eight { background: url("../img/orderedList8.png") no-repeat; }
+    ol.round li.nine, .cs-icon-number.nine { background: url("../img/orderedList9.png") no-repeat; }
 
-
+h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3px 0;}
 
 

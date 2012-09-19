@@ -2,6 +2,7 @@
 h1, h2, h3, h4, h5, h6 { }
 
 .btn { 
+    border-width: 1px;
     filter: progid:dximagetransform.microsoft.gradient(enabled=false);
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#fff8f8f8', endColorstr='#ffe6e6e6', GradientType=0); 
 }
