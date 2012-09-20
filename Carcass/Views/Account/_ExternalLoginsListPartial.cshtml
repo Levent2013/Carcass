@@ -15,12 +15,10 @@ else
         foreach (AuthenticationClientData provider in Model)
         {
             <p>
-                <button type="submit" name="provider" class="btn"
+                <button type="submit" name="provider" class="btn btn-info"
                     value="@provider.AuthenticationClient.ProviderName" 
                     title="Log in using your @provider.DisplayName account">
-                    <img class="img24" src="@Url.Content("~/Content/img/vendor/google-24.png")" />
                     @provider.DisplayName
-
                 </button>
             </p>
         }

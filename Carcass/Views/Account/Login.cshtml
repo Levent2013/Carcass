@@ -1,5 +1,7 @@
 ﻿@model Carcass.Models.LoginModel
 @using Carcass.Resources;
+@using Carcass.Common.MVC.HtmlHelperExtensions;
+
 @{  ViewBag.Title = Titles.LogIn; }
 
 <h2>Use a local account to log in.</h2>
@@ -20,7 +22,7 @@
     @Html.ValidationSummary(true)
     
     <div class="control-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+        @Html.CarcassLabelFor(m => m.UserName)
         <div class="controls">
             @Html.TextBoxFor(m => m.UserName, 
                 new Dictionary<string, object> { 
@@ -33,7 +35,7 @@
         </div>
     </div>
     <div class="control-group">
-        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+        @Html.CarcassLabelFor(m => m.Password)
         <div class="controls">
             @Html.PasswordFor(m => m.Password,  new Dictionary<string, object> { 
                     { "placeholder", Html.DisplayNameFor(m => m.Password) },

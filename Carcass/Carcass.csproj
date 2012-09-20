@@ -200,9 +200,14 @@
     <Content Include="Content\css\ie7.css" />
     <Content Include="Content\css\ie7-8.css" />
     <Content Include="Content\html\bootstrap-scaffolding.html" />
+    <Content Include="Content\img\bg01.png" />
+    <Content Include="Content\img\bg02.png" />
     <Content Include="Content\img\bullet.png" />
+    <Content Include="Content\img\glyphicons-dark.png" />
+    <Content Include="Content\img\glyphicons-halflings-dark.png" />
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
+    <Content Include="Content\img\glyphicons.png" />
     <Content Include="Content\img\orderedList0.png" />
     <Content Include="Content\img\orderedList1.png" />
     <Content Include="Content\img\orderedList2.png" />
@@ -217,6 +222,7 @@
     <Content Include="Content\js\bootstrap.min.js" />
     <Content Include="Content\js\html5.js" />
     <Content Include="Content\js\purl.js" />
+    <Content Include="Content\licenses\Glyphicons.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />

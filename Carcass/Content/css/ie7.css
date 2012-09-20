@@ -1,0 +1,3 @@
+
+.alert-comment { position: static; padding-left: 14px; }
+.alert-comment:after { content: ""; position: initial; padding: 0; margin: 0;}

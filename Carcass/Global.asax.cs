@@ -25,6 +25,7 @@ namespace Carcass
 
         protected void Application_Start()
         {
+            InitializeViewEngines();
             InitializeDependencyResolver();
             InitializeDatabase();
 
@@ -58,6 +59,14 @@ namespace Carcass
                 throw;
             }
             #endif
+        }
+        
+        private void InitializeViewEngines()
+        {
+            var viewEngines = ViewEngines.Engines;
+            var webFormsEngine = viewEngines.OfType<WebFormViewEngine>().FirstOrDefault();
+            if (webFormsEngine != null)
+                viewEngines.Remove(webFormsEngine);
         }
 
         private void InitializeDependencyResolver()
