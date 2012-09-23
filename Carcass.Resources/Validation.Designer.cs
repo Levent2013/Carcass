@@ -61,11 +61,29 @@ namespace Carcass.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid property value: {0}.
+        /// </summary>
+        public static string InvalidPropertyValue {
+            get {
+                return ResourceManager.GetString("InvalidPropertyValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The {0} field is required..
         /// </summary>
         public static string Requred {
             get {
                 return ResourceManager.GetString("Requred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;null&gt;.
+        /// </summary>
+        public static string ValueNull {
+            get {
+                return ResourceManager.GetString("ValueNull", resourceCulture);
             }
         }
     }
