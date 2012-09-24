@@ -77,6 +77,8 @@
     <Compile Include="Collections\Extensions\DictionaryExtensions.cs" />
     <Compile Include="HTTP\MimeType.cs" />
     <Compile Include="IO\StreamPipe.cs" />
+    <Compile Include="MVC\HtmlHelperExtensions\CarcassMvcForm.cs" />
+    <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Field.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Label.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\ValidationExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.cs" />

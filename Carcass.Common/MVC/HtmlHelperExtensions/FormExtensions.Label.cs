@@ -101,7 +101,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                     
                     TagBuilder star = new TagBuilder("span");
                     star.SetInnerText("*");
-                    star.AddCssClass(BootsrapCssClassError);
+                    star.AddCssClass(BootsrapClassError);
                     star.MergeAttribute("title", requredMessage);
                     tg.InnerHtml = html.Encode(labelText) + " " + star.ToString(TagRenderMode.Normal);
                 }

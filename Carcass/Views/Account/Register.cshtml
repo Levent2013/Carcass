@@ -7,40 +7,52 @@
 <div class="alert alert-comment">
     <button type="button" class="close" data-dismiss="alert">×</button>
     Example of <code>Html.CarcassValidationSummary</code> usage. 
-    It replaces legacy MVC <code>Html.CarcassValidationSummary</code> with Bootstrap style alert.
-    Both cleint-side and server-side validation supported.
+    It replaces legacy MVC <code>Html.ValidationSummary</code> with Bootstrap style alert.
+    Both client-side and server-side validation supported.
+
+    Also <code>Html.CarcassBeginForm</code> used to create noce form with minimal coding.
 <pre>
+@@using (var form = Html.CarcassBeginForm())
+{
+    @@Html.AntiForgeryToken()
     @@Html.CarcassValidationSummary(false, "Validation failed")
+    ...
+}
 </pre>
 </div>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (var form = Html.CarcassBeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.CarcassValidationSummary(false, "Validation failed")
-
-    <div class="control-group">
+    @Html.CarcassFieldFor(form, m => m.UserName)
+        
+     /*
+             * <div class="control-group">
         @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
         <div class="controls">
             @Html.TextBoxFor(m => m.UserName, new { placeholder = "User name", autocomplete = "off" })
         </div>
     </div>
+    
+    */
+    
     <div class="control-group">
-         @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+         @Html.CarcassLabelFor(m => m.Password, new { @class = "control-label" })
         <div class="controls">
             @Html.PasswordFor(m => m.Password, new { placeholder = "Password", autocomplete = "off" })
+            @Html.ValidationMessageFor(m => m.Password)
         </div>
     </div>
     <div class="control-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+        @Html.CarcassLabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
         <div class="controls">
             @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Confirm password" })
         </div>
     </div>
-    <div class="control-group">
-        <div class="controls">
-            <input type="submit" class="btn btn-primary" value="@Buttons.Register" />
-        </div>
+    
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="@Buttons.Register" />
     </div>
 }
 

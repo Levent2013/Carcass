@@ -2,7 +2,6 @@
 @using Carcass.Resources;
 @{  ViewBag.Title = Titles.LogIn; }
 
-<h2>Use a local account to log in.</h2>
 <div class="alert alert-comment">
     <button type="button" class="close" data-dismiss="alert">×</button>
     Legacy MVC login form refactored with <code>.form-horizontal</code> Bootstrap style.
@@ -14,6 +13,7 @@
     <code>Popover</code> overlays added to show additional information about form fields. 
 </div>
 
+<h2>Use a local account to log in.</h2>
 @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
 {
     @Html.AntiForgeryToken()
@@ -58,11 +58,9 @@
             </label>
         </div>
     </div>
-    <div class="control-group">
-        <div class="controls">
-            <input type="submit" class="btn btn-primary" value="@Buttons.Login" />
-        </div>
-    </div>    
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="@Buttons.Login" />
+    </div>
 }
 <hr />
     <p>

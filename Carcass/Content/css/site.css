@@ -24,10 +24,14 @@ body > .navbar .brand {
 
 body > .navbar .brand:hover { text-decoration: none; text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.4);}
 
-
 #page-content { padding-top: 20px; }
 h1, h2, h3 { text-shadow: 1px 1px 2px #cccccc; }
 
+/* Bootstrap fixes */
+
+.nav-collapse .dropdown-menu { display: none; }
+.nav-collapse  .open > .dropdown-menu { display: block; }
+  
 
 /* UI Elements */
 .well { background: #f5f5f5 url("../img/bg02.png") repeat; border-color: #cfcfcf;
