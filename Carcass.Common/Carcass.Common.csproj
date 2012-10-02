@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -40,7 +43,10 @@
       <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -78,8 +84,11 @@
     <Compile Include="HTTP\MimeType.cs" />
     <Compile Include="IO\StreamPipe.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\CarcassMvcForm.cs" />
+    <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Display.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Field.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Label.cs" />
+    <Compile Include="MVC\HtmlHelperExtensions\Infrastructure\EditorTemplates.cs" />
+    <Compile Include="MVC\HtmlHelperExtensions\Infrastructure\StringExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\ValidationExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.cs" />
     <Compile Include="MVC\JavaScriptHelper.cs" />
@@ -87,12 +96,13 @@
     <Compile Include="Utility\Throw.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Carcass.Resources\Carcass.Resources.csproj">
-      <Project>{cca61b3c-e398-428c-bf1c-4d0c88ffdca3}</Project>
-      <Name>Carcass.Resources</Name>
+    <ProjectReference Include="..\Carcass.Common.Resources\Carcass.Common.Resources.csproj">
+      <Project>{0a73869e-dea5-4203-bc36-ace45e9659c2}</Project>
+      <Name>Carcass.Common.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

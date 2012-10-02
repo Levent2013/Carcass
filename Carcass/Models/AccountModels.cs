@@ -55,6 +55,7 @@ namespace Carcass.Models
     {
         [Required]
         [Display(Name = "User name")]
+        [StringLength(255)]
         public string UserName { get; set; }
 
         [Required]

@@ -25,25 +25,34 @@
                 <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
               </button>
               <a class="brand" href="@Url.Content("~/")">Carcass</a>
+
               <div class="nav-collapse collapse">
                 <ul class="nav">
+                    <li class="dropdown" id="examples-menu">
+                        <a href="#examples-menu" class="dropdown-toggle" data-toggle="dropdown">
+                            Examples
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu collapsed">
+                            <li><a href="@Url.Action("ComplexForm", "Example")"><i class="icon-question-sign"></i> Complex form</a></li>
+                        </ul>
+                    </li>
+
                     <li class="dropdown" id="bootstrap-menu">
                         <a href="#bootstrap-menu" class="dropdown-toggle" data-toggle="dropdown">
                             Bootsrap Docs
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu collapsed">
-                            <li><a href="http://twitter.github.com/bootstrap/scaffolding.html">Scaffolding</a></li>
-                            <li><a href="http://twitter.github.com/bootstrap/base-css.html">Base CSS</a></li>
-                            <li><a href="http://twitter.github.com/bootstrap/components.html">Components</a></li>
-                            <li><a href="http://twitter.github.com/bootstrap/javascript.html">Javascript</a></li>
+                            <li><a href="http://twitter.github.com/bootstrap/scaffolding.html"><i class="icon-question-sign"></i> Scaffolding</a></li>
+                            <li><a href="http://twitter.github.com/bootstrap/base-css.html"><i class="icon-question-sign"></i> Base CSS</a></li>
+                            <li><a href="http://twitter.github.com/bootstrap/components.html"><i class="icon-question-sign"></i> Components</a></li>
+                            <li><a href="http://twitter.github.com/bootstrap/javascript.html"><i class="icon-question-sign"></i> Javascript</a></li>
                         </ul>
                     </li>
+                    
                     <li class="">
                         <a href="@Url.Action("About", "Home")">About</a>
-                    </li>
-                    <li class="">
-                        <a href="@Url.Action("Contact", "Home")">Contact</a>
                     </li>
                 </ul>
                 <div class="nav nav-pills pull-right" id="login">

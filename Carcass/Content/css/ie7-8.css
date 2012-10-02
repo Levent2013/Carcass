@@ -22,7 +22,7 @@ img { max-width: 10000px; }
 
 .btn-primary:hover, .btn-primary:active,.btn-primary.active,.btn-primary.disabled,.btn-primary[disabled] {
     filter: progid:dximagetransform.microsoft.gradient(enabled=true);
-    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff0044cc', endColorstr='#003bb3', GradientType=0);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff0044cc', endColorstr='#ff002299', GradientType=0);
 }
 
 .btn-warning {
@@ -39,10 +39,18 @@ img { max-width: 10000px; }
     filter: progid:dximagetransform.microsoft.gradient(enabled=true);
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
 }
+.btn-success:hover, .btn-success:active,.btn-success.active,.btn-success.disabled,.btn-success[disabled] {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=true);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff51a351', endColorstr='#ff499249', GradientType=0);
+}
 
 .btn-info {
     filter: progid:dximagetransform.microsoft.gradient(enabled=true);
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
+}
+.btn-info:hover, .btn-info:active,.btn-info.active,.btn-info.disabled,.btn-info[disabled] {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=true);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff2f96b4', endColorstr='#ff2a85a0', GradientType=0);
 }
 
 .btn-inverse {

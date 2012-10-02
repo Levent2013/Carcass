@@ -1,0 +1,34 @@
+﻿@model Carcass.Models.ComplexModel
+@using Carcass.Common.MVC.HtmlHelperExtensions;
+@using Carcass.Resources
+
+@{ ViewBag.Title = "Complex Form"; }
+
+<div class="span4">
+<h4>Html.EditorForModel</h4>
+
+@using (Html.BeginForm("ComplexForm", "Example", FormMethod.Post, new { @class = "legacy-mvc-form" }))
+{
+    @Html.ValidationSummary()
+    @Html.EditorForModel()
+    @Html.CarcassFormActions(new Dictionary<string, object> { 
+        { Buttons.Submit, new { type = "submit", @class = "btn-primary" } } });
+}
+</div>
+
+
+<div class="span6">
+<h4>Html.CarcassEditorForModel</h4>
+
+@using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.CarcassValidationSummary()
+    @Html.CarcassEditorForModel(new { InlineValidation = true, ValidationClass = "alert alert-error" })
+    @Html.CarcassFormActions(new Dictionary<string, object> { 
+        { Buttons.Submit, new { type = "submit", @class = "btn-primary" } } });
+}
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

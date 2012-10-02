@@ -15,7 +15,8 @@ namespace Carcass.Data.Entities
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
-        
+
+        [StringLength(255)]
         public string UserName { get; set; }
 
         [DataType(DataType.DateTime)]

@@ -25,6 +25,7 @@ namespace Carcass
             bundles.Add(new StyleBundle("~/bundles/main")
                 .Include("~/Content/css/bootstrap.css",
                 "~/Content/css/bootstrap-responsive.css",
+                "~/Content/css/bootstrap-fix.css",
                 "~/Content/css/site.css"));
         }
     }

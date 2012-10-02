@@ -13,8 +13,7 @@ using System.Web.Routing;
 
 using Carcass.Common.Utility;
 using Carcass.Common.Collections.Extensions;
-
-using Carcass.Resources;
+using Carcass.Common.Resources;
 
 namespace Carcass.Common.MVC.HtmlHelperExtensions
 {
@@ -109,6 +108,91 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             }
             
             return new MvcHtmlString(alert.ToString(TagRenderMode.Normal));
+        }
+
+        /// <summary>
+        /// Returns the HTML markup for a validation-error message for each data field
+        ///     that is represented by the specified expression, using the specified message.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TProperty">The type of the property.</typeparam>
+        /// <param name="html">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the object that contains the properties to render.</param>
+        /// <param name="validationMessage">The message to display if the specified field contains an error.</param>
+        /// <returns> If the property or object is valid, an empty string; 
+        ///         otherwise, a span elementthat contains an error message.
+        /// </returns>
+        public static MvcHtmlString CarcassValidationMessageFor<TModel, TProperty>(
+            this HtmlHelper<TModel> html, 
+            Expression<Func<TModel, TProperty>> expression, 
+            string validationMessage = null,
+            IDictionary<string, object> htmlAttributes = null)
+        {
+
+            var metadata = ModelMetadata.FromLambdaExpression<TModel, TProperty>(expression, html.ViewData);
+            var htmlFieldName = ExpressionHelper.GetExpressionText((LambdaExpression) expression);
+            return FieldValidationMessage(html, metadata, htmlFieldName, validationMessage, htmlAttributes);
+        }
+
+        internal static MvcHtmlString FieldValidationMessage(
+            this HtmlHelper htmlHelper, 
+            ModelMetadata metadata, 
+            string htmlFieldName, 
+            string validationMessage = null, 
+            IDictionary<string, object> htmlAttributes = null)
+        {
+            Throw.IfNullArgument(metadata, "metadata");
+            
+            var fullHtmlFieldName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName);
+            var clientValidation = htmlHelper.GetFormContextForClientValidation();
+            if (!htmlHelper.ViewData.ModelState.ContainsKey(fullHtmlFieldName) && clientValidation == null)
+                return (MvcHtmlString)null;
+            
+            var modelState = htmlHelper.ViewData.ModelState[fullHtmlFieldName];
+            var modelErrorCollection = modelState == null ? null : modelState.Errors;
+            var error = modelErrorCollection == null || modelErrorCollection.Count == 0
+                ? null
+                : modelErrorCollection.FirstOrDefault(m => !string.IsNullOrEmpty(m.ErrorMessage)) ?? modelErrorCollection[0];
+            
+            if (error == null && clientValidation == null)
+                return (MvcHtmlString)null;
+            
+            var tagBuilder = new TagBuilder("span");
+            tagBuilder.MergeAttributes<string, object>(htmlAttributes);
+            tagBuilder.AddCssClass(error != null ? HtmlHelper.ValidationMessageCssClassName : HtmlHelper.ValidationMessageValidCssClassName);
+            
+            if (!String.IsNullOrEmpty(validationMessage))
+                tagBuilder.SetInnerText(validationMessage);
+            else if (error != null)
+                tagBuilder.SetInnerText(LoadUserErrorMessage(htmlHelper.ViewContext.HttpContext, error, modelState));
+
+            if (clientValidation != null)
+            {
+                var isEmpty = String.IsNullOrEmpty(validationMessage);
+                if (htmlHelper.ViewContext.UnobtrusiveJavaScriptEnabled)
+                {
+                    tagBuilder.MergeAttribute("data-valmsg-for", fullHtmlFieldName);
+                    tagBuilder.MergeAttribute("data-valmsg-replace", isEmpty ? "true" : "false");
+                }
+                else
+                {
+                    tagBuilder.GenerateId(fullHtmlFieldName + "_validationMessage");
+
+                    var validationMetadata = htmlHelper.ViewContext.FormContext.GetValidationMetadataForField(fullHtmlFieldName, true);
+                    foreach (ModelClientValidationRule rule in 
+                        Enumerable.SelectMany<ModelValidator, ModelClientValidationRule>(
+                            ModelValidatorProviders.Providers.GetValidators(metadata, (ControllerContext) htmlHelper.ViewContext), 
+                                v => v.GetClientValidationRules()))
+                    {
+                        validationMetadata.ValidationRules.Add(rule);
+                    }
+      
+                    validationMetadata.ReplaceValidationMessageContents = isEmpty;
+                    validationMetadata.ValidationMessageId = tagBuilder.Attributes["id"];
+                }
+            }
+            
+            return MvcHtmlString.Create(tagBuilder.ToString(TagRenderMode.Normal));
         }
 
         private static string LoadUserErrorMessage(HttpContextBase httpContext, ModelError error, ModelState modelState)

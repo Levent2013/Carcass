@@ -1,12 +1,14 @@
 ﻿@model Carcass.Models.LoginModel
+@using Carcass.Common.MVC.HtmlHelperExtensions;
 @using Carcass.Resources;
+
 @{  ViewBag.Title = Titles.LogIn; }
 
 <div class="alert alert-comment">
     <button type="button" class="close" data-dismiss="alert">×</button>
     Legacy MVC login form refactored with <code>.form-horizontal</code> Bootstrap style.
 <pre>
-    @@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @@class = "form-horizontal" }))
+    @@using (Html.CarcassBeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
     ...
     }
 </pre>
@@ -14,34 +16,36 @@
 </div>
 
 <h2>Use a local account to log in.</h2>
-@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.CarcassBeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
 {
     @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
+    @Html.CarcassValidationSummary(true)
     
     <div class="control-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
+        @Html.CarcassLabelFor(m => m.UserName)
         <div class="controls">
             @Html.TextBoxFor(m => m.UserName, 
                 new Dictionary<string, object> { 
                     { "placeholder", Html.DisplayNameFor(m => m.UserName) },
                     { "rel", "popover" },
+                    { "data-placement", "top" },
                     { "data-content", "Please enter your user name" },
                     { "data-original-title", Html.DisplayNameFor(m => m.UserName) }
                 })
-            @Html.ValidationMessageFor(m => m.UserName)
+            @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "alert alert-error" })
         </div>
     </div>
     <div class="control-group">
-        @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+        @Html.CarcassLabelFor(m => m.Password)
         <div class="controls">
             @Html.PasswordFor(m => m.Password,  new Dictionary<string, object> { 
                     { "placeholder", Html.DisplayNameFor(m => m.Password) },
                     { "rel", "popover" },
+                    { "data-placement", "top" },
                     { "data-content", "Please enter your password" },
                     { "data-original-title", Html.DisplayNameFor(m => m.Password) }
             })
-            @Html.ValidationMessageFor(m => m.Password)
+            @Html.ValidationMessageFor(m => m.Password, null, new { @class = "alert alert-error" })
         </div>
     </div>
     
@@ -50,8 +54,8 @@
             <label class="checkbox">
                 @Html.CheckBoxFor(m => m.RememberMe,  new Dictionary<string, object> { 
                     { "rel", "popover" },
+                    { "data-placement", "top" },
                     { "data-content", "Check if you want to stay logged in after closing of browser" },
-                    // { "data-placement", "left" },
                     { "data-original-title", Html.DisplayNameFor(m => m.RememberMe) }
                 })
                 @Html.DisplayNameFor(m => m.RememberMe)

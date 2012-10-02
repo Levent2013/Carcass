@@ -10,50 +10,32 @@
     It replaces legacy MVC <code>Html.ValidationSummary</code> with Bootstrap style alert.
     Both client-side and server-side validation supported.
 
-    Also <code>Html.CarcassBeginForm</code> used to create noce form with minimal coding.
+    Also <code>Html.CarcassBeginForm</code> used to create nice form with minimal coding.
 <pre>
-@@using (var form = Html.CarcassBeginForm())
+@@using (Html.CarcassBeginForm())
 {
     @@Html.AntiForgeryToken()
     @@Html.CarcassValidationSummary(false, "Validation failed")
-    ...
+    @@Html.CarcassFieldFor(m => m.UserName, new { placeholder = "User name", autocomplete = "off" })
+    @@Html.CarcassFieldFor(m => m.Password, new { placeholder = "Password", autocomplete = "off" })
+    @@Html.CarcassFieldFor(m => m.ConfirmPassword, new { placeholder = "Confirm password", autocomplete = "off" })
+    
+    @@Html.CarcassFormActions(new Dictionary<string, object> 
+        { { Buttons.Register, new { type = "submit", @@class="btn-primary" }} });
 }
 </pre>
 </div>
 
-@using (var form = Html.CarcassBeginForm())
+@using (Html.CarcassBeginForm())
 {
     @Html.AntiForgeryToken()
     @Html.CarcassValidationSummary(false, "Validation failed")
-    @Html.CarcassFieldFor(form, m => m.UserName)
-        
-     /*
-             * <div class="control-group">
-        @Html.LabelFor(m => m.UserName, new { @class = "control-label" })
-        <div class="controls">
-            @Html.TextBoxFor(m => m.UserName, new { placeholder = "User name", autocomplete = "off" })
-        </div>
-    </div>
-    
-    */
-    
-    <div class="control-group">
-         @Html.CarcassLabelFor(m => m.Password, new { @class = "control-label" })
-        <div class="controls">
-            @Html.PasswordFor(m => m.Password, new { placeholder = "Password", autocomplete = "off" })
-            @Html.ValidationMessageFor(m => m.Password)
-        </div>
-    </div>
-    <div class="control-group">
-        @Html.CarcassLabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
-        <div class="controls">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Confirm password" })
-        </div>
-    </div>
-    
-    <div class="form-actions">
-        <input type="submit" class="btn btn-primary" value="@Buttons.Register" />
-    </div>
+    @Html.CarcassFieldFor(m => m.UserName, new { placeholder = "User name", autocomplete = "off" })
+    @Html.CarcassFieldFor(m => m.Password, new { placeholder = "Password", autocomplete = "off" })
+    @Html.CarcassFieldFor(m => m.ConfirmPassword, new { placeholder = "Confirm password", autocomplete = "off" })
+   
+    @Html.CarcassFormActions(new Dictionary<string, object> 
+        { { Buttons.Register, new { type = "submit", @class="btn-primary" }} });
 }
 
 @section Scripts {

@@ -10,6 +10,17 @@ using Carcass.Common.Utility;
 
 namespace Carcass.Common.MVC.HtmlHelperExtensions
 {
+    public class CarcassMvcFormContext : FormContext
+    {
+        public CarcassMvcFormContext(string formClass = null)
+            : base()
+        {
+            FormClass = formClass;
+        }
+
+        public string FormClass { get; set; }
+    }
+
     public class CarcassMvcForm : IDisposable
     {
         private readonly ViewContext _viewContext;
@@ -19,7 +30,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         {
             Throw.IfNullArgument(viewContext, "viewContext");
             _viewContext = viewContext;
-            _viewContext.FormContext = new FormContext();
+            _viewContext.FormContext = new CarcassMvcFormContext(formClass);
             
             FormClass = formClass;
         }

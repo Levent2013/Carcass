@@ -4,8 +4,6 @@ ASP.NET MVC 4.0 + Twitter Bootsrap
 Web-application template with a lots of stuff
 
 
-
-
 NuGet packages dependencies
 --------------------------------------------------------------------------------
 

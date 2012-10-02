@@ -24,16 +24,13 @@ namespace Carcass.Data
 
         public static void InitializeMembership()
         {
-            if (!WebSecurity.Initialized)
-            {
-                WebSecurity.InitializeDatabaseConnection(
-                    "DefaultConnection",
-                    "Users",
-                    "UserId",
-                    "UserName",
-                    autoCreateTables: true);
-            }
-
+            WebSecurity.InitializeDatabaseConnection(
+                "DefaultConnection",
+                "Users",
+                "UserId",
+                "UserName",
+                autoCreateTables: true);
+            
             // setup default admin
             if (!WebSecurity.UserExists("admin"))
             {

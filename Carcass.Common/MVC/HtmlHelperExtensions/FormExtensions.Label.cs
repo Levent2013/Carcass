@@ -9,7 +9,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 
 using Carcass.Common.Utility;
-using Carcass.Resources;
+using Carcass.Common.Resources;
 
 namespace Carcass.Common.MVC.HtmlHelperExtensions
 {
@@ -52,8 +52,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             HtmlHelper html, 
             ModelMetadata metadata,
             string htmlFieldName,
-            string labelText, 
-            IDictionary<string, object> htmlAttributes)
+            string labelText = null, 
+            IDictionary<string, object> htmlAttributes = null)
         {
             Throw.IfNullArgument(metadata, "metadata");
             Throw.IfBadArgument(() => String.IsNullOrEmpty(htmlFieldName), "HTML field name is undefined");
