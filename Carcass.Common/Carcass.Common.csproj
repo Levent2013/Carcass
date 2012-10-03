@@ -83,6 +83,7 @@
     <Compile Include="Collections\Extensions\DictionaryExtensions.cs" />
     <Compile Include="HTTP\MimeType.cs" />
     <Compile Include="IO\StreamPipe.cs" />
+    <Compile Include="MVC\DataAnnotations\FileUploadAttribute.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\CarcassMvcForm.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Display.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Field.cs" />

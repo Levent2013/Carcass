@@ -15,7 +15,8 @@ namespace Carcass
                         "~/Content/js/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common").Include(
-                        "~/Content/js/bootstrap.js"));
+                        "~/Content/js/bootstrap.js",
+                        "~/Content/js/carcass.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Content/js/jquery.unobtrusive*",

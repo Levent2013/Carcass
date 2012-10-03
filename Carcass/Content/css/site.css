@@ -25,6 +25,7 @@ body > .navbar .brand:hover { text-decoration: none; text-shadow: 0 1px 0 rgba(2
 
 #page-content { padding-top: 20px; }
 h1, h2, h3, h4, h5 { text-shadow: 1px 1px 2px #cccccc; }
+.footer { margin-bottom: 20px; }
 
 /* Bootstrap UI elements */
 .well { background: #f5f5f5 url("../img/bg02.png") repeat; border-color: #cfcfcf;
@@ -59,7 +60,7 @@ h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3p
 
 /* MVC forms classes */
 .validation-summary-valid { display: none; }
-.validation-summary-errors { display: block; margin-bottom: 20px; }
+.validation-summary-errors { display: block; margin-bottom: 10px; }
     .validation-summary-errors ul { margin-bottom: 0;}
 
 .legacy-mvc-form input.input-validation-error, 
@@ -76,11 +77,24 @@ h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3p
 .form-inline-validation .controls input,
 .form-inline-validation .controls select,
 .form-inline-validation .controls textarea,
+.form-inline-validation .input-file-button,
 .form-inline-validation .input-append,
 .form-inline-validation .input-prepend { margin-top: 5px; }
 
 .form-inline-validation .input-append input,
 .form-inline-validation .input-prepend input { margin-top: 0; }
 
-
 .form-inline-validation .controls .field-validation-error { margin-top: 5px; }
+
+/* inline upload control */
+.input-file { }
+.input-file-info { display: block; padding: 5px 0; clear: left;}
+.input-file-button { position: relative; overflow: hidden; float: left; margin-right: 8px; }
+.input-file input {
+  position: absolute; top: 0; right: 0; margin: 0;
+  border: solid transparent; border-width: 0 0 100px 200px;
+  opacity: 0; filter: alpha(opacity=0); -moz-transform: translate(-300px, 0) scale(4);
+  direction: ltr; cursor: pointer;
+}
+
+

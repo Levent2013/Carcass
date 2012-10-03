@@ -54,7 +54,8 @@ namespace Carcass.Common.HTTP
         static MimeType()
         {
             #region Big list of mime types
-
+            
+            // Idea got from http://stackoverflow.com/questions/1029740/get-a-mime-from-an-extention
             // combination of values from Windows 7 Registry and 
             // from C:\Windows\System32\inetsrv\config\applicationHost.config
             // some added, including .7z and .dat
@@ -632,7 +633,6 @@ namespace Carcass.Common.HTTP
 
         /// <summary>
         /// Loads content type by file name
-        /// Idea got from  http://stackoverflow.com/questions/1029740/get-a-mime-from-an-extention
         /// </summary>
         /// <param name="path">Path to file</param>
         /// <returns>MIME content type</returns>

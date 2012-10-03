@@ -6,6 +6,8 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
 
+using Carcass.Common.MVC.DataAnnotations;
+
 namespace Carcass.Models
 {
     public class ComplexModel
@@ -55,6 +57,7 @@ namespace Carcass.Models
         public DateTime Time { get; set; }
 
         [DataType(DataType.Upload)]
+        [FileUpload(Multiple = true)]
         public string Upload { get; set; }
 
         [DataType(DataType.Url)]

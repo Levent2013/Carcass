@@ -58,6 +58,7 @@ namespace Carcass
                 _log.Error("Failed to initialize database", ex);
                 throw;
             }
+
             #endif
         }
         
