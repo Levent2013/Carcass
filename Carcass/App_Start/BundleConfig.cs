@@ -23,7 +23,7 @@ namespace Carcass
                         "~/Content/js/jquery.validate*"));
 
 
-            bundles.Add(new StyleBundle("~/bundles/main")
+            bundles.Add(new StyleBundle("~/Content/css/main")
                 .Include("~/Content/css/bootstrap.css",
                 "~/Content/css/bootstrap-responsive.css",
                 "~/Content/css/bootstrap-fix.css",

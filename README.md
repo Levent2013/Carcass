@@ -3,6 +3,12 @@ Carcass
 ASP.NET MVC 4.0 + Twitter Bootsrap 
 Web-application template with a lots of stuff
 
+Up-to-date demo application: http://carcass.apphb.com/
+
+
+External tools
+--------------------------------------------------------------------------------
+JavaScript minification: http://marijnhaverbeke.nl/uglifyjs
 
 NuGet packages dependencies
 --------------------------------------------------------------------------------
