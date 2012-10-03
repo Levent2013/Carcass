@@ -11,6 +11,7 @@ using System.Web.Routing;
 
 using Autofac;
 using Autofac.Integration.Mvc;
+using WebMatrix.WebData;
 
 using log4net;
 
@@ -43,8 +44,6 @@ namespace Carcass
 
         protected void Application_BeginRequest(Object sender, EventArgs e)
         {
-            #if DEBUG // DB could be deleted at development time
-
             try
             {
                 var context = AutofacDependencyResolver.Current.GetService<Data.DatabaseContext>();
@@ -52,14 +51,15 @@ namespace Carcass
                 {
                     context.Database.Initialize(true);
                 }
+
+                if (!WebSecurity.Initialized)
+                    Data.DatabaseContextInitializer.InitializeMembership();
             }
             catch (Exception ex)
             {
                 _log.Error("Failed to initialize database", ex);
                 throw;
             }
-
-            #endif
         }
         
         private void InitializeViewEngines()
@@ -89,13 +89,8 @@ namespace Carcass
             {
                 using (var context = new Data.DatabaseContext())
                 {
-                    if (!context.Database.Exists())
-                    {
-                        context.Database.Initialize(true);
-                    }
+                    context.Database.Initialize(true);
                 }
-
-                Data.DatabaseContextInitializer.InitializeMembership();
             }
             catch (Exception ex)
             {
