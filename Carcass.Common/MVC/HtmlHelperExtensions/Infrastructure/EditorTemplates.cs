@@ -284,12 +284,16 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
 
         private static bool ShouldShow(ModelMetadata metadata, TemplateInfo templateInfo)
         {
-            if (metadata.ShowForEdit 
+            if (metadata.ShowForEdit
                     && metadata.ModelType != typeof(System.Data.EntityState) // do not show internal Entity State
-                    && !metadata.IsComplexType)
+                    && (metadata.DataTypeName == "Upload" || !metadata.IsComplexType))
+            {
                 return !templateInfo.Visited(metadata);
+            }
             else
+            {
                 return false;
+            }
         }
 
         private static IDictionary<string, object> MergeAttributes(IDictionary<string, object> editorAttributes, string className, string inputType = null)

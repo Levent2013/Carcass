@@ -1,6 +1,6 @@
 body { padding-top: 40px;  }
 body, input, button, select, textarea {
-  font-family: "Segoe UI", Tahoma, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "open sans", Tahoma, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* Bootstrap navbar customization */
@@ -98,3 +98,6 @@ h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3p
 }
 
 
+@media (max-width: 979px) {
+    body { padding-top: 0; }
+}

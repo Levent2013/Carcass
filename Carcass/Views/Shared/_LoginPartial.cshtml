@@ -6,5 +6,7 @@
     
 } else {
     <a class="btn btn-success" href="@Url.Action("Register", "Account")" title="Sign Up">Sign Up</a>
-    <a class="btn btn-primary" href="@Url.Action("Login", "Account")" title="Log in">Log In</a>
+    if(Request.Url.PathAndQuery.IndexOf("Account/Login") == -1) {
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { ReturnUrl = Request.Url.PathAndQuery })" title="Log in">Log In</a>
+    }
 }

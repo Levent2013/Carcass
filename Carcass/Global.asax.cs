@@ -23,10 +23,10 @@ namespace Carcass
     public class MvcApplication : System.Web.HttpApplication
     {
         private ILog _log = LogManager.GetLogger("Application");
+        private Carcass.Common.MVC.Bootstrap _carcassBootstrap;
 
         protected void Application_Start()
         {
-            InitializeViewEngines();
             InitializeDependencyResolver();
             InitializeDatabase();
 
@@ -36,6 +36,8 @@ namespace Carcass
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            _carcassBootstrap = new Common.MVC.Bootstrap();
         }
 
         protected void Application_End()
@@ -62,29 +64,11 @@ namespace Carcass
             }
         }
         
-        private void InitializeViewEngines()
-        {
-            var viewEngines = ViewEngines.Engines;
-            var webFormsEngine = viewEngines.OfType<WebFormViewEngine>().FirstOrDefault();
-            if (webFormsEngine != null)
-                viewEngines.Remove(webFormsEngine);
-        }
-
-        private void InitializeDependencyResolver()
-        {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterType<Data.DatabaseContext>().InstancePerHttpRequest();
-            
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
-        }
-
-        protected void InitializeDatabase()
+       
+        private void InitializeDatabase()
         {
             Database.SetInitializer<Data.DatabaseContext>(new Data.DatabaseContextInitializer());
-
+            
             try
             {
                 using (var context = new Data.DatabaseContext())
@@ -96,6 +80,17 @@ namespace Carcass
             {
                 _log.Error("The application database could not be initialized.", ex);
             }
+        }
+
+        private void InitializeDependencyResolver()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
+            builder.RegisterType<Data.DatabaseContext>().InstancePerHttpRequest();
+
+            var container = builder.Build();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
     }
 }

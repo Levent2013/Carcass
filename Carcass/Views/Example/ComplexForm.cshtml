@@ -19,7 +19,23 @@
 
 <div class="span6">
 <h4>Html.CarcassEditorForModel</h4>
-
+@if (Model != null)
+{
+    <div class="alert alert-info">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <h4>Submitted data</h4>
+        @if (Model.MultipleUpload != null)
+        {
+            <text>You have uploaded @Model.MultipleUpload.Length file(s)<br />
+                @Html.Raw(String.Join(", ", Model.MultipleUpload.Select(p => String.Format("{0} [{1}&nbsp;bytes]", p.FileName, p.ContentSize))))
+            </text>
+            <hr />
+        }
+        
+    </div>
+}
+    
+    
 @using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.CarcassValidationSummary()
@@ -31,4 +47,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    
 }

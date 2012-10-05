@@ -7,12 +7,12 @@ using System.Globalization;
 using System.Web.Security;
 
 using Carcass.Common.MVC.DataAnnotations;
+using Carcass.Common.MVC.DataTypes;
 
 namespace Carcass.Models
 {
     public class ComplexModel
     {
-        [Required]
         [DataType(DataType.CreditCard)]
         public string CreditCard { get; set; }
 
@@ -58,7 +58,7 @@ namespace Carcass.Models
 
         [DataType(DataType.Upload)]
         [FileUpload(Multiple = true)]
-        public string Upload { get; set; }
+        public PostedFile[] MultipleUpload { get; set; }
 
         [DataType(DataType.Url)]
         public string Url { get; set; }

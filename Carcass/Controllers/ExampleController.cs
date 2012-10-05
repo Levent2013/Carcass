@@ -18,7 +18,7 @@ namespace Carcass.Controllers
 
         public ActionResult ComplexForm()
         {
-            return View(new Models.ComplexModel());
+            return View();
         }
 
         [HttpPost]
