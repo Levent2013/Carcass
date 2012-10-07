@@ -23,6 +23,17 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
     /// </summary>
     public static class ValidationExtensions
     {
+        public static MvcHtmlString CarcassValidationSummary(this HtmlHelper htmlHelper,
+            string cssClass,
+            bool excludePropertyErrors = false)
+        {
+            return CarcassValidationSummary(
+                htmlHelper,
+                excludePropertyErrors, 
+                null, 
+                new Dictionary<string, object> { { "class", (object)cssClass }});
+        }
+
         public static MvcHtmlString CarcassValidationSummary(this HtmlHelper htmlHelper, 
             bool excludePropertyErrors = false, 
             string message = null, 
@@ -41,6 +52,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             }
 
             var alert = new TagBuilder("div");
+            if (htmlAttributes != null)
+                alert.MergeAttributes<string, object>(htmlAttributes);
+
             alert.AddCssClass("alert alert-danger");
             var content = new StringBuilder();
             
@@ -86,9 +100,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             content.Append("</ul>");
             
             alert.InnerHtml = content.ToString();
-            if (htmlAttributes != null)
-                alert.MergeAttributes<string, object>(htmlAttributes);
-
+            
             // support legacy MVC client side validation
             alert.AddCssClass(modelValid ? HtmlHelper.ValidationSummaryValidCssClassName : HtmlHelper.ValidationSummaryCssClassName);
             

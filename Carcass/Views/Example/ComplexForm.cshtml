@@ -4,48 +4,54 @@
 
 @{ ViewBag.Title = "Complex Form"; }
 
-<div class="span4">
-<h4>Html.EditorForModel</h4>
-
-@using (Html.BeginForm("ComplexForm", "Example", FormMethod.Post, new { @class = "legacy-mvc-form" }))
-{
-    @Html.ValidationSummary()
-    @Html.EditorForModel()
-    @Html.CarcassFormActions(new Dictionary<string, object> { 
-        { Buttons.Submit, new { type = "submit", @class = "btn-primary" } } });
-}
-</div>
-
-
-<div class="span6">
-<h4>Html.CarcassEditorForModel</h4>
-@if (Model != null)
-{
-    <div class="alert alert-info">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <h4>Submitted data</h4>
-        @if (Model.MultipleUpload != null)
+<div class="tabbable tabs-border">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#CarcassEditorForModel" data-toggle="tab">Html.CarcassEditorForModel</a></li>
+        <li><a href="#EditorForModel" data-toggle="tab">Html.EditorForModel</a></li>
+    </ul>
+<div class="tab-content">
+    <div class="tab-pane active" id="CarcassEditorForModel">
+        @if (Model != null)
         {
-            <text>You have uploaded @Model.MultipleUpload.Length file(s)<br />
-                @Html.Raw(String.Join(", ", Model.MultipleUpload.Select(p => String.Format("{0} [{1}&nbsp;bytes]", p.FileName, p.ContentSize))))
-            </text>
-            <hr />
-        }
+            <div class="alert alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <h4>Submitted data</h4>
+                @if (Model.MultipleUpload != null)
+                {
+                    <text>You have uploaded @Model.MultipleUpload.Length file(s)<br />
+                        @Html.Raw(String.Join(", ", Model.MultipleUpload.Select(p => String.Format("{0} [{1}&nbsp;bytes]", p.FileName, p.ContentSize))))
+                    </text>
+                    <hr />
+                }
         
+            </div>
+        }
+    
+        @using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.CarcassValidationSummary("tab-form", true)
+            @Html.CarcassEditorForModel( new { CssClass = "tab-form", InlineValidation = true, ValidationClass = "alert alert-error" })
+            @Html.CarcassFormActions(new Dictionary<string, object> { 
+                { Buttons.Submit, new { type = "submit", @class = "btn-primary" } } });
+        }
     </div>
-}
-    
-    
-@using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    @Html.CarcassValidationSummary()
-    @Html.CarcassEditorForModel(new { InlineValidation = true, ValidationClass = "alert alert-error" })
-    @Html.CarcassFormActions(new Dictionary<string, object> { 
-        { Buttons.Submit, new { type = "submit", @class = "btn-primary" } } });
-}
+    <div class="tab-pane" id="EditorForModel">
+        @using (Html.BeginForm("ComplexForm", "Example", FormMethod.Post, new { @class = "legacy-mvc-form" }))
+        {
+           <div class="tab-form">
+                @Html.ValidationSummary()
+                @Html.EditorForModel()
+            </div>
+            
+            @Html.CarcassFormActions(new Dictionary<string, object> { 
+                { Buttons.Submit, new { type = "submit", @class = "btn-primary" } } });
+        }
+
+    </div>
 </div>
+</div>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    
 }

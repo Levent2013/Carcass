@@ -11,6 +11,8 @@ namespace Carcass.Data
 {
     public class DatabaseContextInitializer : DropCreateDatabaseIfModelChanges<DatabaseContext>
     {
+        private static object _initMembershipLock = new object();
+
         public DatabaseContextInitializer()
         {
         }
@@ -26,25 +28,28 @@ namespace Carcass.Data
 
         public static void InitializeMembership()
         {
-            /// HACK: Reset WebSecurity internal state
-            ResetWebSecurityInitialization();
-
-            WebSecurity.InitializeDatabaseConnection(
-                "DefaultConnection",
-                "Users",
-                "UserId",
-                "UserName",
-                autoCreateTables: true);
-            
-            // setup default admin
-            if (!WebSecurity.UserExists("admin"))
+            lock (_initMembershipLock)
             {
-                WebSecurity.CreateUserAndAccount("admin", "password", new
+                /// HACK: Reset WebSecurity internal state
+                ResetWebSecurityInitialization();
+
+                WebSecurity.InitializeDatabaseConnection(
+                    "DefaultConnection",
+                    "Users",
+                    "UserId",
+                    "UserName",
+                    autoCreateTables: true);
+
+                // setup default admin
+                if (!WebSecurity.UserExists("admin"))
                 {
-                    FirstName = "System",
-                    LastName = "Admin",
-                    DateRegistered = DateTime.UtcNow
-                });
+                    WebSecurity.CreateUserAndAccount("admin", "password", new
+                    {
+                        FirstName = "System",
+                        LastName = "Admin",
+                        DateRegistered = DateTime.UtcNow
+                    });
+                }
             }
         }
 

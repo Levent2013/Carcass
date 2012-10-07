@@ -169,7 +169,15 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             }
 
             // template not found
-            var fieldType = templateName ?? metadata.TemplateHint ?? metadata.DataTypeName ?? metadata.ModelType.Name;
+            var typeName = metadata.ModelType.Name;
+            if(typeName == typeof(Nullable<int>).Name
+                || typeName == typeof(Nullable<byte>).Name
+                || typeName == typeof(Nullable<long>).Name) 
+            {
+                typeName = metadata.ModelType.GenericTypeArguments[0].Name;
+            }
+
+            var fieldType = templateName ?? metadata.TemplateHint ?? metadata.DataTypeName ?? typeName;
             Infrastructure.EditorTemplates.ActionDelegate formatAction = Infrastructure.EditorTemplates.FindAction(fieldType); 
 
             if (formatAction == null)

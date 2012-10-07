@@ -41,6 +41,11 @@ h1, h2, h3, h4, h5 { text-shadow: 1px 1px 2px #cccccc; }
   -webkit-border-radius: 4px 0 4px 0; -moz-border-radius: 4px 0 4px 0; border-radius: 4px 0 4px 0;
 }
 
+.tabs-border .nav.nav-tabs { margin-bottom: 0; }
+.tabs-border .tab-content { border-left: 1px solid #ddd; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd;}
+.tabs-border .form-actions { margin-bottom: -20px;}
+.tab-form { margin: 20px; }
+
 /* Nice numbers icons */
 ol.round { list-style-type: none; padding-left: 0; }
 ol.round li { margin: 25px 0; padding-left: 45px; }
@@ -68,6 +73,8 @@ h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3p
 .legacy-mvc-form .validation-summary-errors { color: #cc0000; border: 1px solid #cc0000; padding: 5px; }
 .legacy-mvc-form .editor-field .field-validation-error { color: #cc0000; }
 
+
+.control-group .controls .alert { margin: 0; }
 .field-validation-valid { display: none; }
 .field-validation-error { display: inline-block; margin: 5px 0 10px;}
     .field-validation-error.strong { font-weight: bold; }

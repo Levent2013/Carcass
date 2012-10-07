@@ -435,7 +435,8 @@ $.extend($.validator, {
 			/// <summary>
 			/// Show the specified messages.
 			/// Keys have to refer to the names of elements, values are displayed for those elements, using the configured error placement.
-			/// </summary>
+		    /// </summary>тгьиук
+
 			/// <param name="errors" type="Object">
 			/// One or more key/value pairs of input names and messages.
 			/// </param>

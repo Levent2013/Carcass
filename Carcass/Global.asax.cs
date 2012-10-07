@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -23,10 +24,11 @@ namespace Carcass
     public class MvcApplication : System.Web.HttpApplication
     {
         private ILog _log = LogManager.GetLogger("Application");
-        private Carcass.Common.MVC.Bootstrap _carcassBootstrap;
+        private Carcass.Common.MVC.Bootstrap _carcassBootstrap = new Common.MVC.Bootstrap();
 
         protected void Application_Start()
         {
+            _log.Debug("------------ Application_Start ------------ ");
             InitializeDependencyResolver();
             InitializeDatabase();
 
@@ -37,11 +39,12 @@ namespace Carcass
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            _carcassBootstrap = new Common.MVC.Bootstrap();
+             _carcassBootstrap.Init();
         }
 
         protected void Application_End()
         {
+            _log.Debug("------------ Application_End ------------ ");
         }
 
         protected void Application_BeginRequest(Object sender, EventArgs e)
@@ -63,23 +66,10 @@ namespace Carcass
                 throw;
             }
         }
-        
-       
+               
         private void InitializeDatabase()
         {
             Database.SetInitializer<Data.DatabaseContext>(new Data.DatabaseContextInitializer());
-            
-            try
-            {
-                using (var context = new Data.DatabaseContext())
-                {
-                    context.Database.Initialize(true);
-                }
-            }
-            catch (Exception ex)
-            {
-                _log.Error("The application database could not be initialized.", ex);
-            }
         }
 
         private void InitializeDependencyResolver()

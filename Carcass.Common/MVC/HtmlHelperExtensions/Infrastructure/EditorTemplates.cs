@@ -20,6 +20,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
 {
     internal static class EditorTemplates
     {
+        public const string DefaultDateFormat = "dd-mm-yyyy";
+
         public delegate MvcHtmlString ActionDelegate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata fieldMetadata, IDictionary<string, object> editorAttributes);
 
         private static readonly Dictionary<string, ActionDelegate> _defaultEditorActions
@@ -31,24 +33,35 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { "Text", StringTemplate },
             { "CreditCard", CreditCardTemplate },
             { "Currency", CurrencyTemplate },
+                        
+            //{ "Collection", CollectionTemplate },
+            { "Duration", FloatTemplate },
             
+            { "PhoneNumber", PhoneNumberTemplate },
+            { "Url", UrlTemplate },
+            { "ImageUrl", UrlTemplate },
+            { "EmailAddress", EmailAddressTemplate },
+            { "PostalCode", PostalCodeTemplate },
+            //{ "DateTime", DateTimeInputTemplate }, // TODO: Use Boostrap Datetime
+            { "Date", DateTemplate },
+            //{ "Time", TimeInputTemplate },
+            { "Upload", UploadTemplate },
             
-            //{ "Collection", EditorTemplates.CollectionTemplate },
-            //{ "PhoneNumber", EditorTemplates.PhoneNumberInputTemplate },
-            //{ "Url", EditorTemplates.UrlInputTemplate },
-            { "EmailAddress", EditorTemplates.EmailAddressTemplate },
-            //{ "DateTime", EditorTemplates.DateTimeInputTemplate }, // TODO: Use Boostrap Datetime
-            //{ "Date", EditorTemplates.DateInputTemplate }, // TODO: Use Boostrap Datetime
-            //{ "Time", EditorTemplates.TimeInputTemplate },
-            { "Upload", EditorTemplates.UploadTemplate },
-            //{ typeof (byte).Name, EditorTemplates.NumberInputTemplate },
-            //{ typeof (sbyte).Name, EditorTemplates.NumberInputTemplate},
-            //{ typeof (int).Name, EditorTemplates.NumberInputTemplate },
-            //{ typeof (uint).Name, EditorTemplates.NumberInputTemplate },
-            //{ typeof (long).Name, EditorTemplates.NumberInputTemplate },
-            //{ typeof (ulong).Name, EditorTemplates.NumberInputTemplate },
-            //{ typeof (bool).Name, EditorTemplates.BooleanTemplate},
-            //{ typeof (Decimal).Name, EditorTemplates.DecimalTemplate},
+            { typeof (sbyte).Name, SignedIntegerTemplate},
+            { typeof (int).Name, SignedIntegerTemplate },
+            { typeof (short).Name, SignedIntegerTemplate },
+            { typeof (long).Name, SignedIntegerTemplate },
+            
+            { typeof (byte).Name, UnsignedIntegerTemplate },
+            { typeof (ushort).Name, UnsignedIntegerTemplate },
+            { typeof (uint).Name, UnsignedIntegerTemplate },
+            { typeof (ulong).Name, UnsignedIntegerTemplate },
+            
+            //{ typeof (bool).Name, BooleanTemplate},
+            { typeof (decimal).Name, FloatTemplate},
+            { typeof (float).Name, FloatTemplate},
+            { typeof (double).Name, FloatTemplate},
+            
             { typeof (string).Name, StringTemplate},
             { typeof (object).Name, ObjectTemplate}
         };
@@ -97,6 +110,11 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 var validationClass = htmlAttributes.Get("ValidationClass", String.Empty);
                 var validationAttrs = new Dictionary<string, object>() { { "class", validationClass } };
 
+                var content = new TagBuilder("div");
+                if (htmlAttributes.ContainsKey("CssClass"))
+                    content.AddCssClass(htmlAttributes["CssClass"] as string);
+                sb.Append(content.ToString(TagRenderMode.StartTag));
+
                 foreach (var metadata in modelMetadata.Properties.Where(pm => EditorTemplates.ShouldShow(pm, templateInfo)))
                 {
                     if (!metadata.HideSurroundingHtml)
@@ -134,6 +152,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                             sb.Append("</div></div>\r\n");
                     }
                 }
+
+                sb.Append(content.ToString(TagRenderMode.EndTag));
             }
 
             return MvcHtmlString.Create(sb.ToString());
@@ -263,6 +283,44 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         }
 
         /// <summary>
+        /// Format URL editor
+        /// </summary>
+        internal static MvcHtmlString UrlTemplate(HtmlHelper html, 
+            object formattedValue, 
+            string htmlFieldName, 
+            ModelMetadata metadata, 
+            IDictionary<string, object> editorAttributes)
+        {
+            var box = InputExtensions.TextBox(
+                html, 
+                htmlFieldName, 
+                formattedValue,
+                MergeAttributes(editorAttributes, "url", "text"));
+
+            var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-globe""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
+        }
+        
+        /// <summary>
+        /// Format Phone Number editor
+        /// </summary>
+        internal static MvcHtmlString PhoneNumberTemplate(HtmlHelper html, 
+            object formattedValue, 
+            string htmlFieldName, 
+            ModelMetadata metadata, 
+            IDictionary<string, object> editorAttributes)
+        {
+            var box = InputExtensions.TextBox(
+                html, 
+                htmlFieldName, 
+                formattedValue,
+                MergeAttributes(editorAttributes, "phoneNumber", "text"));
+
+            var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-phone""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
+        }
+
+        /// <summary>
         /// Format E-Mail editor
         /// </summary>
         internal static MvcHtmlString EmailAddressTemplate(HtmlHelper html, 
@@ -275,10 +333,113 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "email", "email"));
+                MergeAttributes(editorAttributes, "email", "text"));
 
+            var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-e-mail""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
+        }
+
+        /// <summary>
+        /// Date editor, JS examples: http://www.eyecon.ro/bootstrap-datepicker/
+        /// </summary>
+        internal static MvcHtmlString DateTemplate(HtmlHelper html, 
+            object formattedValue, 
+            string htmlFieldName, 
+            ModelMetadata metadata, 
+            IDictionary<string, object> editorAttributes)
+        {
+            /*
+            var box = new TagBuilder("input");
+            box.MergeAttributes(new Dictionary<string, string> 
+                { 
+                    { "type", "text" },
+                    { "value", formattedValue as string },
+                    { "name", htmlFieldName },
+                    { "id", htmlFieldName }
+                });
+            box.ToString(TagRenderMode.SelfClosing)
+             */
+
+            var box = InputExtensions.TextBox(
+              html,
+              htmlFieldName,
+              formattedValue,
+              MergeAttributes(editorAttributes, null, "text"));
+
+            var format = @"<div class=""input-append date dateValue"" data-date-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-calendar""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, GetDateFormat(), box.ToHtmlString()));
+        }
+
+        /// <summary>
+        /// Format Postal Code editor
+        /// </summary>
+        internal static MvcHtmlString PostalCodeTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
+        {
+            var box = InputExtensions.TextBox(
+                html,
+                htmlFieldName,
+                formattedValue,
+                MergeAttributes(editorAttributes, "postalCode", "text"));
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-envelope""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
+        }
+        
+        /// <summary>
+        /// Format editor for unsigned integer number
+        /// </summary>
+        internal static MvcHtmlString UnsignedIntegerTemplate(HtmlHelper html, 
+            object formattedValue, 
+            string htmlFieldName, 
+            ModelMetadata metadata, 
+            IDictionary<string, object> editorAttributes)
+        {
+            return InputExtensions.TextBox(
+                html, 
+                htmlFieldName, 
+                formattedValue,
+                MergeAttributes(editorAttributes, "unsignedInt", "number"));
+        }
+
+        /// <summary>
+        /// Format editor for signed integer number
+        /// </summary>
+        internal static MvcHtmlString SignedIntegerTemplate(HtmlHelper html,
+            object formattedValue,
+            string htmlFieldName,
+            ModelMetadata metadata,
+            IDictionary<string, object> editorAttributes)
+        {
+            return InputExtensions.TextBox(
+                html,
+                htmlFieldName,
+                formattedValue,
+                MergeAttributes(editorAttributes, "signedInt", "number"));
+        }
+
+        /// <summary>
+        /// Format editor for float number
+        /// </summary>
+        internal static MvcHtmlString FloatTemplate(HtmlHelper html,
+            object formattedValue,
+            string htmlFieldName,
+            ModelMetadata metadata,
+            IDictionary<string, object> editorAttributes)
+        {
+            return InputExtensions.TextBox(
+                html,
+                htmlFieldName,
+                formattedValue,
+                MergeAttributes(editorAttributes, "number", "text"));
+        }
+
+        private static string GetDateFormat()
+        {
+            var pattern = System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
+            
+            if(String.IsNullOrEmpty(pattern))
+                return DefaultDateFormat;
+
+            return pattern.ToLowerInvariant();
         }
         
 

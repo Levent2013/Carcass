@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -11,15 +12,26 @@ namespace Carcass.Common.MVC
 {
     public sealed class Bootstrap
     {
+        private object _initLock = new object();
+
+        private bool _inited = false;
+      
         public Bootstrap()
         {
-            Init();
         }
 
-        private void Init()
+        public void Init()
         {
-            InitializeViewEngines();
-            InitializeModelBinders();
+            lock (_initLock)
+            {
+                if (_inited)
+                    throw new ApplicationException("Carcass Bootstrap already initialized");
+
+                InitializeViewEngines();
+                InitializeModelBinders();
+
+                _inited = true;
+            }
         }
 
         private void InitializeViewEngines()

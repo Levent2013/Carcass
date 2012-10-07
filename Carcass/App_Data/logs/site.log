@@ -1,0 +1,43 @@
+2012-10-07 00:54:24,618 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 01:19:07,331 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 01:22:53,162 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 01:30:13,105 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 01:30:33,645 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 01:34:36,360 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 01:47:42,142 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 01:48:50,498 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 01:49:07,279 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 01:49:38,009 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 01:53:22,535 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 02:06:08,871 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 02:06:17,874 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 02:13:28,553 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 02:13:38,311 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 02:13:41,152 ERROR Application      Failed to initialize database System.InvalidOperationException: The "WebSecurity.InitializeDatabaseConnection" method can be called only once.
+   at WebMatrix.WebData.WebSecurity.InitializeProviders(DatabaseConnectionInfo connect, String userTableName, String userIdColumn, String userNameColumn, Boolean autoCreateTables)
+   at Carcass.Data.DatabaseContextInitializer.InitializeMembership() in d:\work\github\Carcass\Carcass\Data\DatabaseContextInitializer.cs:line 32
+   at Carcass.MvcApplication.Application_BeginRequest(Object sender, EventArgs e) in d:\work\github\Carcass\Carcass\Global.asax.cs:line 61
+
+2012-10-07 02:21:52,728 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 02:22:02,300 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 02:24:09,755 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 02:26:25,544 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 02:41:20,883 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 02:53:36,182 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 02:53:53,953 ERROR Application      Failed to initialize database System.InvalidOperationException: The "WebSecurity.InitializeDatabaseConnection" method can be called only once.
+   at WebMatrix.WebData.WebSecurity.InitializeProviders(DatabaseConnectionInfo connect, String userTableName, String userIdColumn, String userNameColumn, Boolean autoCreateTables)
+   at Carcass.Data.DatabaseContextInitializer.InitializeMembership() in d:\work\github\Carcass\Carcass\Data\DatabaseContextInitializer.cs:line 32
+   at Carcass.MvcApplication.Application_BeginRequest(Object sender, EventArgs e) in d:\work\github\Carcass\Carcass\Global.asax.cs:line 61
+
+2012-10-07 03:00:38,751 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 03:05:08,116 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 03:10:33,913 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 03:10:41,590 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 03:22:58,619 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 03:23:06,349 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 03:25:20,409 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 03:26:32,926 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 03:26:43,829 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 03:27:00,541 DEBUG Application      ------------ Application_Start ------------  
+2012-10-07 03:31:17,569 DEBUG Application      ------------ Application_End ------------  
+2012-10-07 23:35:47,041 DEBUG Application      ------------ Application_Start ------------  

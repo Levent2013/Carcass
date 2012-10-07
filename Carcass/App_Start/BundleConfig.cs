@@ -16,17 +16,21 @@ namespace Carcass
 
             bundles.Add(new ScriptBundle("~/bundles/common").Include(
                         "~/Content/js/bootstrap.js",
-                        "~/Content/js/carcass.js"));
+                        "~/Content/js/bootstrap-datepicker.js",
+                        "~/Content/js/carcass.js",
+                        "~/Content/js/carcass-fileinput.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Content/js/jquery.unobtrusive*",
-                        "~/Content/js/jquery.validate*"));
+                        "~/Content/js/jquery.validate*",
+                        "~/Content/js/carcass-validate.js"));
 
 
             bundles.Add(new StyleBundle("~/Content/css/main")
                 .Include("~/Content/css/bootstrap.css",
                 "~/Content/css/bootstrap-responsive.css",
                 "~/Content/css/bootstrap-fix.css",
+                "~/Content/css/datepicker.css",
                 "~/Content/css/site.css"));
         }
     }

@@ -16,6 +16,10 @@ namespace Carcass.Models
         [DataType(DataType.CreditCard)]
         public string CreditCard { get; set; }
 
+        public uint? UnsignedInt { get; set; }
+
+        public int? SignedInt { get; set; }
+
         [Required]
         [DataType(DataType.Currency)]
         public decimal Currency { get; set; }
@@ -24,7 +28,7 @@ namespace Carcass.Models
         public DateTime Date { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime DateTime { get; set; }
+        public DateTime? DateTime { get; set; }
 
         [DataType(DataType.Duration)]
         public decimal Duration { get; set; }
