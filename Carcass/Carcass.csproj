@@ -208,6 +208,7 @@
     <Content Include="Content\css\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap-fix.css" />
+    <Content Include="Content\css\timepicker.css" />
     <Content Include="Content\css\datepicker.css" />
     <Content Include="Content\css\ie7.css" />
     <Content Include="Content\css\ie7-8.css" />
@@ -234,6 +235,7 @@
     <Content Include="Content\js\carcass.js" />
     <Content Include="Content\js\carcass-fileinput.js" />
     <Content Include="Content\js\carcass-validate.js" />
+    <Content Include="Content\js\bootstrap-timepicker.js" />
     <Content Include="Content\js\html5.js" />
     <Content Include="Content\js\jquery.validate.additional-methods.js" />
     <Content Include="Content\js\locales\bootstrap-datepicker.cs.js" />

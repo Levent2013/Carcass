@@ -164,3 +164,4 @@ pip-log.txt
 
 # Carcass/App_Data content
 Carcass/App_Data/*.*
+Carcass/App_Data/logs/*.*

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
+using System.Web.Mvc;
 using System.Web.Security;
 
 using Carcass.Common.MVC.DataAnnotations;
@@ -27,6 +28,9 @@ namespace Carcass.Models
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
+        [DataType(DataType.Time)]
+        public DateTime Time { get; set; }
+
         [DataType(DataType.DateTime)]
         public DateTime? DateTime { get; set; }
 
@@ -36,6 +40,7 @@ namespace Carcass.Models
         [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
 
+        [AllowHtml]
         [DataType(DataType.Html)]
         public string Html { get; set; }
 
@@ -56,9 +61,6 @@ namespace Carcass.Models
 
         [DataType(DataType.Text)]
         public string Text { get; set; }
-
-        [DataType(DataType.Time)]
-        public DateTime Time { get; set; }
 
         [DataType(DataType.Upload)]
         [FileUpload(Multiple = true)]

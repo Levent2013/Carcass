@@ -42,7 +42,19 @@ h1, h2, h3, h4, h5 { text-shadow: 1px 1px 2px #cccccc; }
 }
 
 .tabs-border .nav.nav-tabs { margin-bottom: 0; }
-.tabs-border .tab-content { border-left: 1px solid #ddd; border-bottom: 1px solid #ddd; border-right: 1px solid #ddd;}
+.tabs-border .tab-content { 
+    border-left: 1px solid #ddd; 
+    border-bottom: 1px solid #ddd; 
+    border-right: 1px solid #ddd;
+    -webkit-border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    border-bottom-left-radius: 4px;
+    -webkit-border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+
 .tabs-border .form-actions { margin-bottom: -20px;}
 .tab-form { margin: 20px; }
 

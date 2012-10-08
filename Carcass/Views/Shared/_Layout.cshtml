@@ -56,6 +56,7 @@
                     <li class="">
                         <a href="@Url.Action("About", "Home")">About</a>
                     </li>
+
                 </ul>
                 <div class="nav nav-pills pull-right" id="login">
                     @Html.Partial("_LoginPartial")
@@ -83,7 +84,12 @@
             <div class="container">
                 <div class="row">
                     <hr />
-                    <div class="span12">&copy; @DateTime.Now.Year - Carcass</div>
+                    <div class="span2">
+                        &copy; @DateTime.Now.Year - Carcass
+                    </div>
+                    <div class="span4">
+                        <b class="label">Locale: @Thread.CurrentThread.CurrentCulture.Name</b>
+                    </div>
                 </div>
             </div>
         </footer>

@@ -18,7 +18,7 @@
  * limitations under the License.
  * ========================================================= */
 
-// Updates marked as [artiz]
+// NOTE: Updates marked with '[artiz]' comment
 
 !function( $ ) {
 
@@ -160,8 +160,10 @@
 			});
 		},
 
-		setValue: function() {
-			var formatted = DPGlobal.formatDate(this.date, this.format, this.language);
+        // [artiz] added input value
+		setValue: function (value) {
+		    var dt = value ? DPGlobal.parseDate(value) : this.date;
+		    var formatted = DPGlobal.formatDate(dt, this.format, this.language);
 			if (!this.isInput) {
 				if (this.component){
 					this.element.find('input').prop('value', formatted);

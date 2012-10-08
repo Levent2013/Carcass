@@ -22,6 +22,11 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
     {
         public const string DefaultDateFormat = "dd-mm-yyyy";
 
+        /// <summary>
+        /// 'h' - 12h hour, 'hh'- 24h hour, 'tt' - a/pm, mm - minutes 
+        /// </summary>
+        public const string DefaultTimeFormat = "hh:mm";
+        
         public delegate MvcHtmlString ActionDelegate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata fieldMetadata, IDictionary<string, object> editorAttributes);
 
         private static readonly Dictionary<string, ActionDelegate> _defaultEditorActions
@@ -33,7 +38,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { "Text", StringTemplate },
             { "CreditCard", CreditCardTemplate },
             { "Currency", CurrencyTemplate },
-                        
+            
+            { "Html", MultilineTextTemplate },
             //{ "Collection", CollectionTemplate },
             { "Duration", FloatTemplate },
             
@@ -42,9 +48,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { "ImageUrl", UrlTemplate },
             { "EmailAddress", EmailAddressTemplate },
             { "PostalCode", PostalCodeTemplate },
-            //{ "DateTime", DateTimeInputTemplate }, // TODO: Use Boostrap Datetime
+            // { "DateTime", DateTimeTemplate },
             { "Date", DateTemplate },
-            //{ "Time", TimeInputTemplate },
+            { "Time", TimeTemplate },
             { "Upload", UploadTemplate },
             
             { typeof (sbyte).Name, SignedIntegerTemplate},
@@ -340,7 +346,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         }
 
         /// <summary>
-        /// Date editor, JS examples: http://www.eyecon.ro/bootstrap-datepicker/
+        /// Date editor, got from: https://github.com/eternicode/bootstrap-datepicker
         /// </summary>
         internal static MvcHtmlString DateTemplate(HtmlHelper html, 
             object formattedValue, 
@@ -348,26 +354,33 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata, 
             IDictionary<string, object> editorAttributes)
         {
-            /*
-            var box = new TagBuilder("input");
-            box.MergeAttributes(new Dictionary<string, string> 
-                { 
-                    { "type", "text" },
-                    { "value", formattedValue as string },
-                    { "name", htmlFieldName },
-                    { "id", htmlFieldName }
-                });
-            box.ToString(TagRenderMode.SelfClosing)
-             */
-
             var box = InputExtensions.TextBox(
               html,
               htmlFieldName,
               formattedValue,
               MergeAttributes(editorAttributes, null, "text"));
 
-            var format = @"<div class=""input-append date dateValue"" data-date-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-calendar""></i></span></div>";
+            var format = @"<div class=""input-append date"" data-date-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-calendar""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, GetDateFormat(), box.ToHtmlString()));
+        }
+
+        /// <summary>
+        /// Time editor
+        /// </summary>
+        internal static MvcHtmlString TimeTemplate(HtmlHelper html,
+            object formattedValue,
+            string htmlFieldName,
+            ModelMetadata metadata,
+            IDictionary<string, object> editorAttributes)
+        {
+            var box = InputExtensions.TextBox(
+              html,
+              htmlFieldName,
+              formattedValue,
+              MergeAttributes(editorAttributes, null, "text"));
+
+            var format = @"<div class=""input-append time"" data-time-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-time""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, GetTimeFormat(), box.ToHtmlString()));
         }
 
         /// <summary>
@@ -438,6 +451,16 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
 
             if(String.IsNullOrEmpty(pattern))
                 return DefaultDateFormat;
+
+            return pattern.ToLowerInvariant();
+        }
+
+        private static string GetTimeFormat()
+        {
+            var pattern = System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortTimePattern;
+
+            if (String.IsNullOrEmpty(pattern))
+                return DefaultTimeFormat;
 
             return pattern.ToLowerInvariant();
         }

@@ -17,6 +17,7 @@ namespace Carcass
             bundles.Add(new ScriptBundle("~/bundles/common").Include(
                         "~/Content/js/bootstrap.js",
                         "~/Content/js/bootstrap-datepicker.js",
+                        "~/Content/js/bootstrap-timepicker.js",
                         "~/Content/js/carcass.js",
                         "~/Content/js/carcass-fileinput.js"));
 
@@ -33,6 +34,7 @@ namespace Carcass
                 "~/Content/css/bootstrap-responsive.css",
                 "~/Content/css/bootstrap-fix.css",
                 "~/Content/css/datepicker.css",
+                "~/Content/css/timepicker.css",
                 "~/Content/css/site.css"));
         }
     }
