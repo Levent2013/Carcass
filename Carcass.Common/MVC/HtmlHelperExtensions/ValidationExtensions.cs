@@ -78,6 +78,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             }
 
 
+            var errorsCount = 0;
             content.Append("<ul>");
             foreach (ModelState modelState in ValidationExtensions.GetModelStateList(htmlHelper, excludePropertyErrors))
             {
@@ -90,6 +91,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
                     if (!String.IsNullOrEmpty(msg))
                     {
+                        ++errorsCount;
                         var li = new TagBuilder("li");
                         li.SetInnerText(msg);
                         content.AppendLine(li.ToString(TagRenderMode.Normal));
@@ -102,7 +104,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             alert.InnerHtml = content.ToString();
             
             // support legacy MVC client side validation
-            alert.AddCssClass(modelValid ? HtmlHelper.ValidationSummaryValidCssClassName : HtmlHelper.ValidationSummaryCssClassName);
+            alert.AddCssClass(modelValid || errorsCount == 0 ? HtmlHelper.ValidationSummaryValidCssClassName : HtmlHelper.ValidationSummaryCssClassName);
             
             if (clientValidation != null)
             {

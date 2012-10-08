@@ -22,7 +22,9 @@ namespace Carcass
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Content/js/jquery.unobtrusive*",
-                        "~/Content/js/jquery.validate*",
+                        "~/Content/js/jquery.validate.js",
+                        "~/Content/js/jquery.validate.additional-methods.js",
+                        "~/Content/js/jquery.validate.unobtrusive.js",
                         "~/Content/js/carcass-validate.js"));
 
 

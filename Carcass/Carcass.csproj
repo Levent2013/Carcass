@@ -54,6 +54,12 @@
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcExtensions">
+      <HintPath>..\packages\MvcExtensions.2.5.1\lib\net40\MvcExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcExtensions.Autofac">
+      <HintPath>..\packages\MvcExtensions.Autofac.2.5.0\lib\net40\MvcExtensions.Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
@@ -211,6 +217,8 @@
     <Content Include="Content\img\glyphicons-halflings-white.png" />
     <Content Include="Content\img\glyphicons-halflings.png" />
     <Content Include="Content\img\icon-half-credit-card.png" />
+    <Content Include="Content\img\icon-half-e-mail.png" />
+    <Content Include="Content\img\icon-half-phone.png" />
     <Content Include="Content\img\numbers-30\0.png" />
     <Content Include="Content\img\numbers-30\1.png" />
     <Content Include="Content\img\numbers-30\2.png" />
@@ -227,6 +235,7 @@
     <Content Include="Content\js\carcass-fileinput.js" />
     <Content Include="Content\js\carcass-validate.js" />
     <Content Include="Content\js\html5.js" />
+    <Content Include="Content\js\jquery.validate.additional-methods.js" />
     <Content Include="Content\js\locales\bootstrap-datepicker.cs.js" />
     <Content Include="Content\js\locales\bootstrap-datepicker.da.js" />
     <Content Include="Content\js\locales\bootstrap-datepicker.de.js" />
@@ -252,6 +261,10 @@
     <Content Include="Content\js\locales\bootstrap-datepicker.tr.js" />
     <Content Include="Content\js\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Include="Content\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Content\js\locales\jquery.validate.cs.js" />
+    <Content Include="Content\js\locales\jquery.validate.de.js" />
+    <Content Include="Content\js\locales\jquery.validate.fr.js" />
+    <Content Include="Content\js\locales\jquery.validate.ru.js" />
     <Content Include="Content\js\purl.js" />
     <Content Include="Content\licenses\Glyphicons.txt" />
     <Content Include="favicon.ico" />

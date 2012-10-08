@@ -5,11 +5,11 @@
 
     });
 
-
+    
     // initialize Carcass forms components
-
-    // TODO: modify date validator instead
-    $('.dateValue, .dateValue input').removeData('val').removeData('val-date');
-    $('.dateValue').datepicker();
+    $(document).ready(function () {
+        $('.dateValue').datepicker({ "autoclose": true });
+    });
+    
     
 }(window.jQuery);

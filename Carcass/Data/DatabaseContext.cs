@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 
 using Carcass.Data.Entities;
 
@@ -12,6 +13,11 @@ namespace Carcass.Data
 {
     public class DatabaseContext : DbContext
     {
+        public DatabaseContext():
+            base("DefaultConnection")
+        {
+        }
+
         public DbSet<User> Users { get; set; }
     }
 }

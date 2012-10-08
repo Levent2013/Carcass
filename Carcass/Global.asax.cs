@@ -18,9 +18,10 @@ using log4net;
 
 namespace Carcass
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
+    // TODO: refactor with MvcExtensions
+    // https://github.com/MvcExtensions/Core/wiki/Getting-started-with-MvcExtensions
+    // https://github.com/MvcExtensions/Core/wiki/IoC-Integration%3A-Autofac
+    // https://github.com/MvcExtensions/Core/wiki/Route-registration
     public class MvcApplication : System.Web.HttpApplication
     {
         private ILog _log = LogManager.GetLogger("Application");

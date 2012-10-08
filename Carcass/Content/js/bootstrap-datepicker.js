@@ -18,10 +18,14 @@
  * limitations under the License.
  * ========================================================= */
 
+// Updates marked as [artiz]
+
 !function( $ ) {
 
-	function UTCDate(){
-		return new Date(Date.UTC.apply(Date, arguments));
+    function UTCDate() {
+        // [artiz] updated to return today instead of invalid date
+        var dt = new Date(Date.UTC.apply(Date, arguments));
+        return /Invalid|NaN/.test(dt) ? new Date() : dt;
 	}
 	function UTCToday(){
 		var today = new Date();
@@ -168,6 +172,16 @@
 			}
 		},
 
+	    // [artiz] made DPGlobal.parseDate public to use in validation
+		parseDate: function (date) {
+		    return DPGlobal.parseDate(date, this.format, this.language);
+		},
+
+	    // [artiz] made DPGlobal.formatDate public to use in validation
+		formatDate: function (date) {
+		    return DPGlobal.formatDate(date, this.format, this.language);
+		},
+
 		setStartDate: function(startDate){
 			this.startDate = startDate||-Infinity;
 			if (this.startDate !== -Infinity) {
@@ -198,11 +212,13 @@
 			});
 		},
 
-		update: function(){
+		update: function () {
+		    // [artiz] fixed logic for !this.isInput case
 			this.date = DPGlobal.parseDate(
-				this.isInput ? this.element.prop('value') : this.element.data('date') || this.element.find('input').prop('value'),
+				this.isInput ? this.element.prop('value') : this.element.find('input').prop('value') || this.element.data('date'),
 				this.format, this.language
 			);
+            
 			if (this.date < this.startDate) {
 				this.viewDate = new Date(this.startDate);
 			} else if (this.date > this.endDate) {

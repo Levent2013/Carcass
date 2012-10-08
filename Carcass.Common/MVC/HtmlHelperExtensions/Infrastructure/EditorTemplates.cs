@@ -435,14 +435,13 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         private static string GetDateFormat()
         {
             var pattern = System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
-            
+
             if(String.IsNullOrEmpty(pattern))
                 return DefaultDateFormat;
 
             return pattern.ToLowerInvariant();
         }
         
-
         private static bool ShouldShow(ModelMetadata metadata, TemplateInfo templateInfo)
         {
             if (metadata.ShowForEdit
