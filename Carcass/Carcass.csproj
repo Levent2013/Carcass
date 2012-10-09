@@ -205,11 +205,36 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Carcass.Common\Client\css\bootstrap-datepicker.css">
+      <Link>Content\css\bootstrap-datepicker.css</Link>
+    </Content>
+    <Content Include="..\Carcass.Common\Client\css\bootstrap-timepicker.css">
+      <Link>Content\css\bootstrap-timepicker.css</Link>
+    </Content>
+    <Content Include="..\Carcass.Common\Client\css\carcass-mvc.css">
+      <Link>Content\css\carcass-mvc.css</Link>
+    </Content>
+    <Content Include="..\Carcass.Common\Client\js\bootstrap-datepicker.js">
+      <Link>Content\js\bootstrap-datepicker.js</Link>
+    </Content>
+    <Content Include="..\Carcass.Common\Client\js\bootstrap-timepicker.js">
+      <Link>Content\js\bootstrap-timepicker.js</Link>
+    </Content>
+    <Content Include="..\Carcass.Common\Client\js\carcass-fileinput.js">
+      <Link>Content\js\carcass-fileinput.js</Link>
+    </Content>
+    <Content Include="..\Carcass.Common\Client\js\carcass-jquery.js">
+      <Link>Content\js\carcass-jquery.js</Link>
+    </Content>
+    <Content Include="..\Carcass.Common\Client\js\carcass-mvc.js">
+      <Link>Content\js\carcass-mvc.js</Link>
+    </Content>
+    <Content Include="..\Carcass.Common\Client\js\carcass-validate.js">
+      <Link>Content\js\carcass-validate.js</Link>
+    </Content>
     <Content Include="Content\css\bootstrap-responsive.css" />
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap-fix.css" />
-    <Content Include="Content\css\timepicker.css" />
-    <Content Include="Content\css\datepicker.css" />
     <Content Include="Content\css\ie7.css" />
     <Content Include="Content\css\ie7-8.css" />
     <Content Include="Content\img\bg01.png" />
@@ -230,12 +255,7 @@
     <Content Include="Content\img\numbers-30\7.png" />
     <Content Include="Content\img\numbers-30\8.png" />
     <Content Include="Content\img\numbers-30\9.png" />
-    <Content Include="Content\js\bootstrap-datepicker.js" />
     <Content Include="Content\js\bootstrap.js" />
-    <Content Include="Content\js\carcass.js" />
-    <Content Include="Content\js\carcass-fileinput.js" />
-    <Content Include="Content\js\carcass-validate.js" />
-    <Content Include="Content\js\bootstrap-timepicker.js" />
     <Content Include="Content\js\html5.js" />
     <Content Include="Content\js\jquery.validate.additional-methods.js" />
     <Content Include="Content\js\locales\bootstrap-datepicker.cs.js" />
@@ -376,6 +396,10 @@
     </VisualStudio>
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>copy /Y $(SolutionDir)Carcass.Common\Client\js\*.* $(ProjectDir)Content\js
+copy /Y $(SolutionDir)Carcass.Common\Client\css\*.* $(ProjectDir)Content\css</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

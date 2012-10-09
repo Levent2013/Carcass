@@ -58,9 +58,7 @@ img { max-width: 10000px; }
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
 }
 
-
 .nav-collapse.collapse { overflow: visible; }
-
 
 .alert .close { vertical-align: baseline;}
 .popover .arrow { visibility: hidden; }

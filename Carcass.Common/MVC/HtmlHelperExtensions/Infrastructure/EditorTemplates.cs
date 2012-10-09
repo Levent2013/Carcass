@@ -22,6 +22,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
     {
         public const string DefaultDateFormat = "dd-mm-yyyy";
 
+        internal const string DateControlPostfix = ".Date";
+        internal const string TimeControlPostfix = ".Time";
+
         /// <summary>
         /// 'h' - 12h hour, 'hh'- 24h hour, 'tt' - a/pm, mm - minutes 
         /// </summary>
@@ -48,7 +51,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { "ImageUrl", UrlTemplate },
             { "EmailAddress", EmailAddressTemplate },
             { "PostalCode", PostalCodeTemplate },
-            // { "DateTime", DateTimeTemplate },
+            { "DateTime", DateTimeTemplate },
             { "Date", DateTemplate },
             { "Time", TimeTemplate },
             { "Upload", UploadTemplate },
@@ -76,7 +79,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         {
             return _defaultEditorActions.ContainsKey(fieldType) 
                 ? _defaultEditorActions[fieldType]
-                : NotImplementedTemplate; // TODO: [AK] Return null when all types templates will be implemented 
+                : NotImplementedTemplate; 
         }
 
         internal static MvcHtmlString NotImplementedTemplate(HtmlHelper html,
@@ -149,9 +152,21 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                         if (inlineValidation)
                         {
                             sb.Append(" ");
-                            sb.Append(
-                                ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName, null, validationAttrs)
+                            if (metadata.DataTypeName == "DateTime")
+                            {
+                                sb.Append(
+                                ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + DateControlPostfix, null, validationAttrs)
                                     .ToHtmlString());
+                                sb.Append(
+                                ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + TimeControlPostfix, null, validationAttrs)
+                                    .ToHtmlString());
+                            }
+                            else
+                            {
+                                sb.Append(
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName, null, validationAttrs)
+                                    .ToHtmlString());
+                            }
                         }
 
                         if (isHorisontalForm)
@@ -383,6 +398,32 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             return MvcHtmlString.Create(String.Format(format, GetTimeFormat(), box.ToHtmlString()));
         }
 
+        internal static MvcHtmlString DateTimeTemplate(HtmlHelper html,
+            object formattedValue,
+            string htmlFieldName,
+            ModelMetadata metadata,
+            IDictionary<string, object> editorAttributes)
+        {
+            var hidden = InputExtensions.Hidden(html, htmlFieldName, formattedValue);
+            string dateValue = null, timeValue = null;
+            if (formattedValue is DateTime)
+            {
+                var dt = (DateTime)formattedValue;
+                dateValue = dt.ToShortDateString();
+                timeValue = dt.ToShortTimeString();
+            }
+
+            var date = DateTemplate(html, dateValue, htmlFieldName + DateControlPostfix, metadata, editorAttributes);
+            var time = TimeTemplate(html, timeValue, htmlFieldName + TimeControlPostfix, metadata, editorAttributes);
+
+            var format = @"<div class=""datetime"">{0} {1} {2}</div>";
+            return MvcHtmlString.Create(String.Format(format,
+                date.ToHtmlString(), 
+                time.ToHtmlString(),
+                hidden.ToHtmlString()));
+        }
+               
+
         /// <summary>
         /// Format Postal Code editor
         /// </summary>
@@ -492,10 +533,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                     var parts = className.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
                     foreach (var css in parts)
                     {
-                        if (existingClass.IndexOf(css, StringComparison.InvariantCultureIgnoreCase) == -1)
-                        {
+                        if(!existingClass.HasCssClass(css))
                             existingClass += " " + css;
-                        }
                     }
 
                     editorAttributes["class"] = existingClass;

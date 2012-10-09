@@ -170,9 +170,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
             // template not found
             var typeName = metadata.ModelType.Name;
-            if(typeName == typeof(Nullable<int>).Name
-                || typeName == typeof(Nullable<byte>).Name
-                || typeName == typeof(Nullable<long>).Name) 
+            if (metadata.IsNullableValueType && metadata.ModelType.GenericTypeArguments.Length > 0) 
             {
                 typeName = metadata.ModelType.GenericTypeArguments[0].Name;
             }

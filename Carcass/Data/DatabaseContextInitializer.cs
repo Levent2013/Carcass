@@ -30,7 +30,7 @@ namespace Carcass.Data
         {
             lock (_initMembershipLock)
             {
-                /// HACK: Reset WebSecurity internal state
+                // Reset WebSecurity internal state - hack, but there is no other way
                 ResetWebSecurityInitialization();
 
                 WebSecurity.InitializeDatabaseConnection(

@@ -36,8 +36,13 @@
   top: -6px;
   left: 7px;
 }
-    .timepicker table th { text-align: center; }
-    .timepicker table td.hour { font-weight: bold; }
+
+.timepicker table {  }
+.timepicker table thead th { text-align: center;  }
+.timepicker table td.hour { font-weight: bolder; white-space: nowrap; }
+.timepicker .now {  background-color: #f5f5f5; }
+ 
+.timepicker table td.separator { padding:0; width: 4px; }
 
 .timepicker .timeitem {
   text-align: center;
@@ -46,9 +51,8 @@
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  cursor: pointer;
 }
-
-    .timepicker table td.separator { padding:0; width: 4px; }
 
 .timepicker .timeitem:hover {
   background: #eeeeee;
@@ -97,3 +101,6 @@
 .timepicker td.active.disabled:hover[disabled] {
   background-color: #0044cc;
 }
+
+.input-append.time .add-on i,
+.input-prepend.time .add-on i { cursor: pointer; }

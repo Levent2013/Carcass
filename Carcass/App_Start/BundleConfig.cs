@@ -18,7 +18,8 @@ namespace Carcass
                         "~/Content/js/bootstrap.js",
                         "~/Content/js/bootstrap-datepicker.js",
                         "~/Content/js/bootstrap-timepicker.js",
-                        "~/Content/js/carcass.js",
+                        "~/Content/js/carcass-jquery.js",
+                        "~/Content/js/carcass-mvc.js",
                         "~/Content/js/carcass-fileinput.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
@@ -31,11 +32,12 @@ namespace Carcass
 
             bundles.Add(new StyleBundle("~/Content/css/main")
                 .Include("~/Content/css/bootstrap.css",
-                "~/Content/css/bootstrap-responsive.css",
-                "~/Content/css/bootstrap-fix.css",
-                "~/Content/css/datepicker.css",
-                "~/Content/css/timepicker.css",
-                "~/Content/css/site.css"));
+                    "~/Content/css/bootstrap-responsive.css",
+                    "~/Content/css/bootstrap-fix.css",
+                    "~/Content/css/bootstrap-datepicker.css",
+                    "~/Content/css/bootstrap-timepicker.css",
+                    "~/Content/css/carcass-mvc.css",
+                    "~/Content/css/site.css"));
         }
     }
 }
