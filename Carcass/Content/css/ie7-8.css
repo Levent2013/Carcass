@@ -35,6 +35,12 @@ img { max-width: 10000px; }
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
 }
 
+.btn-danger:hover, .btn-danger:active,.btn-danger.active,.btn-danger.disabled,.btn-danger[disabled] {
+    filter: progid:dximagetransform.microsoft.gradient(enabled=true);
+    filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ffbd362f', endColorstr='#ffa9302a', GradientType=0);
+}
+
+
 .btn-success {
     filter: progid:dximagetransform.microsoft.gradient(enabled=true);
     filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);

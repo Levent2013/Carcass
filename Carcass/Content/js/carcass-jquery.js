@@ -66,7 +66,7 @@
                 escapes = ["&amp;", "&lt;", "&gt;", "&copy;"];
             if (!res) return res;
             for (var ndx = 0; ndx < escapables.length; ++ndx)
-                res = res.replace(new RegExp(escapables[ndx], "g"), escapes[ndx]);
+                res = res.replace(escapables[ndx], escapes[ndx]);
             return res;
         },
 
@@ -76,7 +76,7 @@
                 escapes = ["&amp;", "&lt;", "&gt;", "&quot;", "&apos;"];
             if (!res) return res;
             for (var ndx = 0; ndx < escapables.length; ++ndx)
-                res = res.replace(new RegExp(escapables[ndx], "g"), escapes[ndx]);
+                res = res.replace(escapables[ndx], escapes[ndx]);
             return res;
         },
 
@@ -86,7 +86,7 @@
                 escapes = ["<", ">", "&"];
             if (!res) return res;
             for (var ndx = 0; ndx < escapables.length; ++ndx)
-                res = res.replace(new RegExp(escapables[ndx], "g"), escapes[ndx]);
+                res = res.replace(escapables[ndx], escapes[ndx]);
             return res;
         },
 

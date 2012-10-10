@@ -46,7 +46,7 @@ namespace Carcass.Common.Collections.Extensions
             return dict.ContainsKey(attributeName) ? ExtractArray<T>(dict[attributeName]) : null;
         }
 
-        /// <summary>Load value object of defined type from IDictionary&lt;string, object&gt;</summary>
+        /// <summary>Load value of defined type from IDictionary&lt;string, object&gt;</summary>
         /// <typeparam name="T">Defined object type</typeparam>
         /// <param name="dict">Dictionary to load</param>
         /// <param name="attributeName">Attribute name</param>
@@ -79,6 +79,23 @@ namespace Carcass.Common.Collections.Extensions
             }
 
             return defaultValue;
+        }
+
+        /// <summary>Set value of defined type to IDictionary&lt;string, object&gt; under desired name</summary>
+        /// <typeparam name="T">Defined object type</typeparam>
+        /// <param name="dict">Dictionary to update</param>
+        /// <param name="attributeName">Attribute name</param>
+        /// <param name="defaultValue">The value.</param>
+        public static void Set<T>(this IDictionary<string, T> dict, string attributeName, T value)
+        {
+            if (dict.ContainsKey(attributeName))
+            {
+                dict[attributeName] = value;
+            }
+            else
+            {
+                dict.Add(attributeName, value);
+            }
         }
 
         public static TVal Get<TKey, TVal>(this IDictionary<TKey, TVal> dict, TKey key, TVal defaultValue)

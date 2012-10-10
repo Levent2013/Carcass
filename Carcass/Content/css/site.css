@@ -24,7 +24,8 @@ body > .navbar .brand {
 body > .navbar .brand:hover { text-decoration: none; text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.4);}
 
 #page-content { padding-top: 20px; }
-h1, h2, h3, h4, h5 { text-shadow: 1px 1px 2px #cccccc; }
+h1, h2, h3, h4, h5, legend { text-shadow: 1px 1px 2px #cccccc; }
+
 .footer { margin-bottom: 20px; }
 
 /* Bootstrap UI elements */

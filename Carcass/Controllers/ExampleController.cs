@@ -18,7 +18,12 @@ namespace Carcass.Controllers
 
         public ActionResult ComplexForm()
         {
-            return View();
+            // Use dynamic typing without @model usage on view
+            return View(new Models.ComplexModel
+                {
+                    Date = DateTime.Now,
+                    Currency = 50.0m
+                });
         }
 
         [HttpPost]

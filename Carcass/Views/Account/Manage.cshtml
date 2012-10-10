@@ -1,9 +1,12 @@
 ﻿@model Carcass.Models.LocalPasswordModel
 @{ ViewBag.Title = "Manage Account"; }
 
-<p class="text-success">@ViewBag.StatusMessage</p>
+<div class="alert alert-info" style="display: @(ViewBag.StatusMessage != null ? "block" : "none" );">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    @ViewBag.StatusMessage
+</div>
 
-<p>You're logged in as <strong>@User.Identity.Name</strong>.</p>
+<p>You're logged in as <strong class="text-success">@User.Identity.Name</strong>.</p>
 
 @if (ViewBag.HasLocalPassword)
 {
@@ -16,7 +19,8 @@ else
 
 <section id="externalLogins">
     @Html.Action("RemoveExternalLogins")
-
+    
+    <hr />
     <h3>Add an external login</h3>
     @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
 </section>

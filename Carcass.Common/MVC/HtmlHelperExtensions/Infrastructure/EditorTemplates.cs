@@ -22,6 +22,11 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
     {
         public const string DefaultDateFormat = "dd-mm-yyyy";
 
+        // Number validation attributes
+        public const string DataCarcassValidation = "data-carcass-val";
+        public const string DataNumberDecimalSeparator = "data-num-decimal-separator";
+        public const string DataNumberGroupSeparator = "data-num-group-separator";
+
         internal const string DateControlPostfix = ".Date";
         internal const string TimeControlPostfix = ".Time";
 
@@ -66,7 +71,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { typeof (uint).Name, UnsignedIntegerTemplate },
             { typeof (ulong).Name, UnsignedIntegerTemplate },
             
-            //{ typeof (bool).Name, BooleanTemplate},
+            { typeof (bool).Name, BooleanTemplate},
             { typeof (decimal).Name, FloatTemplate},
             { typeof (float).Name, FloatTemplate},
             { typeof (double).Name, FloatTemplate},
@@ -116,7 +121,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             else
             {
                 var inlineValidation = htmlAttributes.Get("InlineValidation", true);
-                var validationClass = htmlAttributes.Get("ValidationClass", String.Empty);
+                var validationClass = htmlAttributes.Get("ValidationClass", FormExtensions.ValidationMessageClass );
                 var validationAttrs = new Dictionary<string, object>() { { "class", validationClass } };
 
                 var content = new TagBuilder("div");
@@ -240,6 +245,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
 
         internal static MvcHtmlString CurrencyTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
+            editorAttributes = MergeAttributes(editorAttributes, "currency");
+            MergeCurrencyAttributes (editorAttributes);
             return InputExtensions.TextBox(html, htmlFieldName, formattedValue, editorAttributes);
         }
 
@@ -486,6 +493,28 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 MergeAttributes(editorAttributes, "number", "text"));
         }
 
+        /// <summary>
+        /// Format editor for boolean value
+        /// </summary>
+        internal static MvcHtmlString BooleanTemplate(HtmlHelper html,
+            object formattedValue,
+            string htmlFieldName,
+            ModelMetadata metadata,
+            IDictionary<string, object> editorAttributes)
+        {
+            var isChecked = false;
+            if (formattedValue is bool)
+                isChecked = (bool)formattedValue;
+            
+            
+            return InputExtensions.CheckBox(
+                html,
+                htmlFieldName,
+                isChecked,
+                editorAttributes);
+        }
+        
+
         private static string GetDateFormat()
         {
             var pattern = System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
@@ -551,6 +580,16 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             }
 
             return editorAttributes;
+        }
+
+        private static void MergeCurrencyAttributes(IDictionary<string, object> attributes)
+        {
+            Throw.IfNullArgument(attributes, "attributes");
+            
+            var numberFormat = System.Threading.Thread.CurrentThread.CurrentCulture.NumberFormat;
+            attributes.Set(DataCarcassValidation, "true");
+            attributes.Set(DataNumberDecimalSeparator, numberFormat.CurrencyDecimalSeparator);
+            attributes.Set(DataNumberGroupSeparator, numberFormat.CurrencyGroupSeparator);
         }
 
         private static void LoadMaxLength(HtmlHelper html, ModelMetadata metadata, IDictionary<string, object> editorAttributes)

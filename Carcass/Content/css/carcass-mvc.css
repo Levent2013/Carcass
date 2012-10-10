@@ -1,4 +1,5 @@
 
+
 /* Carcass MVC forms classes */
 .validation-summary-valid { display: none; }
 .validation-summary-errors { display: block; margin-bottom: 10px; }
@@ -23,6 +24,8 @@
 .form-inline-validation .input-file-button,
 .form-inline-validation .input-append,
 .form-inline-validation .input-prepend { margin-top: 5px; }
+
+    .form-inline-validation .controls input[type="checkbox"] { margin-top: 10px; }
 
 .form-inline-validation .input-append input,
 .form-inline-validation .input-prepend input { margin-top: 0; }

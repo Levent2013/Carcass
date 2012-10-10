@@ -19,8 +19,7 @@
     $(document).ready(function () {
         $('.input-append.date, .input-prepend.date, input.date').datepicker({ "autoclose": true, "todayBtn": true });
         $('.input-append.time, .input-prepend.time, input.time').timepicker({ "autoclose": true, "by5minutes": true });
-        $('.datetime .date').bind('changeDate', CS._dateTimeLoad);
-        $('.datetime .time').bind('changeTime', CS._dateTimeLoad);
+        $('.datetime input[type=text]').bind('change', CS._dateTimeLoad);
     });
     
 }(window.jQuery);

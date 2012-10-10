@@ -1,8 +1,26 @@
-﻿@model Carcass.Models.ComplexModel
-@using Carcass.Common.MVC.HtmlHelperExtensions;
+﻿@using Carcass.Common.MVC.HtmlHelperExtensions;
 @using Carcass.Resources
 
 @{ ViewBag.Title = "Complex Form"; }
+<div class="alert alert-comment">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <p>This example shows usage of all supported by Carcass model fields types on a single form.
+    All client-side controls are created and initialized automatically.
+    </p>
+    <p>Complete server side description for this complicated form contains only 6 lines of code. 
+<pre>
+    @@using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @@Html.CarcassValidationSummary("tab-form", true)
+        @@Html.CarcassEditorForModel( new { CssClass = "tab-form", InlineValidation = true, ValidationClass = "alert alert-error" })
+        @@Html.CarcassFormActions(new Dictionary&lt;string, object&gt; { { Buttons.Submit, new { type = "submit", @@class = "btn-primary" } } });
+    }
+</pre>
+    </p>
+    <p>Second tab (Html.EditorForModel) display result of legacy ASP.NET MVC <code>Html.EditorForModel</code> usage to compare.</p>
+</div>
+
+
 
 <div class="tabbable tabs-border">
     <ul class="nav nav-tabs">
@@ -11,16 +29,17 @@
     </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="CarcassEditorForModel">
-        @if (Model != null)
+        @if (Request.HttpMethod == "POST")
         {
             <div class="alert alert-info tab-form">
                 <button type="button" class="close" data-dismiss="alert">×</button>
                 <h4>Submitted data</h4>
+                <br />
                 @if (Model.MultipleUpload != null)
                 {
-                    <text>You have uploaded @Model.MultipleUpload.Length file(s)<br />
-                        @Html.Raw(String.Join(", ", Model.MultipleUpload.Select(p => String.Format("{0} [{1}&nbsp;bytes]", p.FileName, p.ContentSize))))
-                    </text>
+                    <p>You have uploaded @Model.MultipleUpload.Length file(s)<br />
+                        @Html.Raw(String.Join(", ", (Model.MultipleUpload as IEnumerable<Carcass.Common.MVC.DataTypes.PostedFile>).Select(p => String.Format("{0} [{1}&nbsp;bytes]", p.FileName, p.ContentSize))))
+                    </p>
                     <hr />
                 }
         

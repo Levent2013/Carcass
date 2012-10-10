@@ -21,6 +21,8 @@ namespace Carcass.Models
 
         public int? SignedInt { get; set; }
 
+        public bool Boolean { get; set; }
+
         [Required]
         [DataType(DataType.Currency)]
         public decimal Currency { get; set; }

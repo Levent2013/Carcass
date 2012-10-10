@@ -24,6 +24,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
         public const string ValidationAttributeRequired = "data-val-required";
 
+        public const string ValidationMessageClass = "alert alert-error";
+
         public const string BootsrapClassError = "text-error";
 
         public const string BootsrapFormClassHorisontal = "form-horizontal";
@@ -52,7 +54,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
         /// <summary>
         /// Writes an opening &lt;form&gt; tag to the response. When the user submits the form,
-        //  the request will be processed by an action method.
+        /// the request will be processed by an action method.
         /// </summary>
         /// <param name="htmlHelper">The HTML helper instance that this method extends.</param>
         /// <param name="formClass">CSS class for <c>form</c> element</param>
@@ -70,7 +72,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
         /// <summary>
         /// Writes an opening &lt;form&gt; tag to the response. When the user submits the form,
-        //  the request will be processed by an action method.
+        /// the request will be processed by an action method.
         /// </summary>
         /// <param name="htmlHelper">The HTML helper instance that this method extends.</param>
         /// <param name="actionName">The name of the action method.</param>
@@ -102,7 +104,36 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
         /// <summary>
         /// Writes an opening &lt;form&gt; tag to the response. When the user submits the form,
-        //  the request will be processed by an action method.
+        /// the request will be processed by an action method.
+        /// </summary>
+        /// <param name="htmlHelper">The HTML helper instance that this method extends.</param>
+        /// <param name="actionName">The name of the action method.</param>
+        /// <param name="controllerName">The name of the controller.</param>
+        /// <param name="method">The HTTP method for processing the form, either GET or POST.</param>
+        /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
+        /// <returns>An opening <form> tag</returns>
+        public static CarcassMvcForm CarcassBeginForm(
+            this HtmlHelper htmlHelper,
+            string actionName,
+            string controllerName,
+            FormMethod method = FormMethod.Post,
+            IDictionary<string, object> htmlAttributes = null)
+        {
+            var formAction = UrlHelper.GenerateUrl(
+                null,
+                actionName,
+                controllerName,
+                null,
+                htmlHelper.RouteCollection,
+                htmlHelper.ViewContext.RequestContext,
+                true);
+
+            return CarcassBeginFormImpl(htmlHelper, formAction, BootsrapFormClassHorisontal, method, htmlAttributes);
+        }
+
+        /// <summary>
+        /// Writes an opening &lt;form&gt; tag to the response. When the user submits the form,
+        /// the request will be processed by an action method.
         /// </summary>
         /// <param name="htmlHelper">The HTML helper instance that this method extends.</param>
         /// <param name="actionName">The name of the action method.</param>

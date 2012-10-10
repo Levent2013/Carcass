@@ -27,7 +27,7 @@ namespace Carcass
                         "~/Content/js/jquery.validate.js",
                         "~/Content/js/jquery.validate.additional-methods.js",
                         "~/Content/js/jquery.validate.unobtrusive.js",
-                        "~/Content/js/carcass-validate.js"));
+                        "~/Content/js/carcass-validate.js")); // IMPORTANT: carcass-validate.js must be included after jquery.validate.js
 
 
             bundles.Add(new StyleBundle("~/Content/css/main")

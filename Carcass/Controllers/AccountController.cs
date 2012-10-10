@@ -22,6 +22,13 @@ namespace Carcass.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        public enum ManageMessageId
+        {
+            ChangePasswordSuccess,
+            SetPasswordSuccess,
+            RemoveLoginSuccess,
+        }
+
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -99,20 +106,36 @@ namespace Carcass.Controllers
             // Only disassociate the account if the currently logged in user is the owner
             if (ownerAccount == User.Identity.Name)
             {
-                // Use a transaction to prevent the user from deleting their last login credential
-                using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+                if (System.Data.Entity.Database.DefaultConnectionFactory is System.Data.Entity.Infrastructure.SqlCeConnectionFactory)
                 {
-                    bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-                    if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
+                    message = DetachExternalLogin(provider, providerUserId);
+                }
+                else
+                {
+                    // Use a transaction to prevent the user from deleting their last login credential
+                    using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
                     {
-                        OAuthWebSecurity.DeleteAccount(provider, providerUserId);
-                        scope.Complete();
-                        message = ManageMessageId.RemoveLoginSuccess;
+                        message = DetachExternalLogin(provider, providerUserId, scope);
                     }
                 }
             }
 
-            return RedirectToAction("Manage", new { Message = message });
+            return RedirectToAction("Manage", new { message });
+        }
+
+        private ManageMessageId DetachExternalLogin(string provider, string providerUserId, TransactionScope scope = null)
+        {
+            bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+            if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
+            {
+                OAuthWebSecurity.DeleteAccount(provider, providerUserId);
+                if (scope != null)
+                {
+                    scope.Complete();
+                }
+            }
+
+            return ManageMessageId.RemoveLoginSuccess;
         }
 
         public ActionResult Manage(ManageMessageId? message)
@@ -121,7 +144,8 @@ namespace Carcass.Controllers
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : "";
+                : null;
+
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.ReturnUrl = Url.Action("Manage");
             return View();
@@ -312,13 +336,6 @@ namespace Carcass.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-        }
-
-        public enum ManageMessageId
-        {
-            ChangePasswordSuccess,
-            SetPasswordSuccess,
-            RemoveLoginSuccess,
         }
 
         internal class ExternalLoginResult : ActionResult

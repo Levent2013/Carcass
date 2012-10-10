@@ -21,7 +21,6 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 {
     public static partial class FormExtensions
     {
-
         /// <summary>
         /// Format HTML layout for form field (label + appropriate input)
         /// </summary>
@@ -40,6 +39,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             return CarcassFieldFor(html,
                 expression,
                 ExpressionHelper.GetExpressionText((LambdaExpression)expression),
+                false,
                 (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(editorAttributes));
         }
 
@@ -50,19 +50,51 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <typeparam name="TValue">The value type.</typeparam>
         /// <param name="html">The HTML helper instance that this method extends.</param>
         /// <param name="expression">An expression that identifies the property to display.</param>
+        /// <param name="inlineValidation">If <c>true</c> then control validation message will be rendered (CarcassValidationMessageFor)</param>
+        /// <param name="editorAttributes">An object that contains the HTML attributes to set for the input.</param>
+        /// <returns></returns>
+        public static MvcHtmlString CarcassFieldFor<TModel, TValue>(
+            this HtmlHelper<TModel> html,
+            Expression<Func<TModel, TValue>> expression,
+            bool inlineValidation = false,
+            object editorAttributes = null)
+        {
+            Throw.IfNullArgument(expression, "expression");
+
+            var htmlAttributes = (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(editorAttributes);
+
+            return CarcassFieldFor(html,
+                expression,
+                ExpressionHelper.GetExpressionText((LambdaExpression)expression),
+                inlineValidation,
+                htmlAttributes);
+        }
+
+        /// <summary>
+        /// Format HTML layout for form field (label + appropriate input)
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TValue">The value type.</typeparam>
+        /// <param name="html">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the property to display.</param>
         /// <param name="htmlFieldName">Model field name</param>
+        /// <param name="inlineValidation">If <c>true</c> then control validation message will be rendered (CarcassValidationMessageFor)</param>
         /// <param name="editorAttributes">An object that contains the HTML attributes to set for the input.</param>
         /// <returns></returns>
         public static MvcHtmlString CarcassFieldFor<TModel, TValue>(
             this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression,
             string htmlFieldName,
-            object editorAttributes = null)
+            bool inlineValidation = false,
+            object editorAttributes = null,
+            object validationAttributes = null)
         {
             return CarcassFieldFor(html, 
                 expression,
                 htmlFieldName,
-                (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(editorAttributes));
+                inlineValidation,
+                (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(editorAttributes),
+                validationAttributes);
         }
 
         /// <summary>
@@ -79,7 +111,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             this HtmlHelper<TModel> html, 
             Expression<Func<TModel, TValue>> expression,
             string htmlFieldName,
-            IDictionary<string, object> editorAttributes)
+            bool inlineValidation = false,
+            IDictionary<string, object> editorAttributes = null,
+            object validationAttributes = null)
         {
             Throw.IfNullArgument(expression, "expression");
             var formContext = html.ViewContext.FormContext;
@@ -90,7 +124,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             htmlFieldName = htmlFieldName ?? ExpressionHelper.GetExpressionText((LambdaExpression)expression);
             var metadata = ModelMetadata.FromLambdaExpression<TModel, TValue>(expression, html.ViewData);
 
-            return CarcassFieldFor(html, metadata, htmlFieldName, formClass, editorAttributes);
+            return RenderCarcassFieldFor(html, metadata, htmlFieldName, formClass, editorAttributes, inlineValidation, validationAttributes);
         }
 
         /// <summary>
@@ -188,12 +222,14 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             return formatAction((HtmlHelper)html, formattedValue, htmlFieldName, metadata, editorAttributes);
         }
 
-        internal static MvcHtmlString CarcassFieldFor<TModel>(
+        internal static MvcHtmlString RenderCarcassFieldFor<TModel>(
            HtmlHelper<TModel> html,
            ModelMetadata metadata,
            string htmlFieldName,
            string formClass,
-           IDictionary<string, object> editorAttributes)
+           IDictionary<string, object> editorAttributes,
+           bool inlineValidation = false,
+           object validationAttributes = null)
         {
             Throw.IfNullArgument(metadata, "metadata");
             var isHorisontalForm = (formClass ?? String.Empty).HasCssClass(FormExtensions.BootsrapFormClassHorisontal);
@@ -201,6 +237,20 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             var labelAttributes = isHorisontalForm ? new Dictionary<string, object>{ { "class", BootsrapFormLabelClass } } : null;
             var label = FormExtensions.FormatCarcassLabel((HtmlHelper)html, metadata, htmlFieldName, null, labelAttributes);
             var editor = html.CarcassEditorFor(metadata, null, htmlFieldName, editorAttributes);
+
+            MvcHtmlString validation = null;
+            if (inlineValidation)
+            {
+                var validationHtmlAttrs = validationAttributes == null
+                    ? new Dictionary<string, object>() { { "class", FormExtensions.ValidationMessageClass } }
+                    : (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(validationAttributes);
+
+                if (!validationHtmlAttrs.ContainsKey("class"))
+                    validationHtmlAttrs.Add("class", FormExtensions.ValidationMessageClass);
+
+                validation = html.FieldValidationMessage(metadata, htmlFieldName, null, validationHtmlAttrs);
+            }
+
 
             var fieldHtml = String.Empty;
             if (isHorisontalForm)
@@ -210,7 +260,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
                 var tbControls = new TagBuilder("div");
                 tbControls.AddCssClass(BootsrapFormFieldControlsClass);
-                tbControls.InnerHtml = editor.ToHtmlString();
+                tbControls.InnerHtml = editor.ToHtmlString() + " " + (validation != null ? validation.ToHtmlString() : String.Empty);
 
                 var sb = new StringBuilder();
                 sb.Append(label.ToHtmlString()).Append(tbControls.ToString(TagRenderMode.Normal));
@@ -222,8 +272,12 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             {
                 var sb = new StringBuilder();
                 sb.Append(label.ToHtmlString()).Append(editor.ToHtmlString());
+                if(validation != null)
+                    sb.Append(" ").Append(validation.ToHtmlString());
+                
                 fieldHtml = sb.ToString();
             }
+
 
             return MvcHtmlString.Create(fieldHtml);
         }
