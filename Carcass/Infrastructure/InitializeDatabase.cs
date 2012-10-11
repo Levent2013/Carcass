@@ -17,6 +17,14 @@ namespace Carcass.Infrastructure
         public override TaskContinuation Execute()
         {
             Database.SetInitializer<DatabaseContext>(new DatabaseContextInitializer());
+            using (var context = new DatabaseContext())
+            {
+                if (!context.Database.Exists())
+                {
+                    context.Database.Initialize(true);
+                }
+            }
+
             Data.DatabaseContextInitializer.InitializeMembership();
 
             return TaskContinuation.Continue;
