@@ -78,6 +78,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ControlsResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Controls\JavaScriptHelper.cs" />
+    <Compile Include="Controls\TimepickerResourcesLoader.cs" />
+    <Compile Include="Controls\TimepickerResources.ru.Designer.cs">
+      <DependentUpon>TimepickerResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Controls\TimepickerResources.Designer.cs">
+      <DependentUpon>TimepickerResources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Controls\DatepickerResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -100,6 +112,16 @@
     <EmbeddedResource Include="ControlsResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ControlsResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TimepickerResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimepickerResources.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\TimepickerResources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>TimepickerResources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DatepickerResources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -13,7 +13,8 @@ namespace Carcass.Common.Resources.Controls
     {
         private const string DatePickerMessagesFormat =
 @"(function($){{
-    $.fn.datepicker.dates = $.fn.datepicker.dates || {{}};
+    if(!$.fn.datepicker.dates)
+        return alert('bootstrap-datepicker.js required');
     $.fn.datepicker.dates['{0}'] = {{
 		days: {1},
 		daysShort: {2},
@@ -32,12 +33,12 @@ namespace Carcass.Common.Resources.Controls
             sb.AppendFormat("// {0} translation for bootstrap-datepicker\r\n", locale.Name);
             sb.AppendFormat(DatePickerMessagesFormat,
                 locale.TwoLetterISOLanguageName,
-                DatepickerResourcesLoader.GetDays(locale).ToJson(),
-                DatepickerResourcesLoader.GetDaysShort(locale).ToJson(),
-                DatepickerResourcesLoader.GetDaysMin(locale).ToJson(),
-                DatepickerResourcesLoader.GetMonths(locale).ToJson(),
-                DatepickerResourcesLoader.GetMonthsShort(locale).ToJson(),
-                DatepickerResourcesLoader.GetToday(locale)
+                GetDays(locale).ToJson(),
+                GetDaysShort(locale).ToJson(),
+                GetDaysMin(locale).ToJson(),
+                GetMonths(locale).ToJson(),
+                GetMonthsShort(locale).ToJson(),
+                GetToday(locale)
             );
 
             return sb.ToString();

@@ -4,7 +4,7 @@
 * intended to be used only for design-time IntelliSense.  Please use the
 * standard jQuery library for all production use.
 *
-* Comment version: 1.8
+* Comment version: 1.10.0
 */
 
 /*
@@ -15,7 +15,7 @@
 * for informational purposes only and are not the license terms under
 * which Microsoft distributed this file.
 *
-* jQuery validation plugin 1.8.0
+* jQuery validation plugin 1.10.0
 *
 * http://bassistance.de/jquery-plugins/jquery-plugin-validation/
 * http://docs.jquery.com/Plugins/Validation
@@ -435,8 +435,7 @@ $.extend($.validator, {
 			/// <summary>
 			/// Show the specified messages.
 			/// Keys have to refer to the names of elements, values are displayed for those elements, using the configured error placement.
-		    /// </summary>тгьиук
-
+			/// </summary>
 			/// <param name="errors" type="Object">
 			/// One or more key/value pairs of input names and messages.
 			/// </param>

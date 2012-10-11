@@ -14,14 +14,13 @@ namespace Carcass.Controllers
 {
     public class LocalizationController : Controller
     {
-      
-
         [OutputCache(Duration=300, VaryByParam="*")]
         public ActionResult Controls(string culture)
         {
             CultureInfo locale = ParseCulture(culture);
             var sb = new StringBuilder();
-            sb.Append (DatepickerResourcesLoader.GetResources(locale));
+            sb.Append(DatepickerResourcesLoader.GetResources(locale));
+            sb.Append(TimepickerResourcesLoader.GetResources(locale));
            
             return Content(sb.ToString(), "text/javascript");
         }
