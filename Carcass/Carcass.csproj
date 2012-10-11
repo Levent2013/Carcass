@@ -187,7 +187,11 @@
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Infrastructure\RegisterPerRequestServices.cs" />
+    <Compile Include="Infrastructure\InitializeCarcass.cs" />
+    <Compile Include="Infrastructure\InitializeDatabase.cs" />
+    <Compile Include="Infrastructure\Modules\PersistenceModule.cs" />
+    <Compile Include="Infrastructure\RegisterRoutes.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
@@ -200,6 +204,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Tasks\CheckDatabaseTask.cs" />
+    <Compile Include="Models\ProductEditModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ComplexModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -211,6 +217,7 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\bootstrap-fix.css" />
     <Content Include="Content\css\carcass-mvc.css" />
+    <Content Include="Content\css\bootstrap-fileinput.css" />
     <Content Include="Content\css\ie7.css" />
     <Content Include="Content\css\ie7-8.css" />
     <Content Include="Content\img\bg01.png" />
@@ -234,10 +241,11 @@
     <Content Include="Content\js\bootstrap-datepicker.js" />
     <Content Include="Content\js\bootstrap-timepicker.js" />
     <Content Include="Content\js\bootstrap.js" />
-    <Content Include="Content\js\carcass-fileinput.js" />
+    <Content Include="Content\js\bootstrap-fileinput.js" />
     <Content Include="Content\js\carcass-jquery.js" />
     <Content Include="Content\js\carcass-mvc.js" />
     <Content Include="Content\js\carcass-validate.js" />
+    <Content Include="Content\js\carcass-util.js" />
     <Content Include="Content\js\html5.js" />
     <Content Include="Content\js\jquery.validate.additional-methods.js" />
     <Content Include="Content\js\locales\bootstrap-datepicker.cs.js" />
@@ -274,6 +282,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Views\Example\ComplexForm.cshtml" />
+    <Content Include="Views\Example\ProductEdit.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -334,7 +343,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\html\" />
-    <Folder Include="Infrastructure\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -379,16 +387,8 @@
   </ProjectExtensions>
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <PropertyGroup>
-    <PreBuildEvent>copy /Y $(ProjectDir)Content\js\bootstrap-datepicker.js $(SolutionDir)Carcass.Common\Client\js\
-copy /Y $(ProjectDir)Content\js\bootstrap-timepicker.js $(SolutionDir)Carcass.Common\Client\js\
-copy /Y $(ProjectDir)Content\js\carcass-fileinput.js $(SolutionDir)Carcass.Common\Client\js\
-copy /Y $(ProjectDir)Content\js\carcass-jquery.js $(SolutionDir)Carcass.Common\Client\js\
-copy /Y $(ProjectDir)Content\js\carcass-mvc.js $(SolutionDir)Carcass.Common\Client\js\
-copy /Y $(ProjectDir)Content\js\carcass-validate.js $(SolutionDir)Carcass.Common\Client\js\
-
-copy /Y $(ProjectDir)Content\css\bootstrap-datepicker.css $(SolutionDir)Carcass.Common\Client\css\
-copy /Y $(ProjectDir)Content\css\bootstrap-timepicker.css $(SolutionDir)Carcass.Common\Client\css\
-copy /Y $(ProjectDir)Content\css\carcass-mvc.css $(SolutionDir)Carcass.Common\Client\css\</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

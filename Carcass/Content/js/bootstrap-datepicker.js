@@ -227,8 +227,11 @@
 			} else if (this.date > this.endDate) {
 				this.viewDate = new Date(this.endDate);
 			} else {
-				this.viewDate = new Date(this.date);
+			    this.viewDate = new Date(this.date);
+			    if (isNaN(this.viewDate.getUTCFullYear()))
+			        this.viewDate = this.date;
 			}
+
 			this.fill();
 		},
 
@@ -252,7 +255,7 @@
 		},
 
 		fill: function() {
-			var d = new Date(this.viewDate),
+			var d = this.viewDate,
 				year = d.getUTCFullYear(),
 				month = d.getUTCMonth(),
 				startYear = this.startDate !== -Infinity ? this.startDate.getUTCFullYear() : -Infinity,
@@ -261,8 +264,9 @@
 				endMonth = this.endDate !== Infinity ? this.endDate.getUTCMonth() : Infinity,
 				currentDate = this.date.valueOf(),
 				today = new Date();
+			
 			this.picker.find('.datepicker-days thead th:eq(1)')
-						.text(dates[this.language].months[month]+' '+year);
+						.text(dates[this.language].months[month] + ' ' + year);
 			this.picker.find('tfoot th.today')
 						.text(dates[this.language].today)
 						.toggle(this.todayBtn);
@@ -343,7 +347,7 @@
 		},
 
 		updateNavArrows: function() {
-			var d = new Date(this.viewDate),
+			var d = this.viewDate,
 				year = d.getUTCFullYear(),
 				month = d.getUTCMonth();
 			switch (this.viewMode) {

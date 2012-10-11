@@ -12,76 +12,56 @@ using System.Web.Routing;
 
 using Autofac;
 using Autofac.Integration.Mvc;
+using MvcExtensions;
 using WebMatrix.WebData;
 
 using log4net;
 
 namespace Carcass
 {
-    // TODO: refactor with MvcExtensions
-    // https://github.com/MvcExtensions/Core/wiki/Getting-started-with-MvcExtensions
-    // https://github.com/MvcExtensions/Core/wiki/IoC-Integration%3A-Autofac
-    // https://github.com/MvcExtensions/Core/wiki/Route-registration
-    public class MvcApplication : System.Web.HttpApplication
+    /// <summary>
+    /// Integrated MvcExtensions: https://github.com/MvcExtensions/Core/wiki/Getting-started-with-MvcExtensions 
+    /// </summary>
+    public class MvcApplication : MvcExtensions.Autofac.AutofacMvcApplication
     {
-        private ILog _log = LogManager.GetLogger("Application");
-        private Carcass.Common.MVC.Bootstrap _carcassBootstrap = new Common.MVC.Bootstrap();
+        private ILog log = LogManager.GetLogger("Application");
 
-        protected void Application_Start()
+        public MvcApplication()
         {
-            _log.Debug("------------ Application_Start ------------ ");
-            InitializeDependencyResolver();
-            InitializeDatabase();
+            Bootstrapper.BootstrapperTasks
+                .Include<Infrastructure.InitializeDatabase>()
+                .Include<Infrastructure.RegisterRoutes>()
+                .Include<Infrastructure.InitializeCarcass>()
+                .Include<RegisterAreas>()
+                .Include<RegisterControllers>()
+                .Include<RegisterModelMetadata>()
+                //.Include<RegisterModelBinders>()
+                //.Include<RegisterActionInvokers>()
+                .Include<Infrastructure.RegisterPerRequestServices>(ConfigureRegisterPerRequestServices);
 
-            AreaRegistration.RegisterAllAreas();
+
+            Bootstrapper.PerRequestTasks
+                .Include<Infrastructure.Tasks.CheckDatabaseTask>();
+        }
+
+        private void ConfigureRegisterPerRequestServices(Infrastructure.RegisterPerRequestServices task)
+        {
+            task.Adapter = Adapter;
+        }
+
+        protected override void OnStart()
+        {
+            log.Debug("------------ Application_Start ------------ ");
+            
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-
-             _carcassBootstrap.Init();
         }
 
-        protected void Application_End()
+        protected override void OnEnd()
         {
-            _log.Debug("------------ Application_End ------------ ");
-        }
-
-        protected void Application_BeginRequest(Object sender, EventArgs e)
-        {
-            try
-            {
-                var context = AutofacDependencyResolver.Current.GetService<Data.DatabaseContext>();
-                if (!context.Database.Exists())
-                {
-                    context.Database.Initialize(true);
-                }
-
-                if (!WebSecurity.Initialized)
-                    Data.DatabaseContextInitializer.InitializeMembership();
-            }
-            catch (Exception ex)
-            {
-                _log.Error("Failed to initialize database", ex);
-                throw;
-            }
-        }
-               
-        private void InitializeDatabase()
-        {
-            Database.SetInitializer<Data.DatabaseContext>(new Data.DatabaseContextInitializer());
-        }
-
-        private void InitializeDependencyResolver()
-        {
-            var builder = new ContainerBuilder();
-
-            builder.RegisterControllers(Assembly.GetExecutingAssembly());
-            builder.RegisterType<Data.DatabaseContext>().InstancePerHttpRequest();
-
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            log.Debug("------------ Application_End ------------ ");
         }
     }
 }

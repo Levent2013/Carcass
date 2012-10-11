@@ -1,7 +1,8 @@
-!function ($) {
-    // Useful jQuery helpers
+window.Carcass = window.Carcass || {};
 
-    function _defaultFormatFun (val) {
+!function ($, cs, undefined) {
+
+    function _defaultFormatFun(val) {
         if (val == undefined || val == null)
             return '';
         if (typeof (val) == 'string') {
@@ -28,8 +29,13 @@
         }
     }
     
-    $.extend({
-        formatEx: function (s, params, formatFun) {
+    $.extend(cs,
+    {
+        util: true,
+        returnFalse: function () { return false; },
+        returnTrue: function () { return true; },
+
+        format: function (s, params, formatFun) {
             /// Works with simple numeric {0}, {1} params and named params {name}, {type}
             s = String(s);
             if (!s.length) return s;
@@ -43,8 +49,71 @@
 
             for (var key in params)
                 s = s.replace(new RegExp("(^|[^\\{])\\{" + key + "\\}([^\\}]|$)", "ig"), "$1" + formatFun(params[key]) + "$2");
-            s = s.replace(new RegExp("(^|[^\\{])\\{[0-9a-z_]+\\}([^\\}]|$)", "ig"), "$1$2"); // remove optional values
+            // remove optional values
+            s = s.replace(new RegExp("(^|[^\\{])\\{[0-9a-z_]+\\}([^\\}]|$)", "ig"), "$1$2"); 
             return s;
+        },
+        
+        dump: function(obj, opt, lv) {
+            if (typeof(opt) === "number") opt = { maxLevel: opt };
+            opt = $.extend({
+                expandFunc: false,
+                maxLevel: 2
+            }, opt || {});
+
+            if (lv === undefined) lv = 0;
+            if (lv >= opt.maxLevel) return "";
+
+            var prefix = "", l = lv;
+            while (l--)
+                prefix += "\t";
+            if (obj == null)
+                return prefix + "[null]";
+
+            if (typeof (obj) == "object") {
+                if (obj instanceof Date) {
+                    return " " + obj.toString();
+                    
+                } else {
+                    var isArray = obj instanceof Array;
+                    var res = (lv ? "\r\n" + prefix + (isArray ? "[" : "{") : "");
+                    var propsLoaded = false;
+
+                    for (var item in obj) {
+                        var dmp = this.dump(obj[item], opt, lv + 1);
+                        res += "\r\n" + prefix + item + ": " + dmp;
+                        propsLoaded = true;
+                    }
+
+                    if (!propsLoaded && typeof (obj.toString) == "function")
+                        res += "\r\n" + obj.toString();
+                    res += (lv ? "\r\n" + prefix + (isArray ? "]" : "}") : "");
+                }
+            
+                return res;
+
+            } else if (typeof (obj) == "function") {
+                return (opt.expandFunc ? obj.toString() : "[function]");
+            }
+            return (prefix + String(obj));
+        },
+
+        escapeRegex: function (pattern)
+        {
+            if(!pattern)
+                return pattern;
+            var res = String(pattern),
+                escapables = ['\\', '.', '?', '+', String.fromCharCode(160), ' ', '\t'],
+                escapes = ['\\\\', '\\.', '\\?', '\\+', '\\s', '\\s', '\\s'];
+    
+            for (var ndx = 0; ndx < escapables.length; ++ndx)
+                res = res.replace(escapables[ndx], escapes[ndx]);
+            return res;
+        },
+
+        hexString: function (number) {
+            if (number < 0) number = 0xFFFFFFFF + number + 1;
+            return number.toString(16).toUpperCase();
         },
 
         parseError: function (ex) {
@@ -52,7 +121,7 @@
                 return ex;
             var msg = ex.message || ex.description || null;
             var code = ex.code || ex.number || -1;
-            return msg ? '[' + ($.browser.msie ? this.hexString(code) : code) + "] " + msg : String(ex);
+            return msg ? '[' + code + "] " + msg : String(ex);
         },
 
         parseErrorMessage: function (ex) {
@@ -112,4 +181,4 @@
         }
     });
     
-}(window.jQuery);
+}(window.jQuery, window.Carcass, undefined);

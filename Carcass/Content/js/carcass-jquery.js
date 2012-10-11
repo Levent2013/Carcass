@@ -1,93 +1,39 @@
 !function ($) {
     // Useful jQuery helpers
-
-    function _defaultFormatFun (val) {
-        if (val == undefined || val == null)
-            return '';
-        if (typeof (val) == 'string') {
-            return val;
-        } else if (typeof (val) == 'number') {
-            return val;
-        } else if (typeof (val) == 'object') {
-            // format Date as dd-MM-yyyy HH:mm
-            if (val instanceof Date) {
-                var dt = String(val.getDate()), mon = String(val.getMonth() + 1), year = val.getFullYear();
-                var h = String(val.getHours()), m = String(val.getMinutes());
-                if (dt.length == 1) dt = "0" + dt;
-                if (mon.length == 1) mon = "0" + mon;
-                if (h.length == 1) h = "0" + h;
-                if (m.length == 1) m = "0" + m;
-                return dt + '-' + mon + '-' + year + ' ' + h + ':' + m;
-            } else if (val instanceof Array) {
-                return val.join(',');
-            } else {
-                throw "Object serialization is not supported";
-            }
-        } else {
-            return String(val);
-        }
-    }
-    
     $.extend({
-        formatEx: function (s, params, formatFun) {
-            /// Works with simple numeric {0}, {1} params and named params {name}, {type}
-            s = String(s);
-            if (!s.length) return s;
+        disable: function () {
+            return $(this).each(function () {
+                var item = $(this);
+                item.addClass('disabled').attr('disabled', true);
+            });
+        },
 
-            if (typeof (params) != 'object') {
-                params = Array.prototype.slice.call(arguments, 1);
-                formatFun = _defaultFormatFun;
-            } else if (typeof (formatFun) != 'function') {
-                formatFun = _defaultFormatFun;
+        enable: function () {
+            return $(this).each(function () {
+                var item = $(this);
+                item.removeClass('disabled').removeAttr('disabled');
+            });
+        },
+
+        clientSize: function () {
+            var dimensions = { width: $(document).width(), height: $(document).height() };
+            if (typeof window.innerWidth != 'undefined') {
+                dimensions.width = window.innerWidth;
+                dimensions.height = window.innerHeight;
+
+            } else {
+                if (document.documentElement && typeof document.documentElement.clientWidth != 'undefined'
+                    && document.documentElement.clientWidth != 0) {
+                    dimensions.width = document.documentElement.clientWidth;
+                    dimensions.height = document.documentElement.clientHeight;
+
+                } else if (document.body && typeof document.body.clientWidth != 'undefined') {
+                    dimensions.width = document.body.clientWidth;
+                    dimensions.height = document.body.clientHeight;
+                }
             }
 
-            for (var key in params)
-                s = s.replace(new RegExp("(^|[^\\{])\\{" + key + "\\}([^\\}]|$)", "ig"), "$1" + formatFun(params[key]) + "$2");
-            s = s.replace(new RegExp("(^|[^\\{])\\{[0-9a-z_]+\\}([^\\}]|$)", "ig"), "$1$2"); // remove optional values
-            return s;
-        },
-
-        parseError: function (ex) {
-            if (typeof (ex) == 'string')
-                return ex;
-            var msg = ex.message || ex.description || null;
-            var code = ex.code || ex.number || -1;
-            return msg ? '[' + ($.browser.msie ? this.hexString(code) : code) + "] " + msg : String(ex);
-        },
-
-        parseErrorMessage: function (ex) {
-            if (typeof (ex) == 'string') return ex;
-            return ex.message || ex.description || String(ex);
-        },
-
-        encodeHtml: function (str) {
-            var res = String(str),
-                escapables = ["&", "<", ">", "©"],
-                escapes = ["&amp;", "&lt;", "&gt;", "&copy;"];
-            if (!res) return res;
-            for (var ndx = 0; ndx < escapables.length; ++ndx)
-                res = res.replace(escapables[ndx], escapes[ndx]);
-            return res;
-        },
-
-        encodeXml: function (str) {
-            var res = String(str),
-                escapables = ['&', '<', '>', '"', "'"],
-                escapes = ["&amp;", "&lt;", "&gt;", "&quot;", "&apos;"];
-            if (!res) return res;
-            for (var ndx = 0; ndx < escapables.length; ++ndx)
-                res = res.replace(escapables[ndx], escapes[ndx]);
-            return res;
-        },
-
-        decodeHtml: function (str) {
-            var res = String(str),
-                escapables = ["&lt;", "&gt;", "&amp;"],
-                escapes = ["<", ">", "&"];
-            if (!res) return res;
-            for (var ndx = 0; ndx < escapables.length; ++ndx)
-                res = res.replace(escapables[ndx], escapes[ndx]);
-            return res;
+            return dimensions;
         },
 
         getScrollBarWidth: function () {

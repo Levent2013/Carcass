@@ -10,39 +10,25 @@ using System.Web.Mvc;
 
 namespace Carcass.Common.MVC
 {
-    public sealed class Bootstrap
+    public static class Bootstrap
     {
-        private object _initLock = new object();
+        private static object _initLock = new object();
+        private static bool _inited = false;
 
-        private bool _inited = false;
-      
-        public Bootstrap()
-        {
-        }
-
-        public void Init()
+        public static void Init()
         {
             lock (_initLock)
             {
                 if (_inited)
                     throw new ApplicationException("Carcass Bootstrap already initialized");
 
-                InitializeViewEngines();
                 InitializeModelBinders();
 
                 _inited = true;
             }
         }
-
-        private void InitializeViewEngines()
-        {
-            var viewEngines = ViewEngines.Engines;
-            var webFormsEngine = viewEngines.OfType<WebFormViewEngine>().FirstOrDefault();
-            if (webFormsEngine != null)
-                viewEngines.Remove(webFormsEngine);
-        }
-
-        private void InitializeModelBinders()
+        
+        private static void InitializeModelBinders()
         {
             ModelBinders.Binders.Add(
                 typeof(DataTypes.PostedFile),

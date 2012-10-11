@@ -5,7 +5,9 @@
  * http://www.eyecon.ro/bootstrap-datepicker
  * ========================================================= */
 
-!function( $ ) {
+!function( $, cs ) {
+    if (!cs || !cs.util)
+        return alert('carcass-util.js required')
 
     var messages = {
         en: { am: "am", pm: "pm", now: "Now", hour: 'Hour', minute: 'Minute' }
@@ -416,7 +418,7 @@
                             cells.push('<td class="separator">');
                         } else {
                             var value = x < 4 ? (x * 6 + y) : (y * 5 + (x - 5) * 30);
-                            cells.push($.formatEx('<td class="timeitem {0}" data-value="{1}">',
+                            cells.push(cs.format('<td class="timeitem {0}" data-value="{1}">',
                                 x < 4 ? 'hour' : 'minute',
                                 value));
 
@@ -440,7 +442,7 @@
                             cells.push('<td class="separator">');
                         } else {
                             var value = x < 2 ? (x == 0 ? y : 12 + y) : (y + (x - 3) * 12);
-                            cells.push($.formatEx('<td class="timeitem {0}" data-value="{1}">',
+                            cells.push(cs.format('<td class="timeitem {0}" data-value="{1}">',
                                 x < 2 ? 'hour' : 'minute',
                                 value));
 
@@ -459,17 +461,13 @@
 
 		    return '<div class="timepicker dropdown-menu">' +
                         '<table class="table-condensed">' +
-                            $.formatEx(timepicker.by5minutes ? Globals.HeadTemplate5Min : Globals.HeadTemplate, localMessages) +
+                            cs.format(timepicker.by5minutes ? Globals.HeadTemplate5Min : Globals.HeadTemplate, localMessages) +
                             '<tbody>' +
                             cells.join('') +
                             '</tbody>' +
-                            $.formatEx(Globals.FootTemplate, localMessages) +
+                            cs.format(Globals.FootTemplate, localMessages) +
                         '</table>' +
                     '</div>';
 		}
 	};
-
-	
-
-	
-}( window.jQuery );
+}(window.jQuery, window.Carcass);

@@ -1,0 +1,10 @@
+/* Inline upload control */
+.input-file { }
+.input-file-info { display: block; padding: 5px 0; clear: left;}
+.input-file-button { position: relative; overflow: hidden; float: left; margin-right: 8px; }
+.input-file input {
+  position: absolute; top: 0; right: 0; margin: 0;
+  border: solid transparent; border-width: 0 0 100px 200px;
+  opacity: 0; filter: alpha(opacity=0); -moz-transform: translate(-300px, 0) scale(4);
+  direction: ltr; cursor: pointer;
+}

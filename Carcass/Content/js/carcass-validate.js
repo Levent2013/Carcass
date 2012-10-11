@@ -1,26 +1,15 @@
-!function ($) {
-    
-    function escapeRegex(pattern) {
-        if(!pattern)
-            return pattern;
-        var res = String(pattern),
-            escapables = ['\\', '.', '?', '+', String.fromCharCode(160), ' ', '\t'],
-            escapes = ['\\\\', '\\.', '\\?', '\\+', '\\s', '\\s', '\\s'];
-    
-        for (var ndx = 0; ndx < escapables.length; ++ndx)
-            res = res.replace(escapables[ndx], escapes[ndx]);
+!function ($, cs, undefined) {
+    if (!cs || !cs.util)
+        return alert('carcass-util.js required')
 
-        return res;
-    }
-    
     // Add validation methods for unsigned/signed integers
-    $.validator.addMethod("unsignedInt", function (value, element) {
+    $.validator.addMethod("unsigned_int", function (value, element) {
         return (this.optional && this.optional(element))
             || /^(?:\d+|\d{1,3}(?:[, ]\d{3})+)$/.test(value);
         }, "Please enter a positive integer value."
     );
 
-    $.validator.addMethod("signedInt", function (value, element) {
+    $.validator.addMethod("signed_int", function (value, element) {
         return (this.optional && this.optional(element))
             || /^[\-\+]?(?:\d+|\d{1,3}(?:[, ]\d{3})+)$/.test(value);
         }, "Please enter an integer value, sign allowed."
@@ -48,7 +37,7 @@
             return true;
 
         var $element = $(element);
-        if ($element.hasClass('unsignedInt') || $element.hasClass('signedInt'))
+        if ($element.hasClass('unsigned_int') || $element.hasClass('signed_int'))
             return true; // value will be checked by appropriate rule
 
         var validate = $element.data('carcass-val') && true,
@@ -58,9 +47,10 @@
 
         if (!validate)
             return _originalNumberValidator.call(this, value, element);
+
         if (!validator) {
-            decimalSep = escapeRegex(decimalSep);
-            groupSep = escapeRegex(groupSep);
+            decimalSep = cs.escapeRegex(decimalSep);
+            groupSep = cs.escapeRegex(groupSep);
             var re = RegExp("^-?(?:\\d+|\\d{1,3}(?:" + groupSep + "\\d{3})+)(?:" + decimalSep + "\\d+)?$");
             $element.data('num-validator', validator = re);
         }
@@ -72,13 +62,12 @@
 
     // connect them to a css classes
     $.validator.addClassRules({
-        "unsignedInt": { unsignedInt: true },
-        "signedInt": { signedInt: true }
+        "unsigned_int": { unsigned_int: true },
+        "signed_int": { signed_int: true }
     });
 
     $(document).ready(function () {
       
     });
 
-
-}(window.jQuery);
+}(window.jQuery, window.Carcass, undefined);

@@ -17,6 +17,8 @@ using Carcass.Models;
 using Carcass.Data;
 using Carcass.Data.Entities;
 
+using MvcExtensions;
+
 namespace Carcass.Controllers
 {
     [Authorize]
@@ -30,6 +32,7 @@ namespace Carcass.Controllers
         }
 
         [AllowAnonymous]
+        [ImportViewDataFromTempData]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -39,6 +42,7 @@ namespace Carcass.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [ExportViewDataToTempData]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
@@ -48,7 +52,7 @@ namespace Carcass.Controllers
 
             // If we got this far, something failed, redisplay form
             ModelState.AddModelError("", "The user name or password provided is incorrect.");
-            return View(model);
+            return RedirectToAction("Login", new { returnUrl });
         }
 
         [HttpPost]

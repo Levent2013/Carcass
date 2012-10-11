@@ -458,7 +458,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "unsignedInt", "number"));
+                MergeAttributes(editorAttributes, "unsigned_int", "number"));
         }
 
         /// <summary>
@@ -474,7 +474,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html,
                 htmlFieldName,
                 formattedValue,
-                MergeAttributes(editorAttributes, "signedInt", "number"));
+                MergeAttributes(editorAttributes, "signed_int", "number"));
         }
 
         /// <summary>

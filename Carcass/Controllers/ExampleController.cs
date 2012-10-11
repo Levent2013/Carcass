@@ -31,5 +31,10 @@ namespace Carcass.Controllers
         {
             return View(complexModel);
         }
+
+        public ActionResult ProductEdit()
+        {
+            return View();
+        }
     }
 }
