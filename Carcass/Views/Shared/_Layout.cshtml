@@ -17,7 +17,9 @@
         <![endif]-->
         <!--[if lt IE 8]><link href="@Url.Content("~/Content/css/ie7.css")" rel="stylesheet"><![endif]-->
          @Scripts.Render("~/bundles/startup")
-       
+         <script type="text/javascript">
+             window.Carcass = { "Language": "@Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName" }
+         </script>
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -88,12 +90,14 @@
                         &copy; @DateTime.Now.Year - Carcass
                     </div>
                     <div class="span4">
-                        <b class="label">Locale: @Thread.CurrentThread.CurrentCulture.Name</b>
+                        <b class="label">Culture: @Thread.CurrentThread.CurrentCulture.Name</b>
+                        <b class="label">UI Culture: @Thread.CurrentThread.CurrentUICulture.Name</b>
                     </div>
                 </div>
             </div>
         </footer>
         @Scripts.Render("~/bundles/common")
+        @Scripts.Render(Url.Action("Controls", "Localization", new { culture = Thread.CurrentThread.CurrentUICulture.Name } ))
         @RenderSection("scripts", required: false)
     </body>
 </html>

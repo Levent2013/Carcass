@@ -1,10 +1,12 @@
+Completed Items
+--------------------------------------------------------------------------------
+* Migrated legacy ASP.NET MVC EditorForModel<> templates to Carcass base (with integrated TB styles)
+* Integrated MvcExtensions and Autofac 
 
 TODO list
 --------------------------------------------------------------------------------
-
-* Migrate legacy ASP.NET MVC EditorForModel<> templates to Bootstrap base (In progress)
-* Integrate architecture principles described at http://www.slideshare.net/AlexanderByndyu/aspnet-mvc-7557204
 * Add localization (using RESX files and Support/JavaScriptLocalization?lang=[lang])
+* Integrate architecture principles described at http://www.slideshare.net/AlexanderByndyu/aspnet-mvc-7557204
 * Add common set of DB models - UserProfile, Blog Posts, Comments
 
 UI and Javascript

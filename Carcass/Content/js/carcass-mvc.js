@@ -13,17 +13,22 @@ window.Carcass = window.Carcass || {};
     
     function _dateTimeLoad (e) {
         var $control = $(this).parents('.datetime:first'),
-            datepicker = $('.date', $control).data('datepicker'),
-            timepicker = $('.time', $control).data('timepicker'),
-            value = $.trim((datepicker && datepicker.getValue()) + cs.DateTimeSeparator + (timepicker && timepicker.getValue()));
+            datepicker = $('.datepicker-control', $control).data('datepicker'),
+            timepicker = $('.timepicker-control', $control).data('timepicker')
+            value = '';
+            if (datepicker)
+                value += datepicker.getValue() || '';
+            value += cs.DateTimeSeparator;
+            if (timepicker)
+                value += timepicker.getValue() || '';
 
         $('input[type=hidden]', $control).prop('value', value);
     }
     
     // initialize Carcass forms components
     $(document).ready(function () {
-        $('.input-append.date, .input-prepend.date, input.date').datepicker({ "autoclose": true, "todayBtn": true });
-        $('.input-append.time, .input-prepend.time, input.time').timepicker({ "autoclose": true, "by5minutes": true });
+        $('.input-append.datepicker-control, .input-prepend.datepicker-control').datepicker({ "autoclose": true, "todayBtn": true, "language": cs.Language });
+        $('.input-append.timepicker-control, .input-prepend.timepicker-control').timepicker({ "autoclose": true, "by5minutes": true, "language": cs.Language });
         $('.datetime input[type=text]').bind('change', _dateTimeLoad);
     });
     

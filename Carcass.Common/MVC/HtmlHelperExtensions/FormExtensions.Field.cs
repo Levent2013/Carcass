@@ -214,7 +214,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
             if (formatAction == null)
                 throw new InvalidOperationException(
-                    String.Format(CultureInfo.CurrentCulture, Validation.EditorTemplateNotFoundFor, fieldType));
+                    String.Format(CultureInfo.CurrentCulture, ValidationResources.EditorTemplateNotFoundFor, fieldType));
 
             if (editorAttributes == null)
                 editorAttributes = new Dictionary<string, object>();

@@ -160,11 +160,14 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                             if (metadata.DataTypeName == "DateTime")
                             {
                                 sb.Append(
-                                ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + DateControlPostfix, null, validationAttrs)
-                                    .ToHtmlString());
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + DateControlPostfix, null, validationAttrs)
+                                        .ToHtmlString()).Append(" ");
                                 sb.Append(
-                                ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + TimeControlPostfix, null, validationAttrs)
-                                    .ToHtmlString());
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + TimeControlPostfix, null, validationAttrs)
+                                        .ToHtmlString()).Append(" ");
+                                sb.Append(
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName, null, validationAttrs)
+                                        .ToHtmlString());
                             }
                             else
                             {
@@ -380,9 +383,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
               html,
               htmlFieldName,
               formattedValue,
-              MergeAttributes(editorAttributes, null, "text"));
+              MergeAttributes(editorAttributes, "date", "text"));
 
-            var format = @"<div class=""input-append date"" data-date-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-calendar""></i></span></div>";
+            var format = @"<div class=""input-append datepicker-control"" data-date-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-calendar""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, GetDateFormat(), box.ToHtmlString()));
         }
 
@@ -399,9 +402,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
               html,
               htmlFieldName,
               formattedValue,
-              MergeAttributes(editorAttributes, null, "text"));
+              MergeAttributes(editorAttributes, "time", "text"));
 
-            var format = @"<div class=""input-append time"" data-time-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-time""></i></span></div>";
+            var format = @"<div class=""input-append timepicker-control"" data-time-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-time""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, GetTimeFormat(), box.ToHtmlString()));
         }
 
@@ -420,8 +423,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 timeValue = dt.ToShortTimeString();
             }
 
-            var date = DateTemplate(html, dateValue, htmlFieldName + DateControlPostfix, metadata, editorAttributes);
-            var time = TimeTemplate(html, timeValue, htmlFieldName + TimeControlPostfix, metadata, editorAttributes);
+            var date = DateTemplate(html, dateValue, htmlFieldName + DateControlPostfix, metadata, new Dictionary<string, object>(editorAttributes));
+            var time = TimeTemplate(html, timeValue, htmlFieldName + TimeControlPostfix, metadata, new Dictionary<string, object>(editorAttributes));
 
             var format = @"<div class=""datetime"">{0} {1} {2}</div>";
             return MvcHtmlString.Create(String.Format(format,

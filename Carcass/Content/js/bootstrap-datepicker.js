@@ -37,8 +37,8 @@
 		var that = this;
 
 		this.element = $(element);
-		this.language = options.language||this.element.data('date-language')||"en";
-		this.language = this.language in dates ? this.language : "en";
+		this.language = options.language || this.element.data('date-language') || "en";
+	    this.language = this.language in dates ? this.language : "en";
 		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||'mm/dd/yyyy');
 		this.picker = $(DPGlobal.template)
 							.appendTo('body')
@@ -46,7 +46,7 @@
 								click: $.proxy(this.click, this)
 							});
 		this.isInput = this.element.is('input');
-		this.component = this.element.is('.date') ? this.element.find('.add-on') : false;
+		this.component = this.element.is('.datepicker-control') ? this.element.find('.add-on') : false;
 		this.hasInput = this.component && this.element.find('input').length;
 		if(this.component && this.component.length === 0)
 			this.component = false;
@@ -651,19 +651,18 @@
 		});
 	};
 
-	$.fn.datepicker.defaults = {
-	};
+	$.fn.datepicker.defaults = { };
 	$.fn.datepicker.Constructor = Datepicker;
-	var dates = $.fn.datepicker.dates = {
-		en: {
-			days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-			daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-			daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-			months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-			monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-			today: "Today"
-		}
-	}
+	var dates = $.fn.datepicker.dates = $.extend($.fn.datepicker.dates || {}, {
+	    "en": {
+	        days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+	        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+	        daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+	        months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+	        monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+	        today: "Today"
+	    }
+	});
 
 	var DPGlobal = {
 		modes: [
@@ -783,7 +782,10 @@
 			}
 			return date;
 		},
-		formatDate: function(date, format, language){
+		formatDate: function (date, format, language) {
+		    if (!date)
+		        return '';
+
 			var val = {
 				d: date.getUTCDate(),
 				m: date.getUTCMonth() + 1,

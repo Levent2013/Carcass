@@ -1,5 +1,4 @@
-﻿@using Carcass.Common.MVC.HtmlHelperExtensions;
-@using Carcass.Resources
+﻿@using Carcass.Resources
 
 @{ ViewBag.Title = "Complex Form"; }
 <div class="alert alert-comment">
@@ -29,23 +28,6 @@
     </ul>
 <div class="tab-content">
     <div class="tab-pane active" id="CarcassEditorForModel">
-        @if (Request.HttpMethod == "POST")
-        {
-            <div class="alert alert-info tab-form">
-                <button type="button" class="close" data-dismiss="alert">×</button>
-                <h4>Submitted data</h4>
-                <br />
-                @if (Model.MultipleUpload != null)
-                {
-                    <p>You have uploaded @Model.MultipleUpload.Length file(s)<br />
-                        @Html.Raw(String.Join(", ", (Model.MultipleUpload as IEnumerable<Carcass.Common.MVC.DataTypes.PostedFile>).Select(p => String.Format("{0} [{1}&nbsp;bytes]", p.FileName, p.ContentSize))))
-                    </p>
-                    <hr />
-                }
-        
-            </div>
-        }
-    
         @using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.CarcassValidationSummary("tab-form", true)

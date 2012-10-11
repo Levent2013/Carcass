@@ -220,10 +220,10 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             }
             else
             {
-                var value = modelState.Value != null ? modelState.Value.AttemptedValue : Validation.ValueNull;
+                var value = modelState.Value != null ? modelState.Value.AttemptedValue : ValidationResources.ValueNull;
                 return String.Format(
                     CultureInfo.CurrentCulture, 
-                    Validation.InvalidPropertyValue, 
+                    ValidationResources.InvalidPropertyValue, 
                     value);
             }
         }

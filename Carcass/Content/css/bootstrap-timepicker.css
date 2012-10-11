@@ -102,5 +102,5 @@
   background-color: #0044cc;
 }
 
-.input-append.time .add-on i,
-.input-prepend.time .add-on i { cursor: pointer; }
+.input-append.timepicker-control .add-on i,
+.input-prepend.timepicker-control .add-on i { cursor: pointer; }

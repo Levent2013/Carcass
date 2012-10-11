@@ -39,9 +39,14 @@ namespace Carcass
                 //.Include<RegisterActionInvokers>()
                 .Include<Infrastructure.RegisterPerRequestServices>(ConfigureRegisterPerRequestServices);
 
+            Error += OnError;
+        }
 
-            Bootstrapper.PerRequestTasks
-                .Include<Infrastructure.Tasks.CheckDatabaseTask>();
+        private void OnError(object sender, EventArgs e)
+        {
+            var exception = Server.GetLastError();
+            log.Error(exception.Message, exception);
+            // Server.ClearError();
         }
 
         private void ConfigureRegisterPerRequestServices(Infrastructure.RegisterPerRequestServices task)
@@ -57,6 +62,10 @@ namespace Carcass
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            Bootstrapper.PerRequestTasks
+                .Include<Infrastructure.Tasks.CheckDatabaseTask>()
+                .Include<Infrastructure.Tasks.LocalizationTask>();
         }
 
         protected override void OnEnd()

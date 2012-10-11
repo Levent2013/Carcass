@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Carcass.Data;
+using MvcExtensions;
 
 namespace Carcass.Controllers
 {
@@ -29,6 +30,12 @@ namespace Carcass.Controllers
         [HttpPost]
         public ActionResult ComplexForm(Models.ComplexModel complexModel)
         {
+            if (ModelState.IsValid)
+            {
+                ViewBag.ReturnUrl = Url.Action("ComplexForm", "Example");
+                return View("DisplayModel", complexModel);
+            }
+
             return View(complexModel);
         }
 

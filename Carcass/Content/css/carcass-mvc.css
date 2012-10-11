@@ -1,5 +1,3 @@
-
-
 /* Carcass MVC forms classes */
 .validation-summary-valid { display: none; }
 .validation-summary-errors { display: block; margin-bottom: 10px; }
@@ -9,6 +7,12 @@
     .legacy-mvc-form select.input-validation-error { background-color: #f2dede;  border-color: #cc0000; }
 .legacy-mvc-form .validation-summary-errors { color: #cc0000; border: 1px solid #cc0000; padding: 5px; }
 .legacy-mvc-form .editor-field .field-validation-error { color: #cc0000; }
+
+.display-label { margin: 14px 20px 0 0; font-weight: bold; float: left; width: 120px; min-height: 20px; }
+    .display-label:after { content: ":"; }
+.display-field { margin: 14px 20px 0 130px; clear: right; min-height: 20px; clear: right; 
+                 white-space: pre-wrap; word-wrap: break-word;       
+}
 
 
 .control-group .controls .alert { margin: 0; }
@@ -34,10 +38,10 @@
 
 /* DateTime control */
 .datetime { width: 246px; display: inline-block; vertical-align: middle;}
-.datetime .date { float: left; }
-.datetime .time { float: right; }
-.datetime .date input { width: 90px; }
-.datetime .time input { width: 60px; }
+.datetime .datepicker-control { float: left; }
+.datetime .timepicker-control { float: right; }
+.datetime .datepicker-control input { width: 90px; }
+.datetime .timepicker-control input { width: 60px; }
 
 /* Bordered tabs */
 .tabs-border .nav.nav-tabs { margin-bottom: 0; }

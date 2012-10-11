@@ -1,0 +1,22 @@
+﻿@using Carcass.Resources
+@{ ViewBag.Title = "Display " + (Model != null ? Model.GetType().Name : String.Empty); }
+
+<div class="alert alert-comment">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <p>This is an example of legacy <code>Html.DisplayForModel()</code> usage.</p>
+</div>
+<div class="clearfix">
+@Html.DisplayForModel()
+</div>
+
+<div class="form-actions">
+@if (ViewBag.ReturnUrl != null) {
+    <a href="@ViewBag.ReturnUrl" class="btn btn-primary">@Buttons.Return</a>
+}
+</div>
+    
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

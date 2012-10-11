@@ -187,6 +187,7 @@
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\LocalizationController.cs" />
     <Compile Include="Infrastructure\RegisterPerRequestServices.cs" />
     <Compile Include="Infrastructure\InitializeCarcass.cs" />
     <Compile Include="Infrastructure\InitializeDatabase.cs" />
@@ -205,6 +206,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\Tasks\CheckDatabaseTask.cs" />
+    <Compile Include="Infrastructure\Tasks\LocalizationTask.cs" />
     <Compile Include="Models\ProductEditModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ComplexModel.cs" />
@@ -283,6 +285,7 @@
     <Content Include="Global.asax" />
     <Content Include="Views\Example\ComplexForm.cshtml" />
     <Content Include="Views\Example\ProductEdit.cshtml" />
+    <Content Include="Views\Shared\DisplayModel.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -348,6 +351,10 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Carcass.Common.Resources\Carcass.Common.Resources.csproj">
+      <Project>{0a73869e-dea5-4203-bc36-ace45e9659c2}</Project>
+      <Name>Carcass.Common.Resources</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Carcass.Common\Carcass.Common.csproj">
       <Project>{f1776a13-516f-420c-b343-7ff75564dbf3}</Project>
       <Name>Carcass.Common</Name>

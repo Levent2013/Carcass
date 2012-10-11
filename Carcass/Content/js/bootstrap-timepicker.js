@@ -22,7 +22,7 @@
 		this.language = this.language in messages ? this.language : "en";
 		this.format = Globals.parseFormat(options.format || this.element.data('time-format') || 'h:mm tt');
         this.isInput = this.element.is('input');
-		this.component = this.element.is('.time') ? this.element.find('.add-on') : false;
+        this.component = this.element.is('.timepicker-control') ? this.element.find('.add-on') : false;
 		this.hasInput = this.component && this.element.find('input').length;
 		if(this.component && this.component.length === 0)
 			this.component = false;
@@ -153,9 +153,9 @@
 
 		    if (this.viewTime) {
 		        d = new Date(this.viewTime),
-                    h = d.getUTCHours(),
-                    m = d.getUTCMinutes(),
-                    s = d.getUTCSeconds();
+                    h = d.getHours(),
+                    m = d.getMinutes(),
+                    s = d.getSeconds();
 		    }
 
 		    if (!skipActivation || !d) {
@@ -174,9 +174,9 @@
 		        picker = target.parents('.timepicker:first');
 			
 		    var d = new Date(this.viewTime || this.time),
-               curHour = d.getUTCHours(),
-               curMinute = d.getUTCMinutes(),
-               curSecond = d.getUTCSeconds();
+               curHour = d.getHours(),
+               curMinute = d.getMinutes(),
+               curSecond = d.getSeconds();
 
 			if (target.length == 1) {
 			    if (target.is('.hour') && !target.is('.disabled')) {
@@ -197,10 +197,11 @@
 
 		_setTime: function (h, m, s) {
 		    var tm = new Date();
-		    tm.setUTCHours(h || 0);
-		    tm.setUTCMinutes(m || 0);
-		    tm.setUTCSeconds(s || 0);
-		    
+		    tm.setHours(h || 0);
+		    tm.setMinutes(m || 0);
+		    tm.setSeconds(s || 0);
+		    Globals.resetDate(tm);
+
 		    this.time = this.viewTime = tm;
 
 			this.fill(true);
@@ -282,26 +283,34 @@
 			};
 		},
 
+		resetDate: function (date) {
+		    date.setFullYear(2001);
+		    date.setMonth(1);
+		    date.setDate(1);
+		    date.setSeconds(0);
+		    date.setMilliseconds(0);
+		},
+
 		parseTime: function (time, format, language) {
-			if (date instanceof Date) return date;
+		    if (time instanceof Date) return time;
 			
 		    var parts = time && time.match(this.nonpunctuation) || [],
 				date = new Date(),
 				parsed = {},
 				setters_order = ['hh', 'h', 'mm', 'm', 's', 'ss', 'tt', 't'],
 				setters_map = {
-				    h: function (d, v) { return d.setUTCHours(v); },
-				    m: function(d,v) { return d.setUTCMinutes(v); },
-				    s: function (d, v) { return d.setUTCSeconds(v); },
+				    h: function (d, v) { return d.setHours(v); },
+				    m: function(d,v) { return d.setMinutes(v); },
+				    s: function (d, v) { return d.setSeconds(v); },
 				    t: function (d, v) {
 				        v = String(v).toLowerCase();
 				        if (v == messages[language].am) {
-				            if (d.getUTCHours() == 12)
-				                return d.setUTCHours(0);
+				            if (d.getHours() == 12)
+				                return d.setHours(0);
 				        } else {
-				            var h = d.getUTCHours();
+				            var h = d.getHours();
 				            if (h < 12)
-				                return d.setUTCHours(h + 12);
+				                return d.setHours(h + 12);
 				        }
 
 				        return d;
@@ -314,11 +323,9 @@
 			setters_map['ss'] = setters_map['s'];
 			setters_map['tt'] = setters_map['t'];
 
-            // reset current date
-			date.setUTCFullYear(2001);
-			date.setUTCMonth(1);
-			date.setUTCDate(1);
-
+		    // reset current date
+			this.resetDate(date);
+			
 			if (parts.length == format.parts.length) {
 				for (var i=0, cnt = format.parts.length; i < cnt; i++) {
 				    part = format.parts[i];
@@ -336,11 +343,13 @@
 			return date;
 		},
 
-		formatTime: function(date, format, language){
-		    var hh = date.getUTCHours(),
-                h = hh,
-                mm = date.getUTCMinutes(),
-                ss = date.getUTCSeconds(),
+		formatTime: function (date, format, language) {
+		    if (!date)
+		        return '';
+
+		    var hh = date.getHours(),
+                mm = date.getMinutes(),
+                ss = date.getSeconds(),
                 tt = '',
                 localMessages = $.fn.timepicker.messages[language];
 
@@ -357,7 +366,7 @@
 		    }
 
 		    var val = {
-		        "hh": hh, "h": h,
+		        "hh": hh, "h": hh,
 		        "mm": mm, "m": mm,
 		        "ss": ss, "s": ss,
                 "tt": tt, "t": tt
@@ -405,7 +414,7 @@
                 else if (pm && value > 12)
                     text = value - 12;
 
-                text += $.encodeHtml(pm ? localMessages.pm : localMessages.am);
+                text += cs.encodeHtml(pm ? localMessages.pm : localMessages.am);
                 return text;
             }
 
