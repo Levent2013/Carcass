@@ -70,11 +70,29 @@ namespace Carcass.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bootsrap Docs.
+        /// </summary>
+        public static string BootsrapDocs {
+            get {
+                return ResourceManager.GetString("BootsrapDocs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contact.
         /// </summary>
         public static string Contact {
             get {
                 return ResourceManager.GetString("Contact", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Examples.
+        /// </summary>
+        public static string Examples {
+            get {
+                return ResourceManager.GetString("Examples", resourceCulture);
             }
         }
         

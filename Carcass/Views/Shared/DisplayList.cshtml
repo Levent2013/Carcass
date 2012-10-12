@@ -1,0 +1,55 @@
+﻿@model IEnumerable<object>
+@{ 
+    var properties = new ModelMetadata[0];
+    Type itemType = null;
+    if (Model != null && Model.Count() > 0) 
+    {
+        var item = Model.First();
+        itemType = item.GetType();
+        properties = ModelMetadata.FromLambdaExpression(m => item, ViewData)
+            .Properties
+            .Where(pm => ShouldShow(pm, ViewData))
+            .ToArray();
+    }
+}
+
+
+@{ ViewBag.Title = "List of " + (itemType != null ? itemType.Name : "object"); }
+
+@functions 
+{ 
+    public static bool ShouldShow(ModelMetadata metadata, ViewDataDictionary viewData) 
+    {
+        return metadata.ShowForDisplay
+            && !metadata.IsComplexType
+            && !viewData.TemplateInfo.Visited(metadata);
+    }
+}
+
+<table class="table table">
+  <tr>
+    @foreach(var property in properties) {
+        <th>@property.GetDisplayName()</th>
+    }
+  </tr>
+    
+    @{
+        var index = 0;
+        foreach(var obj in Model) 
+        {
+            
+            var item = ModelMetadata.FromLambdaExpression(m => obj, ViewData);
+            <tr>
+            @foreach(var property in properties) 
+            {
+                <td>
+                    @{ 
+                        var propertyMetadata = item.Properties.Single(m => m.PropertyName == property.PropertyName);
+                        @propertyMetadata.SimpleDisplayText
+                    }
+                </td>
+            }
+        </tr>
+        }
+        }
+</table>

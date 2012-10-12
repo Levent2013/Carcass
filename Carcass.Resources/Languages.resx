@@ -117,19 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AM" xml:space="preserve">
-    <value>AM</value>
+  <data name="English" xml:space="preserve">
+    <value>ENG</value>
   </data>
-  <data name="Hour" xml:space="preserve">
-    <value>Hour</value>
-  </data>
-  <data name="Minute" xml:space="preserve">
-    <value>Minute</value>
-  </data>
-  <data name="Now" xml:space="preserve">
-    <value>Now</value>
-  </data>
-  <data name="PM" xml:space="preserve">
-    <value>PM</value>
+  <data name="Russian" xml:space="preserve">
+    <value>RUS</value>
   </data>
 </root>

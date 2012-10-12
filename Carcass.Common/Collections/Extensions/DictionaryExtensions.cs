@@ -175,7 +175,7 @@ namespace Carcass.Common.Collections.Extensions
         /// <param name="attributeName">The attribute name.</param>
         /// <param name="defaultValue">The default value.</param>
         /// <returns>Parsed boolean</returns>
-        public static bool Get(this Dictionary<string, string> dict, string attributeName, bool defaultValue)
+        public static bool GetBoolean(this IDictionary<string, string> dict, string attributeName, bool defaultValue)
         {
             if (dict.ContainsKey(attributeName))
             {

@@ -11,16 +11,14 @@ using System.Web;
 namespace Carcass.Data.Entities
 {
     [Table("BlogPosts")]
-    public class BlogPost
+    public class BlogPostEntity
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int BlogPostId { get; set; }
+        public int BlogPostEntityId { get; set; }
         
-        public int? UserId { get; set; }
+        public int? UserEntityId { get; set; }
 
-        public string UserName { get; set; }
-        
         [DataType(DataType.Text)]
         [StringLength(255)]
         public string Title { get; set; }
@@ -31,12 +29,10 @@ namespace Carcass.Data.Entities
         [DataType(DataType.MultilineText)]
         public string Content { get; set; }
 
-        [DataType(DataType.DateTime)]
         public DateTime DateCreated { get; set; }
 
-        [DataType(DataType.DateTime)]
         public DateTime DateModified { get; set; }
-        
-        public virtual User User { get; set; } 
+
+        public virtual UserEntity UserEntity { get; set; } 
     }
 }

@@ -187,7 +187,9 @@
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\AccountController.UserManagement.cs" />
     <Compile Include="Controllers\LocalizationController.cs" />
+    <Compile Include="Infrastructure\AppConstants.cs" />
     <Compile Include="Infrastructure\RegisterPerRequestServices.cs" />
     <Compile Include="Infrastructure\InitializeCarcass.cs" />
     <Compile Include="Infrastructure\InitializeDatabase.cs" />
@@ -200,8 +202,8 @@
     <Compile Include="Data\DatabaseContext.cs" />
     <Compile Include="Data\DatabaseContextFactory.cs" />
     <Compile Include="Data\DatabaseContextInitializer.cs" />
-    <Compile Include="Data\Entities\BlogPost.cs" />
-    <Compile Include="Data\Entities\User.cs" />
+    <Compile Include="Data\Entities\BlogPostEntity.cs" />
+    <Compile Include="Data\Entities\UserEntity.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -323,8 +325,9 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Views\Example\ComplexForm.cshtml" />
-    <Content Include="Views\Example\ProductEdit.cshtml" />
     <Content Include="Views\Shared\DisplayModel.cshtml" />
+    <Content Include="Views\Shared\_Languages.cshtml" />
+    <Content Include="Views\Shared\DisplayList.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -385,6 +388,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Content\html\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

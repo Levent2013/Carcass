@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AM" xml:space="preserve">
-    <value>дп</value>
+    <value>ДП</value>
   </data>
   <data name="Hour" xml:space="preserve">
     <value>Часы</value>
@@ -130,6 +130,6 @@
     <value>Сейчас</value>
   </data>
   <data name="PM" xml:space="preserve">
-    <value>пп</value>
+    <value>ПП</value>
   </data>
 </root>

@@ -39,7 +39,8 @@
 
 .timepicker table {  }
 .timepicker table thead th { text-align: center;  }
-.timepicker table td.hour { font-weight: bolder; white-space: nowrap; }
+.timepicker table td.hour { color: #333333; white-space: nowrap; }
+.timepicker table td.minute { color: #666666; white-space: nowrap; }
 .timepicker .now {  background-color: #f5f5f5; }
  
 .timepicker table td.separator { padding:0; width: 4px; }

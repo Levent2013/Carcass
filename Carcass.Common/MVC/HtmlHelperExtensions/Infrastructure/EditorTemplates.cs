@@ -22,6 +22,11 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
     {
         public const string DefaultDateFormat = "dd-mm-yyyy";
 
+        /// <summary>
+        /// 'h' - 12h hour, 'hh'- 24h hour, 'tt' - a/pm, mm - minutes 
+        /// </summary>
+        public const string DefaultTimeFormat = "hh:mm";
+
         // Number validation attributes
         public const string DataCarcassValidation = "data-carcass-val";
         public const string DataNumberDecimalSeparator = "data-num-decimal-separator";
@@ -30,11 +35,6 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         internal const string DateControlPostfix = ".Date";
         internal const string TimeControlPostfix = ".Time";
 
-        /// <summary>
-        /// 'h' - 12h hour, 'hh'- 24h hour, 'tt' - a/pm, mm - minutes 
-        /// </summary>
-        public const string DefaultTimeFormat = "hh:mm";
-        
         public delegate MvcHtmlString ActionDelegate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata fieldMetadata, IDictionary<string, object> editorAttributes);
 
         private static readonly Dictionary<string, ActionDelegate> _defaultEditorActions
@@ -525,7 +525,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             if(String.IsNullOrEmpty(pattern))
                 return DefaultDateFormat;
 
-            return pattern.ToLowerInvariant();
+            return pattern;
         }
 
         private static string GetTimeFormat()
@@ -535,7 +535,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             if (String.IsNullOrEmpty(pattern))
                 return DefaultTimeFormat;
 
-            return pattern.ToLowerInvariant();
+            return pattern;
         }
         
         private static bool ShouldShow(ModelMetadata metadata, TemplateInfo templateInfo)

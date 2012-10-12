@@ -5,7 +5,7 @@
 
 /* icons on dropdown menu */
 .dropdown-menu a [class^="icon-"],
-.dropdown-menu a [class*=" icon-"] {  margin: 3px 0; }
+.dropdown-menu a [class*=" icon-"] {  margin: 3px 5px 0; }
 
 /* icons on buttons */
 .btn [class^="icon-"], .btn [class*=" icon-"] {  margin: 3px 5px 3px; }

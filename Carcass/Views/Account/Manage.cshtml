@@ -1,10 +1,12 @@
 ﻿@model Carcass.Models.LocalPasswordModel
 @{ ViewBag.Title = "Manage Account"; }
 
-<div class="alert alert-info" style="display: @(ViewBag.StatusMessage != null ? "block" : "none" );">
-    <button type="button" class="close" data-dismiss="alert">×</button>
-    @ViewBag.StatusMessage
-</div>
+@if(ViewBag.StatusMessage != null) {
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        @ViewBag.StatusMessage
+    </div>
+}
 
 <p>You're logged in as <strong class="text-success">@User.Identity.Name</strong>.</p>
 

@@ -18,6 +18,7 @@
  * limitations under the License.
  * ========================================================= */
 
+/* artiz: Added .NET dat formats support */
 
 !function( $ ) {
 
@@ -687,7 +688,7 @@
 		getDaysInMonth: function (year, month) {
 			return [31, (DPGlobal.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month]
 		},
-		validParts: /dd?|mm?|MM?|yy(?:yy)?/g,
+		validParts: /dd?|mm?|MM?M?M?|yy(?:yy)?/g,
 		nonpunctuation: /[^ -\/:-@\[-`{-~\t\n\r]+/g,
 		parseFormat: function(format){
 			// IE treats \0 as a string end in inputs (truncating the value),
@@ -699,6 +700,7 @@
 			}
 			return {separators: separators, parts: parts};
 		},
+
 		parseDate: function(date, format, language) {
 			if (date instanceof Date) return date;
 			if (/^[-+]\d+[dmwy]([\s,]+[-+]\d+[dmwy])*$/.test(date)) {
@@ -729,7 +731,7 @@
 			var parts = date && date.match(this.nonpunctuation) || [],
 				date = new Date(),
 				parsed = {},
-				setters_order = ['yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'd', 'dd'],
+				setters_order = ['yyyy', 'yy', 'M', 'MM', 'MMM', 'MMMM', 'm', 'mm', 'd', 'dd'],
 				setters_map = {
 					yyyy: function(d,v){ return d.setUTCFullYear(v); },
 					yy: function(d,v){ return d.setUTCFullYear(2000+v); },
@@ -745,8 +747,9 @@
 					d: function(d,v){ return d.setUTCDate(v); }
 				},
 				val, filtered, part;
-			setters_map['M'] = setters_map['MM'] = setters_map['mm'] = setters_map['m'];
+			setters_map['M'] = setters_map['MM'] = setters_map['MMM'] = setters_map['MMMM'] = setters_map['mm'] = setters_map['m'];
 			setters_map['dd'] = setters_map['d'];
+
 			date = UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0);
 			if (parts.length == format.parts.length) {
 				for (var i=0, cnt = format.parts.length; i < cnt; i++) {
@@ -754,7 +757,7 @@
 					part = format.parts[i];
 					if (isNaN(val)) {
 						switch(part) {
-							case 'MM':
+							case 'MMMM':
 								filtered = $(dates[language].months).filter(function(){
 									var m = this.slice(0, parts[i].length),
 										p = parts[i].slice(0, m.length);
@@ -762,7 +765,7 @@
 								});
 								val = $.inArray(filtered[0], dates[language].months) + 1;
 								break;
-							case 'M':
+							case 'MMM':
 								filtered = $(dates[language].monthsShort).filter(function(){
 									var m = this.slice(0, parts[i].length),
 										p = parts[i].slice(0, m.length);
@@ -782,6 +785,7 @@
 			}
 			return date;
 		},
+
 		formatDate: function (date, format, language) {
 		    if (!date)
 		        return '';
@@ -789,13 +793,18 @@
 			var val = {
 				d: date.getUTCDate(),
 				m: date.getUTCMonth() + 1,
-				M: dates[language].monthsShort[date.getUTCMonth()],
-				MM: dates[language].months[date.getUTCMonth()],
+				MMM: dates[language].monthsShort[date.getUTCMonth()],
+				MMMM: dates[language].months[date.getUTCMonth()],
 				yy: date.getUTCFullYear().toString().substring(2),
 				yyyy: date.getUTCFullYear()
 			};
 			val.dd = (val.d < 10 ? '0' : '') + val.d;
-			val.mm = (val.m < 10 ? '0' : '') + val.m;
+			val.M = val.m;
+			val.MM = val.mm = (val.m < 10 ? '0' : '') + val.m;
+			val.mmm = val.MMM;
+			val.mmmm = val.MMMM;
+            
+
 			var date = [],
 				seps = $.extend([], format.separators);
 			for (var i=0, cnt = format.parts.length; i < cnt; i++) {

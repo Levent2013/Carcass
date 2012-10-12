@@ -6,13 +6,16 @@
 <div class="alert alert-comment">
     <button type="button" class="close" data-dismiss="alert">×</button>
     Legacy MVC login form refactored with <code>.form-horizontal</code> Bootstrap style.
-<pre>
-    @@using (Html.CarcassBeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
-    ...
-    }
-</pre>
     <code>Popover</code> overlays added to show additional information about form fields. 
 </div>
+
+@if (ViewBag.UserMessage != null)
+{
+    <div class="alert alert-error">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        @ViewBag.UserMessage
+    </div>
+}
 
 <h2>Use a local account to log in.</h2>
 @using (Html.CarcassBeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
@@ -23,7 +26,7 @@
     <div class="control-group">
         @Html.CarcassLabelFor(m => m.UserName)
         <div class="controls">
-            @Html.TextBoxFor(m => m.UserName, 
+            @Html.TextBoxFor(m => m.UserName,
                 new Dictionary<string, object> { 
                     { "placeholder", Html.DisplayNameFor(m => m.UserName) },
                     { "rel", "popover" },
@@ -37,7 +40,7 @@
     <div class="control-group">
         @Html.CarcassLabelFor(m => m.Password)
         <div class="controls">
-            @Html.PasswordFor(m => m.Password,  new Dictionary<string, object> { 
+            @Html.PasswordFor(m => m.Password, new Dictionary<string, object> { 
                     { "placeholder", Html.DisplayNameFor(m => m.Password) },
                     { "rel", "popover" },
                     { "data-placement", "top" },
@@ -51,7 +54,7 @@
     <div class="control-group">
         <div class="controls">
             <label class="checkbox">
-                @Html.CheckBoxFor(m => m.RememberMe,  new Dictionary<string, object> { 
+                @Html.CheckBoxFor(m => m.RememberMe, new Dictionary<string, object> { 
                     { "rel", "popover" },
                     { "data-placement", "top" },
                     { "data-content", "Check if you want to stay logged in after closing of browser" },

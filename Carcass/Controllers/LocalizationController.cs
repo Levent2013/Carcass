@@ -6,6 +6,8 @@ using System.Threading;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+
+using Carcass.Infrastructure;
 using Carcass.Common.Resources.Controls;
 
 using MvcExtensions;
@@ -23,6 +25,19 @@ namespace Carcass.Controllers
             sb.Append(TimepickerResourcesLoader.GetResources(locale));
            
             return Content(sb.ToString(), "text/javascript");
+        }
+
+        public ActionResult SetLanguage(string lang)
+        {
+            var locale = ParseCulture(lang);
+
+            var cookie = Response.Cookies[AppConstants.LanguageCookie] 
+                ?? new HttpCookie(AppConstants.LanguageCookie);
+            
+            cookie.Value = locale.TwoLetterISOLanguageName;
+            Response.Cookies.Set(cookie);
+
+            return RedirectToAction("Index", "Home");
         }
 
         private static CultureInfo ParseCulture(string culture)

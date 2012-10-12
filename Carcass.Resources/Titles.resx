@@ -120,8 +120,14 @@
   <data name="About" xml:space="preserve">
     <value>About</value>
   </data>
+  <data name="BootsrapDocs" xml:space="preserve">
+    <value>Bootsrap Docs</value>
+  </data>
   <data name="Contact" xml:space="preserve">
     <value>Contact</value>
+  </data>
+  <data name="Examples" xml:space="preserve">
+    <value>Examples</value>
   </data>
   <data name="HomePage" xml:space="preserve">
     <value>Carcass</value>

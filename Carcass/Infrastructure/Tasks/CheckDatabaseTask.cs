@@ -30,8 +30,6 @@ namespace Carcass.Infrastructure.Tasks
             }
 
             var dbContext = DependencyResolver.Current.GetService<Data.DatabaseContext>();
-
-            
             if (!dbContext.Database.Exists())
             {
                 dbContext.Database.Initialize(true);

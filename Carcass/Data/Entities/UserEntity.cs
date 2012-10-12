@@ -10,11 +10,11 @@ using System.Web;
 namespace Carcass.Data.Entities
 {
     [Table("Users")]
-    public class User
+    public class UserEntity
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        public int UserEntityId { get; set; }
 
         [StringLength(255)]
         public string UserName { get; set; }

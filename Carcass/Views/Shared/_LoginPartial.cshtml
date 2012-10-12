@@ -1,12 +1,13 @@
-﻿@if (Request.IsAuthenticated) {
+﻿@using Carcass.Resources
+@if (Request.IsAuthenticated) {
     <span class="navbar-text">
         Hello, <a class="nav-link username" href="@Url.Action("Manage", "Account")" title="Manage">@User.Identity.Name</a>
     </span>
     <a class="nav-link" href="@Url.Action("LogOff", "Account")" title="Log off">Log off</a>
     
 } else {
-    <a class="btn btn-success" href="@Url.Action("Register", "Account")" title="Sign Up">Sign Up</a>
+    <a class="btn btn-success" href="@Url.Action("Register", "Account")" title="@Titles.Register">@Titles.Register</a>
     if(Request.Url.PathAndQuery.IndexOf("Account/Login") == -1) {
-        <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { ReturnUrl = Request.Url.PathAndQuery })" title="Log in">Log In</a>
+        <a class="btn btn-primary" href="@Url.Action("Login", "Account", new { ReturnUrl = Request.Url.PathAndQuery })" title="@Titles.LogIn">@Titles.LogIn</a>
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -22,12 +23,25 @@ namespace Carcass.Infrastructure.Tasks
 
         public override TaskContinuation Execute()
         {
-            var globalization = WebConfigurationManager.GetSection("system.web/globalization") as GlobalizationSection;
-            if (globalization != null && globalization.EnableClientBasedCulture)
+            var request = HttpContext.Current.Request;
+            var cookie = request.Cookies[AppConstants.LanguageCookie];
+            if (cookie != null)
             {
-                Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+                var culture = CultureInfo.GetCultureInfo(cookie.Value);
+                if (culture != null)
+                {
+                    Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture = culture;
+                }
             }
-           
+            else // auto-detect
+            {
+                var globalization = WebConfigurationManager.GetSection("system.web/globalization") as GlobalizationSection;
+                if (globalization != null && globalization.EnableClientBasedCulture)
+                {
+                    Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+                }
+            }
+
             return TaskContinuation.Continue;
         }
     }

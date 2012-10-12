@@ -13,6 +13,7 @@ using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 
+using Carcass.Common.MVC.Security;
 using Carcass.Models;
 using Carcass.Data;
 using Carcass.Data.Entities;
@@ -21,20 +22,24 @@ using MvcExtensions;
 
 namespace Carcass.Controllers
 {
-    [Authorize]
-    public class AccountController : Controller
+    [AuthorizeWithMessage("You must be logged in to get access to this page.", Order = 10)]
+    public partial class AccountController : Controller
     {
+        
         public enum ManageMessageId
         {
             ChangePasswordSuccess,
             SetPasswordSuccess,
             RemoveLoginSuccess,
+            ExternalLoginAdded,
+            ExternalLoginForProviderAlreadyAdded,
         }
 
         [AllowAnonymous]
         [ImportViewDataFromTempData]
         public ActionResult Login(string returnUrl)
         {
+            ViewBag.UserMessage = TempData[AuthorizeWithMessageAttribute.MessageKey];
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -144,10 +149,15 @@ namespace Carcass.Controllers
 
         public ActionResult Manage(ManageMessageId? message)
         {
+            if (TempData["ManageMessageId"] != null)
+                message = (ManageMessageId)TempData["ManageMessageId"];
+
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
                 : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageMessageId.ExternalLoginAdded ? "The external login was added."
+                : message == ManageMessageId.ExternalLoginForProviderAlreadyAdded ? "The external login for this provider is already added."
                 : null;
 
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
@@ -234,6 +244,7 @@ namespace Carcass.Controllers
 
             if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
             {
+                TempData["ManageMessageId"] = ManageMessageId.ExternalLoginForProviderAlreadyAdded;
                 return RedirectToLocal(returnUrl);
             }
 
@@ -241,6 +252,8 @@ namespace Carcass.Controllers
             {
                 // If the current user is logged in add the new account
                 OAuthWebSecurity.CreateOrUpdateAccount(result.Provider, result.ProviderUserId, User.Identity.Name);
+
+                TempData["ManageMessageId"] = ManageMessageId.ExternalLoginAdded;
                 return RedirectToLocal(returnUrl);
             }
             else
@@ -269,13 +282,13 @@ namespace Carcass.Controllers
             if (ModelState.IsValid)
             {
                 // Insert a new user into the database
-                var context = AutofacDependencyResolver.Current.GetService<Data.DatabaseContext>();
+                var context = DependencyResolver.Current.GetService<Data.DatabaseContext>();
                 var user = context.Users.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
                 // Check if user already exists
                 if (user == null)
                 {
                     // Insert name into the profile table
-                    context.Users.Add(new User { UserName = model.UserName, DateRegistered = DateTime.UtcNow });
+                    context.Users.Add(new UserEntity { UserName = model.UserName, DateRegistered = DateTime.UtcNow });
                     context.SaveChanges();
 
                     OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
@@ -330,6 +343,7 @@ namespace Carcass.Controllers
         }
 
         #region Helpers
+
         private ActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))

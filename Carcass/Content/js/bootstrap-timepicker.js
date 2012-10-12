@@ -348,13 +348,14 @@
 		        return '';
 
 		    var hh = date.getHours(),
+                h = hh,
                 mm = date.getMinutes(),
                 ss = date.getSeconds(),
-                tt = '',
+                tt = '', t='',
                 localMessages = $.fn.timepicker.messages[language];
 
 		    if (!format.is24h) {
-		        if (h < 12) {
+		        if (h > 0 && h < 13) {
 		            tt = localMessages.am;
 		            if (h == 0)
 		                h = 12;
@@ -362,14 +363,16 @@
 		            tt = localMessages.pm;
 		            if (h > 12)
 		                h -= 12;
+		            else if (h == 0)
+		                h = 12;
 		        }
 		    }
 
 		    var val = {
-		        "hh": hh, "h": hh,
+		        "hh": hh, "h": h,
 		        "mm": mm, "m": mm,
 		        "ss": ss, "s": ss,
-                "tt": tt, "t": tt
+                "tt": tt, "t": tt.length ? tt.substr(0,1) : ''
 		    };
 
 		    val.ss = (val.ss < 10 ? '0' : '') + val.ss;
@@ -414,7 +417,7 @@
                 else if (pm && value > 12)
                     text = value - 12;
 
-                text += cs.encodeHtml(pm ? localMessages.pm : localMessages.am);
+                text += " " + cs.encodeHtml(pm ? localMessages.pm : localMessages.am);
                 return text;
             }
 

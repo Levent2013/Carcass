@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Carcass.Common.Resources.Controls {
+namespace Carcass.Resources {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Carcass.Common.Resources.Controls {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class TimepickerResources {
+    public class ExamplesResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal TimepickerResources() {
+        internal ExamplesResources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Carcass.Common.Resources.Controls {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Carcass.Common.Resources.Controls.TimepickerResources", typeof(TimepickerResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Carcass.Resources.ExamplesResources", typeof(ExamplesResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,47 +61,11 @@ namespace Carcass.Common.Resources.Controls {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AM.
+        ///   Looks up a localized string similar to Complex form.
         /// </summary>
-        public static string AM {
+        public static string ComplexForm {
             get {
-                return ResourceManager.GetString("AM", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Hour.
-        /// </summary>
-        public static string Hour {
-            get {
-                return ResourceManager.GetString("Hour", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Minute.
-        /// </summary>
-        public static string Minute {
-            get {
-                return ResourceManager.GetString("Minute", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Now.
-        /// </summary>
-        public static string Now {
-            get {
-                return ResourceManager.GetString("Now", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PM.
-        /// </summary>
-        public static string PM {
-            get {
-                return ResourceManager.GetString("PM", resourceCulture);
+                return ResourceManager.GetString("ComplexForm", resourceCulture);
             }
         }
     }

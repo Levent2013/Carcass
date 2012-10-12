@@ -23,6 +23,7 @@ namespace Carcass.Data
         /// <param name="context">Current DB context</param>
         protected override void Seed(DatabaseContext context)
         {
+            context.SaveChanges();
             InitializeMembership(); 
         }
 
@@ -36,7 +37,7 @@ namespace Carcass.Data
                 WebSecurity.InitializeDatabaseConnection(
                     "DefaultConnection",
                     "Users",
-                    "UserId",
+                    "UserEntityId",
                     "UserName",
                     autoCreateTables: true);
 

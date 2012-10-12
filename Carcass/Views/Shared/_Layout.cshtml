@@ -1,4 +1,6 @@
 ﻿@using System.Threading
+@using Carcass.Resources
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -34,17 +36,17 @@
                 <ul class="nav">
                     <li class="dropdown" id="examples-menu">
                         <a href="#examples-menu" class="dropdown-toggle" data-toggle="dropdown">
-                            Examples
+                            @Titles.Examples
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu collapsed">
-                            <li><a href="@Url.Action("ComplexForm", "Example")"><i class="icon-list-alt"></i> Complex form</a></li>
+                            <li><a href="@Url.Action("ComplexForm", "Example")"><i class="icon-list-alt"></i>@ExamplesResources.ComplexForm</a></li>
                         </ul>
                     </li>
 
                     <li class="dropdown" id="bootstrap-menu">
                         <a href="#bootstrap-menu" class="dropdown-toggle" data-toggle="dropdown">
-                            Bootsrap Docs
+                            @Titles.BootsrapDocs
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu collapsed">
@@ -56,12 +58,15 @@
                     </li>
                     
                     <li class="">
-                        <a href="@Url.Action("About", "Home")">About</a>
+                        <a href="@Url.Action("About", "Home")">@Titles.About</a>
                     </li>
 
                 </ul>
                 <div class="nav nav-pills pull-right" id="login">
                     @Html.Partial("_LoginPartial")
+                </div>
+                <div class="nav nav-pills pull-right navbar-text" id="languages">
+                    @Html.Partial("_Languages")
                 </div>
               </div>
             </div>
@@ -89,15 +94,16 @@
                     <div class="span2">
                         &copy; @DateTime.Now.Year - Carcass
                     </div>
-                    <div class="span4">
-                        <b class="label">Culture: @Thread.CurrentThread.CurrentCulture.Name</b>
-                        <b class="label">UI Culture: @Thread.CurrentThread.CurrentUICulture.Name</b>
+                    <div class="span4 muted">
+                        Culture: @Thread.CurrentThread.CurrentCulture.Name <br />
+                        UI Culture: @Thread.CurrentThread.CurrentUICulture.Name
                     </div>
                 </div>
             </div>
         </footer>
         @Scripts.Render("~/bundles/common")
         @Scripts.Render(Url.Action("Controls", "Localization", new { culture = Thread.CurrentThread.CurrentUICulture.Name } ))
+        <!-- Render page scripts -->
         @RenderSection("scripts", required: false)
     </body>
 </html>
