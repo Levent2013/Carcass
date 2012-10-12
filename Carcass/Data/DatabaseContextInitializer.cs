@@ -5,7 +5,13 @@ using System.Reflection;
 using System.Web;
 using System.Web.Security;
 using System.Data.Entity;
+
+using DotNetOpenAuth.AspNet;
+using Microsoft.Web.WebPages.OAuth;
+
 using WebMatrix.WebData;
+using Carcass.Infrastructure;
+using Carcass.Data.Entities;
 
 namespace Carcass.Data
 {
@@ -24,10 +30,10 @@ namespace Carcass.Data
         protected override void Seed(DatabaseContext context)
         {
             context.SaveChanges();
-            InitializeMembership(); 
+            InitializeMembership(context); 
         }
 
-        public static void InitializeMembership()
+        public static void InitializeMembership(DatabaseContext context)
         {
             lock (_initMembershipLock)
             {
@@ -41,15 +47,23 @@ namespace Carcass.Data
                     "UserName",
                     autoCreateTables: true);
 
-                // setup default admin
-                if (!WebSecurity.UserExists("admin"))
+                if (!Roles.RoleExists(AppConstants.AdministratorsGroup))
+                    Roles.CreateRole(AppConstants.AdministratorsGroup);
+                if (!Roles.RoleExists(AppConstants.UsersGroup))
+                    Roles.CreateRole(AppConstants.UsersGroup);
+
+                // setup default administrator
+                var adminName = "artem.kustikov@gmail.com";
+                var provider = "google";
+                var providerUserId = "https://www.google.com/accounts/o8/id?id=AItOawkHJByjLNYE2yHy5q2BXksDZVX0yZ2oj_g";
+                if (!WebSecurity.UserExists(adminName))
                 {
-                    WebSecurity.CreateUserAndAccount("admin", "password", new
-                    {
-                        FirstName = "System",
-                        LastName = "Admin",
-                        DateRegistered = DateTime.UtcNow
-                    });
+
+                    context.Users.Add(new UserEntity { UserName = adminName, DateRegistered = DateTime.UtcNow });
+                    context.SaveChanges();
+                    OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, adminName);
+
+                    Roles.AddUserToRole(adminName, AppConstants.AdministratorsGroup);
                 }
             }
         }

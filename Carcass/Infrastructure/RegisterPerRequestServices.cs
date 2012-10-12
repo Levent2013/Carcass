@@ -18,7 +18,6 @@ namespace Carcass.Infrastructure
         public override TaskContinuation Execute()
         {
             Throw.IfNullArgument(Adapter, "adapter");
-            
             Adapter.RegisterAsPerRequest<DatabaseContext>();
             
             return TaskContinuation.Continue;

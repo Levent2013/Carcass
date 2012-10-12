@@ -38,6 +38,6 @@ namespace Carcass.Data.Entities
             get { return (FirstName + " " + LastName).Trim(); } 
         }
 
-
+        public virtual ICollection<BlogPostEntity> BlogPosts { get; set; }
     }
 }

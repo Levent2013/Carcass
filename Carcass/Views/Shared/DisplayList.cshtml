@@ -1,11 +1,17 @@
 ﻿@model IEnumerable<object>
 @{ 
     var properties = new ModelMetadata[0];
-    Type itemType = null;
+    var itemTypeName = "object";
     if (Model != null && Model.Count() > 0) 
     {
         var item = Model.First();
-        itemType = item.GetType();
+        var itemType = item.GetType();
+        itemTypeName = itemType.Name;
+        
+        if(itemType.Module.ScopeName ==	"EntityProxyModule") {
+            itemTypeName = itemTypeName.Substring(0, itemTypeName.IndexOf("_"));
+        }
+            
         properties = ModelMetadata.FromLambdaExpression(m => item, ViewData)
             .Properties
             .Where(pm => ShouldShow(pm, ViewData))
@@ -14,7 +20,8 @@
 }
 
 
-@{ ViewBag.Title = "List of " + (itemType != null ? itemType.Name : "object"); }
+@{ 
+    ViewBag.Title = "List of " + itemTypeName; }
 
 @functions 
 { 

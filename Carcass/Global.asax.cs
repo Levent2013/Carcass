@@ -63,9 +63,11 @@ namespace Carcass
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            Bootstrapper.PerRequestTasks
-                .Include<Infrastructure.Tasks.CheckDatabaseTask>()
-                .Include<Infrastructure.Tasks.LocalizationTask>();
+            Bootstrapper.PerRequestTasks.Include<Infrastructure.Tasks.LocalizationTask>();
+#if DEBUG
+            Bootstrapper.PerRequestTasks.Include<Infrastructure.Tasks.CheckDatabaseTask>();
+#endif
+                
         }
 
         protected override void OnEnd()

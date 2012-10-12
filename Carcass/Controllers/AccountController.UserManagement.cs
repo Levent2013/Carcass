@@ -32,7 +32,9 @@ namespace Carcass.Controllers
 
         private IQueryBuilder Query { get; set; }
 
-        [AuthorizeWithMessage("You must be logged in to manage users", Order=1)]
+        [AuthorizeWithMessage("You must be logged in as administrator to manage users", 
+            Roles = Carcass.Infrastructure.AppConstants.AdministratorsGroup,
+            Order = 1)]
         public ActionResult Users()
         {
             var users = Query.For<UserEntity>();

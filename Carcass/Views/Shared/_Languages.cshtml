@@ -1,7 +1,13 @@
 ﻿@using System.Threading
 @using Carcass.Resources
 @{
-    var lang = Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName; 
+    var culture = Thread.CurrentThread.CurrentUICulture;
+    var lang = culture.TwoLetterISOLanguageName; 
 }
-<a href="@Url.Action("SetLanguage", "Localization", new { lang = "en" })" class="language-btn label @(lang != "en" ? "label-inverse" : "")" id="language-btn-en" data-language="en">@Languages.English</a>
-<a href="@Url.Action("SetLanguage", "Localization", new { lang = "ru" })" class="language-btn label @(lang != "ru" ? "label-inverse" : "")" id="language-btn-ru" data-language="ru">@Languages.Russian</a>
+<a href="@Url.Action("SetLanguage", "Localization", new { lang = "en" })" class="language-btn label @(lang != "en" ? "label-inverse" : "")" data-language="en">@Languages.English</a>
+<a href="@Url.Action("SetLanguage", "Localization", new { lang = "ru" })" class="language-btn label @(lang != "ru" ? "label-inverse" : "")" data-language="ru">@Languages.Russian</a>
+
+@if(lang != "ru" && lang != "en") {
+    <a href="@Url.Action("SetLanguage", "Localization", new { lang })" 
+        class="language-btn label label-inverse" data-language="@lang">@culture.ThreeLetterISOLanguageName.ToUpperInvariant()</a>
+}

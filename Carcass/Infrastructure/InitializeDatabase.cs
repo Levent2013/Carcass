@@ -19,13 +19,9 @@ namespace Carcass.Infrastructure
             Database.SetInitializer<DatabaseContext>(new DatabaseContextInitializer());
             using (var context = new DatabaseContext())
             {
-                if (!context.Database.Exists())
-                {
-                    context.Database.Initialize(true);
-                }
+                context.Database.Initialize(true);
+                Data.DatabaseContextInitializer.InitializeMembership(context);
             }
-
-            Data.DatabaseContextInitializer.InitializeMembership();
 
             return TaskContinuation.Continue;
         }
