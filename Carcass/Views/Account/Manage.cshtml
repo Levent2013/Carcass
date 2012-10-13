@@ -1,4 +1,5 @@
-﻿@model Carcass.Models.LocalPasswordModel
+﻿@model Carcass.Models.UserProfile
+@using Carcass.Resources;
 @{ ViewBag.Title = "Manage Account"; }
 
 @if(ViewBag.StatusMessage != null) {
@@ -9,7 +10,7 @@
 }
 
 <p>You're logged in as <strong class="text-success">@User.Identity.Name</strong>.</p>
-
+<hr />
 @if (ViewBag.HasLocalPassword)
 {
     @Html.Partial("_ChangePasswordPartial")
@@ -19,11 +20,24 @@ else
     @Html.Partial("_SetPasswordPartial")
 }
 
+@using (Html.CarcassBeginForm("Manage", "Account"))
+{
+    <h4>Edit your profile data</h4>
+    
+    @Html.AntiForgeryToken()
+    @Html.CarcassValidationSummary()
+            
+    @Html.CarcassFieldFor(m => m.FirstName)
+    @Html.CarcassFieldFor(m => m.LastName)
+    @Html.CarcassFieldFor(m => m.Email)
+   
+    @Html.CarcassFormActions(new Dictionary<string, object> 
+        { { Buttons.Save, new { type = "submit", @class="btn-primary" }} });
+}
+
 <section id="externalLogins">
     @Html.Action("RemoveExternalLogins")
-    
-    <hr />
-    <h3>Add an external login</h3>
+    <h4>Add an external login</h4>
     @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
 </section>
 

@@ -1,5 +1,6 @@
 ﻿@using System.Threading
 @using Carcass.Resources
+@using Carcass.Infrastructure
 
 <!doctype html>
 <html lang="en">
@@ -54,9 +55,24 @@
                             <li><a href="http://twitter.github.com/bootstrap/base-css.html"><i class="icon-question-sign"></i> Base CSS</a></li>
                             <li><a href="http://twitter.github.com/bootstrap/components.html"><i class="icon-question-sign"></i> Components</a></li>
                             <li><a href="http://twitter.github.com/bootstrap/javascript.html"><i class="icon-question-sign"></i> Javascript</a></li>
+                            <li class="divider"></li>
+                            <li><a href="http://twitter.github.com/bootstrap/getting-started.html#examples"><i class="icon-question-sign"></i>Examples</a></li>
                         </ul>
                     </li>
                     
+                    @if (Roles.IsUserInRole(AppConstants.AdministratorsGroup))
+                    {
+                        <li class="dropdown" id="admin-menu">
+                            <a href="#admin-menu" class="dropdown-toggle" data-toggle="dropdown">
+                                @Titles.Administration
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu collapsed">
+                                <li><a href="@Url.Action("Users", "Account")"><i class="icon-list"></i>@Titles.Users</a></li>
+                            </ul>
+                        </li>
+                    }
+
                     <li class="">
                         <a href="@Url.Action("About", "Home")">@Titles.About</a>
                     </li>

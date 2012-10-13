@@ -218,6 +218,7 @@
     <Compile Include="Models\ProductEditModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ComplexModel.cs" />
+    <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -56,7 +56,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         public static MvcHtmlString CarcassFieldFor<TModel, TValue>(
             this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression,
-            bool inlineValidation = false,
+            bool inlineValidation,
             object editorAttributes = null)
         {
             Throw.IfNullArgument(expression, "expression");
@@ -111,8 +111,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             this HtmlHelper<TModel> html, 
             Expression<Func<TModel, TValue>> expression,
             string htmlFieldName,
-            bool inlineValidation = false,
-            IDictionary<string, object> editorAttributes = null,
+            bool inlineValidation,
+            IDictionary<string, object> editorAttributes,
             object validationAttributes = null)
         {
             Throw.IfNullArgument(expression, "expression");

@@ -93,6 +93,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Data\EntityFinder.cs" />
+    <Compile Include="Data\IFinder.cs" />
+    <Compile Include="Data\Finder.cs" />
     <Compile Include="Data\IRepository.cs" />
     <Compile Include="Data\IQueryBuilder.cs" />
     <Compile Include="Data\QueryBuilder.cs" />

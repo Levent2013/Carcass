@@ -33,6 +33,7 @@ namespace Carcass.Controllers
             RemoveLoginSuccess,
             ExternalLoginAdded,
             ExternalLoginForProviderAlreadyAdded,
+            YourProfileUpdated,
         }
 
         [AllowAnonymous]
@@ -158,16 +159,34 @@ namespace Carcass.Controllers
                 : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : message == ManageMessageId.ExternalLoginAdded ? "The external login was added."
                 : message == ManageMessageId.ExternalLoginForProviderAlreadyAdded ? "The external login for this provider is already added."
+                : message == ManageMessageId.YourProfileUpdated ? "Your profile has been updated successfully."
                 : null;
 
             ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.ReturnUrl = Url.Action("Manage");
-            return View();
+
+            var user = Query.Find<UserEntity>(WebSecurity.CurrentUserId);
+
+            // TODO: Introduce AutoMapper
+            return View(new UserProfile
+                {
+                    Id = user.UserEntityId,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocalPasswordModel model)
+        public ActionResult Manage(UserProfile model)
+        {
+            return RedirectToAction("Manage", new { Message = ManageMessageId.YourProfileUpdated });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ManagePassword(UserProfile model)
         {
             bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.HasLocalPassword = hasLocalAccount;
@@ -222,7 +241,7 @@ namespace Carcass.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View("Manage", model);
         }
 
         [HttpPost]
@@ -244,7 +263,10 @@ namespace Carcass.Controllers
 
             if (OAuthWebSecurity.Login(result.Provider, result.ProviderUserId, createPersistentCookie: false))
             {
-                TempData["ManageMessageId"] = ManageMessageId.ExternalLoginForProviderAlreadyAdded;
+                var rootLength = VirtualPathUtility.ToAbsolute("~/").Length;
+                if (!String.IsNullOrEmpty(returnUrl) && returnUrl.Length > rootLength)
+                    TempData["ManageMessageId"] = ManageMessageId.ExternalLoginForProviderAlreadyAdded;
+                
                 return RedirectToLocal(returnUrl);
             }
 

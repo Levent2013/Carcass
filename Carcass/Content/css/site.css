@@ -25,6 +25,7 @@ body > .navbar .brand:hover { text-decoration: none; text-shadow: 0 1px 0 rgba(2
 
 #page-content { padding-top: 20px; }
 h1, h2, h3, h4, h5, legend { text-shadow: 1px 1px 2px #cccccc; }
+form h4 { margin-left: 180px; }
 
 .footer { margin-bottom: 20px; }
 
@@ -65,4 +66,8 @@ h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3p
 /* Responsive layout */
 @media (max-width: 979px) {
     body { padding-top: 0; }
+}
+
+@media (max-width: 480px) {
+    form h4 { margin-left: 0; }
 }

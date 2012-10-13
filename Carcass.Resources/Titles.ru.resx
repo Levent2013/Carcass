@@ -120,6 +120,9 @@
   <data name="About" xml:space="preserve">
     <value>О проекте</value>
   </data>
+  <data name="Administration" xml:space="preserve">
+    <value>Администрирование</value>
+  </data>
   <data name="BootsrapDocs" xml:space="preserve">
     <value>Документация Bootsrap</value>
   </data>

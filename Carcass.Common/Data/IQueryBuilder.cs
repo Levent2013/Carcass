@@ -7,5 +7,9 @@ namespace Carcass.Common.Data
     public interface IQueryBuilder
     {
         IQueryable<T> For<T>();
+
+        T Find<T>(int id);
+
+        T Find<T>(int id1, int id2);
     }
 }

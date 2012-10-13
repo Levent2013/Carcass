@@ -22,8 +22,15 @@ namespace Carcass.Infrastructure.Modules
             // builder.RegisterType<Data.DatabaseContext>().InstancePerHttpRequest();
            
             builder.RegisterType<QueryBuilder>().As<IQueryBuilder>();
-            builder.Register<IRepository<UserEntity>>(p => new Repository<UserEntity>(p.Resolve<DatabaseContext>().Users));
-            builder.Register<IRepository<BlogPostEntity>>(p => new Repository<BlogPostEntity>(p.Resolve<DatabaseContext>().BlogPosts));
+            builder.Register<IRepository<UserEntity>>(container => new Repository<UserEntity>(container.Resolve<DatabaseContext>().Users));
+            builder.Register<IRepository<BlogPostEntity>>(container => new Repository<BlogPostEntity>(container.Resolve<DatabaseContext>().BlogPosts));
+
+            builder.Register<IFinder<UserEntity>>(
+                container => new EntityFinder<UserEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),
+                    (context, id) => context.Users.Find(id)));
+            builder.Register<IFinder<BlogPostEntity>>(
+                container => new EntityFinder<BlogPostEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),
+                    (context, id) => context.BlogPosts.Find(id)));
 
             base.Load(builder);
 
