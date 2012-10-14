@@ -90,7 +90,8 @@
         </div>
         <div class="container" id="page-content">
             <div class="row">
-                @if(ViewBag.Title != null) {
+                @if (ViewBag.Title != null && ViewBag.HidePageTitleBlock == null)
+                {
                     <section class="well well-small">
                         <h1>@ViewBag.Title</h1>
                     </section>

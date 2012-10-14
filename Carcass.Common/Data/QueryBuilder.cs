@@ -19,6 +19,12 @@ namespace Carcass.Common.Data
             return repository.Source;
         }
 
+        public IQueryable<T> For<T>(Func<T, bool> precondition)
+        {
+            var source = For<T>();
+            return source.Where(precondition).AsQueryable();
+        }
+        
         public T Find<T>(int id)        
         {
             var finder = DependencyResolver.Current.GetService<IFinder<T>>();

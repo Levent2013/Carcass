@@ -47,24 +47,11 @@ namespace Carcass.Data
                     "UserName",
                     autoCreateTables: true);
 
+                // add default roles
                 if (!Roles.RoleExists(AppConstants.AdministratorsGroup))
                     Roles.CreateRole(AppConstants.AdministratorsGroup);
                 if (!Roles.RoleExists(AppConstants.UsersGroup))
                     Roles.CreateRole(AppConstants.UsersGroup);
-
-                // setup default administrator
-                var adminName = "artem.kustikov@gmail.com";
-                var provider = "google";
-                var providerUserId = "https://www.google.com/accounts/o8/id?id=AItOawkHJByjLNYE2yHy5q2BXksDZVX0yZ2oj_g";
-                if (!WebSecurity.UserExists(adminName))
-                {
-
-                    context.Users.Add(new UserEntity { UserName = adminName, DateRegistered = DateTime.UtcNow });
-                    context.SaveChanges();
-                    OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, adminName);
-
-                    Roles.AddUserToRole(adminName, AppConstants.AdministratorsGroup);
-                }
             }
         }
 

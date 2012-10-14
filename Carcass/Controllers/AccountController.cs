@@ -14,6 +14,7 @@ using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
 
 using Carcass.Common.MVC.Security;
+using Carcass.Common.Data;
 using Carcass.Models;
 using Carcass.Data;
 using Carcass.Data.Entities;
@@ -116,134 +117,23 @@ namespace Carcass.Controllers
             // Only disassociate the account if the currently logged in user is the owner
             if (ownerAccount == User.Identity.Name)
             {
-                if (System.Data.Entity.Database.DefaultConnectionFactory is System.Data.Entity.Infrastructure.SqlCeConnectionFactory)
+                // Use a transaction to prevent the user from deleting their last login credential
+                using (var transaction = new SafeTransaction(TransactionScopeOption.Required, IsolationLevel.Serializable))
                 {
-                    message = DetachExternalLogin(provider, providerUserId);
-                }
-                else
-                {
-                    // Use a transaction to prevent the user from deleting their last login credential
-                    using (var scope = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+                    bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+                    if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
                     {
-                        message = DetachExternalLogin(provider, providerUserId, scope);
+                        OAuthWebSecurity.DeleteAccount(provider, providerUserId);
+                        transaction.Complete();
+
+                        message = ManageMessageId.RemoveLoginSuccess;
                     }
                 }
             }
 
             return RedirectToAction("Manage", new { message });
         }
-
-        private ManageMessageId DetachExternalLogin(string provider, string providerUserId, TransactionScope scope = null)
-        {
-            bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            if (hasLocalAccount || OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name).Count > 1)
-            {
-                OAuthWebSecurity.DeleteAccount(provider, providerUserId);
-                if (scope != null)
-                {
-                    scope.Complete();
-                }
-            }
-
-            return ManageMessageId.RemoveLoginSuccess;
-        }
-
-        public ActionResult Manage(ManageMessageId? message)
-        {
-            if (TempData["ManageMessageId"] != null)
-                message = (ManageMessageId)TempData["ManageMessageId"];
-
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.ExternalLoginAdded ? "The external login was added."
-                : message == ManageMessageId.ExternalLoginForProviderAlreadyAdded ? "The external login for this provider is already added."
-                : message == ManageMessageId.YourProfileUpdated ? "Your profile has been updated successfully."
-                : null;
-
-            ViewBag.HasLocalPassword = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.ReturnUrl = Url.Action("Manage");
-
-            var user = Query.Find<UserEntity>(WebSecurity.CurrentUserId);
-
-            // TODO: Introduce AutoMapper
-            return View(new UserProfile
-                {
-                    Id = user.UserEntityId,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Manage(UserProfile model)
-        {
-            return RedirectToAction("Manage", new { Message = ManageMessageId.YourProfileUpdated });
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ManagePassword(UserProfile model)
-        {
-            bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            ViewBag.HasLocalPassword = hasLocalAccount;
-            ViewBag.ReturnUrl = Url.Action("Manage");
-            if (hasLocalAccount)
-            {
-                if (ModelState.IsValid)
-                {
-                    // ChangePassword will throw an exception rather than return false in certain failure scenarios.
-                    bool changePasswordSucceeded;
-                    try
-                    {
-                        changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-                    }
-                    catch (Exception)
-                    {
-                        changePasswordSucceeded = false;
-                    }
-
-                    if (changePasswordSucceeded)
-                    {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-                    }
-                }
-            }
-            else
-            {
-                // User does not have a local password so remove any validation errors caused by a missing
-                // OldPassword field
-                ModelState state = ModelState["OldPassword"];
-                if (state != null)
-                {
-                    state.Errors.Clear();
-                }
-
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
-                    }
-                    catch (Exception e)
-                    {
-                        ModelState.AddModelError("", e);
-                    }
-                }
-            }
-
-            // If we got this far, something failed, redisplay form
-            return View("Manage", model);
-        }
-
+       
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -284,7 +174,11 @@ namespace Carcass.Controllers
                 string loginData = OAuthWebSecurity.SerializeProviderUserId(result.Provider, result.ProviderUserId);
                 ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(result.Provider).DisplayName;
                 ViewBag.ReturnUrl = returnUrl;
-                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { UserName = result.UserName, ExternalLoginData = loginData });
+
+                return View("ExternalLoginConfirmation", new RegisterExternalLoginModel { 
+                    UserName = result.UserName, 
+                    OriginalUserName = result.UserName,
+                    ExternalLoginData = loginData });
             }
         }
 
@@ -300,22 +194,38 @@ namespace Carcass.Controllers
             {
                 return RedirectToAction("Manage");
             }
-
+            
             if (ModelState.IsValid)
             {
+
+                var config = Infrastructure.ApplicationConfigurationSection.GetConfig();
+                // Get the default administrator to add they to 'Administrators' group
+                var adminName = config.DefaultAdminUserName;
+                var adminProviderName = config.DefaultAdminProvider;
+                
                 // Insert a new user into the database
                 var context = DependencyResolver.Current.GetService<Data.DatabaseContext>();
                 var user = context.Users.FirstOrDefault(u => u.UserName.ToLower() == model.UserName.ToLower());
+                
                 // Check if user already exists
                 if (user == null)
                 {
-                    // Insert name into the profile table
-                    context.Users.Add(new UserEntity { UserName = model.UserName, DateRegistered = DateTime.UtcNow });
-                    context.SaveChanges();
+                    using (var transaction = new SafeTransaction())
+                    {
+                        // Insert name into the profile table
+                        context.Users.Add(new UserEntity { UserName = model.UserName, DateRegistered = DateTime.UtcNow });
+                        context.SaveChanges();
 
-                    OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
-                    OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
-                    
+                        OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);
+                        OAuthWebSecurity.Login(provider, providerUserId, createPersistentCookie: false);
+
+                        transaction.Complete();
+                    }
+
+                    // setup default admin at the first login
+                    if (!String.IsNullOrEmpty(model.OriginalUserName) && model.OriginalUserName.Equals(adminName) && provider.Equals(adminProviderName))
+                        Roles.AddUserToRole(model.UserName, Infrastructure.AppConstants.AdministratorsGroup);
+                        
                     return RedirectToLocal(returnUrl);
                 }
                 else
@@ -323,7 +233,8 @@ namespace Carcass.Controllers
                     ModelState.AddModelError("UserName", "User name already exists. Please enter a different user name.");
                 }
             }
-
+            
+            
             ViewBag.ProviderDisplayName = OAuthWebSecurity.GetOAuthClientData(provider).DisplayName;
             ViewBag.ReturnUrl = returnUrl;
             return View(model);

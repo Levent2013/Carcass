@@ -16,6 +16,7 @@ using MvcExtensions;
 using WebMatrix.WebData;
 
 using log4net;
+using Carcass.Infrastructure.Tasks;
 
 namespace Carcass
 {
@@ -29,15 +30,17 @@ namespace Carcass
         public MvcApplication()
         {
             Bootstrapper.BootstrapperTasks
-                .Include<Infrastructure.InitializeDatabase>()
-                .Include<Infrastructure.RegisterRoutes>()
-                .Include<Infrastructure.InitializeCarcass>()
+                .Include<InitializeDatabase>()
+                .Include<RegisterRoutes>()
+                .Include<InitializeCarcass>()
                 .Include<RegisterAreas>()
                 .Include<RegisterControllers>()
                 .Include<RegisterModelMetadata>()
                 //.Include<RegisterModelBinders>()
                 //.Include<RegisterActionInvokers>()
-                .Include<Infrastructure.RegisterPerRequestServices>(ConfigureRegisterPerRequestServices);
+                .Include<Infrastructure.RegisterPerRequestServices>(ConfigureRegisterPerRequestServices)
+                .Include<InitializeMappings>();
+                
 
             Error += OnError;
         }
@@ -63,9 +66,9 @@ namespace Carcass
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
-            Bootstrapper.PerRequestTasks.Include<Infrastructure.Tasks.LocalizationTask>();
+            Bootstrapper.PerRequestTasks.Include<LocalizationTask>();
 #if DEBUG
-            Bootstrapper.PerRequestTasks.Include<Infrastructure.Tasks.CheckDatabaseTask>();
+            Bootstrapper.PerRequestTasks.Include<CheckDatabaseTask>();
 #endif
                 
         }

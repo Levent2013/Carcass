@@ -1,9 +1,9 @@
 ﻿@using Carcass.Resources
 @if (Request.IsAuthenticated) {
     <span class="navbar-text">
-        Hello, <a class="nav-link username" href="@Url.Action("Manage", "Account")" title="Manage">@User.Identity.Name</a>
+        Hello, <a class="username" href="@Url.Action("Manage", "Account")" title="Manage">@User.Identity.Name</a>
+        <a href="@Url.Action("LogOff", "Account")" title="Log off">Log off</a>
     </span>
-    <a class="nav-link" href="@Url.Action("LogOff", "Account")" title="Log off">Log off</a>
     
 } else {
     <a class="btn btn-success" href="@Url.Action("Register", "Account")" title="@Titles.Register">@Titles.Register</a>

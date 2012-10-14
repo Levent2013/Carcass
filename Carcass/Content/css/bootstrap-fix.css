@@ -14,3 +14,10 @@
 .icon-credit-card { background-image: url("../img/icon-half-credit-card.png"); background-position: 50% 50%; background-repeat: no-repeat; }
 .icon-phone {  background-image: url("../img/icon-half-phone.png"); background-position: 50% 50%; background-repeat: no-repeat; }
 .icon-e-mail {  background-image: url("../img/icon-half-e-mail.png"); background-position: 50% 50%; background-repeat: no-repeat; }
+
+/* additional classes */
+.nav > .navbar-text > a:link,
+.nav > .navbar-text > a:visited { color: #999999; }
+.nav > .navbar-text > a:focus,
+.nav > .navbar-text > a:hover { color: rgba(82, 168, 236, 0.8); text-decoration: none; }
+ 

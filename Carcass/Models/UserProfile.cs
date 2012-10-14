@@ -11,6 +11,7 @@ namespace Carcass.Models
     {
         public int Id { get; set; }
 
+        [Required]
         [DataType(DataType.EmailAddress)]
         [StringLength(255)]
         public string Email { get; set; }
@@ -20,7 +21,10 @@ namespace Carcass.Models
 
         [StringLength(255)]
         public string LastName { get; set; }
-        
+    }
+
+    public class LocalPasswordModel
+    {
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Current password", Order = 1)]

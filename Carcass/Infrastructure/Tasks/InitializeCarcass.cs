@@ -11,7 +11,7 @@ using Carcass.Data;
 using MvcExtensions;
 using log4net;
 
-namespace Carcass.Infrastructure
+namespace Carcass.Infrastructure.Tasks
 {
     public class InitializeCarcass : BootstrapperTask
     {

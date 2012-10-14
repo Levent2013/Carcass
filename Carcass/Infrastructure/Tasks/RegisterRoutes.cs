@@ -7,7 +7,7 @@ using System.Web.Routing;
 
 using MvcExtensions;
 
-namespace Carcass.Infrastructure
+namespace Carcass.Infrastructure.Tasks
 {
     public class RegisterRoutes : RegisterRoutesBase
     {

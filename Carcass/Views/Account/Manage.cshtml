@@ -13,11 +13,11 @@
 <hr />
 @if (ViewBag.HasLocalPassword)
 {
-    @Html.Partial("_ChangePasswordPartial")
+    @Html.Partial("_ChangePasswordPartial", new Carcass.Models.LocalPasswordModel())
 }
 else
 { 
-    @Html.Partial("_SetPasswordPartial")
+    @Html.Partial("_SetPasswordPartial", new Carcass.Models.LocalPasswordModel())
 }
 
 @using (Html.CarcassBeginForm("Manage", "Account"))

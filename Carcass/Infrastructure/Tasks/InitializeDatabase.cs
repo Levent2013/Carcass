@@ -10,7 +10,7 @@ using System.Web.Routing;
 using Carcass.Data;
 using MvcExtensions;
 
-namespace Carcass.Infrastructure
+namespace Carcass.Infrastructure.Tasks
 {
     public class InitializeDatabase : BootstrapperTask
     {

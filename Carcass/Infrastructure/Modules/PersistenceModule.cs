@@ -7,9 +7,14 @@ using System.Web.Routing;
 
 using Autofac;
 using Autofac.Integration.Mvc;
+using AutoMapper;
 using Carcass.Common.Data;
+using Carcass.Common.Data.Extensions;
+
+using Carcass.Models;
 using Carcass.Data;
 using Carcass.Data.Entities;
+
 
 
 namespace Carcass.Infrastructure.Modules
@@ -20,10 +25,34 @@ namespace Carcass.Infrastructure.Modules
         {
             // InstancePerHttpRequest() does not work in Autofack 2.6.3.862
             // builder.RegisterType<Data.DatabaseContext>().InstancePerHttpRequest();
-           
+
+            #region Register Type Mappings
+
+            Mapper.CreateMap<UserEntity, UserProfile>()
+                .IgnoreAllNonExisting();
+
+            #endregion
+            
+            #region Register Data Access components
+
             builder.RegisterType<QueryBuilder>().As<IQueryBuilder>();
             builder.Register<IRepository<UserEntity>>(container => new Repository<UserEntity>(container.Resolve<DatabaseContext>().Users));
             builder.Register<IRepository<BlogPostEntity>>(container => new Repository<BlogPostEntity>(container.Resolve<DatabaseContext>().BlogPosts));
+            builder.Register<IRepository<User>>(container => 
+                {
+                    var context = container.Resolve<DatabaseContext>();
+                    return new Repository<User>(
+                        context.Users.Select(p => new User
+                        {
+                            Id = p.UserEntityId,
+                            UserName = p.UserName,
+                            FirstName = p.FirstName,
+                            LastName = p.LastName,
+                            Email = p.Email,
+                            BlogPostsCount = p.BlogPosts.Count()
+                        }));
+                });
+            
 
             builder.Register<IFinder<UserEntity>>(
                 container => new EntityFinder<UserEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),
@@ -31,6 +60,8 @@ namespace Carcass.Infrastructure.Modules
             builder.Register<IFinder<BlogPostEntity>>(
                 container => new EntityFinder<BlogPostEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),
                     (context, id) => context.BlogPosts.Find(id)));
+
+            #endregion
 
             base.Load(builder);
 

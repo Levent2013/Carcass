@@ -8,6 +8,8 @@ namespace Carcass.Common.Data
     {
         IQueryable<T> For<T>();
 
+        IQueryable<T> For<T>(Func<T, bool> precondition);
+
         T Find<T>(int id);
 
         T Find<T>(int id1, int id2);

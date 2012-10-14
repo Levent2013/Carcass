@@ -14,6 +14,8 @@ namespace Carcass.Models
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
+        public string OriginalUserName { get; set; }
+
         public string ExternalLoginData { get; set; }
     }
 
