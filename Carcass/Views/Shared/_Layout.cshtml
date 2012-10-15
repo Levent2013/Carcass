@@ -20,7 +20,10 @@
         <!--[if lt IE 8]><link href="@Url.Content("~/Content/css/ie7.css")" rel="stylesheet"><![endif]-->
          @Scripts.Render("~/bundles/startup")
          <script type="text/javascript">
-             window.Carcass = { "Language": "@Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName" }
+             window.Carcass = {
+                 "Language": "@Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName",
+                 "BaseUrl": "@Url.Content("~/")"
+             }
          </script>
     </head>
     <body>
@@ -41,6 +44,8 @@
                         </a>
                         <ul class="dropdown-menu collapsed">
                             <li><a href="@Url.Action("ComplexForm", "Example")"><i class="icon-list-alt"></i>@ExamplesResources.ComplexForm</a></li>
+                            <li><a href="@Url.Action("Bootbox", "Example")"><i class="icon-exclamation-sign"></i>Bootbox.js</a></li>
+
                         </ul>
                     </li>
 
@@ -118,6 +123,7 @@
             </div>
         </footer>
         @Scripts.Render("~/bundles/common")
+        @* Scripts.Render("~/Content/tinymce/jquery.tinymce.js") *@
         @Scripts.Render(Url.Action("Controls", "Localization", new { culture = Thread.CurrentThread.CurrentUICulture.Name } ))
         <!-- Render page scripts -->
         @RenderSection("scripts", required: false)

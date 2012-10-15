@@ -20,7 +20,9 @@ namespace Carcass
                         "~/Content/js/bootstrap-datepicker.js",
                         "~/Content/js/bootstrap-timepicker.js",
                         "~/Content/js/bootstrap-fileinput.js",
-                        "~/Content/tinymce/tiny_mce.js",
+                        "~/Content/js/wysihtml5-0.3.0_rc2.js", // HTML editor, optional
+                        "~/Content/js/bootstrap-wysihtml5.js", // HTML editor wrapper, optional
+                        "~/Content/js/bootbox.js", // TB alerts library
                         "~/Content/js/carcass-jquery.js",
                         "~/Content/js/carcass-mvc.js"));
 
@@ -39,6 +41,7 @@ namespace Carcass
                     "~/Content/css/bootstrap-datepicker.css",
                     "~/Content/css/bootstrap-timepicker.css",
                     "~/Content/css/bootstrap-fileinput.css",
+                    "~/Content/css/bootstrap-wysihtml5.css",
                     "~/Content/css/carcass-mvc.css",
                     "~/Content/css/site.css"));
         }

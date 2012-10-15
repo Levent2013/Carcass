@@ -27,6 +27,11 @@ namespace Carcass.Controllers
                 });
         }
 
+        public ActionResult Bootbox()
+        {
+            return View();
+        }
+
         [HttpPost]
         public ActionResult ComplexForm(Models.ComplexModel complexModel)
         {

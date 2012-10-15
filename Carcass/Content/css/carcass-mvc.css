@@ -10,10 +10,7 @@
 
 .display-label { margin: 14px 20px 0 0; font-weight: bold; float: left; width: 120px; min-height: 20px; }
     .display-label:after { content: ":"; }
-.display-field { margin: 14px 20px 0 130px; clear: right; min-height: 20px; clear: right; 
-                 white-space: pre-wrap; word-wrap: break-word;       
-}
-
+.display-field { margin: 14px 20px 0 150px; clear: right; min-height: 20px; clear: right; word-wrap: break-word; }
 
 .control-group .controls .alert { margin: 0; }
 .field-validation-valid { display: none; }
@@ -28,11 +25,11 @@
 .form-inline-validation .input-file-button,
 .form-inline-validation .input-append,
 .form-inline-validation .input-prepend { margin-top: 5px; }
-
     .form-inline-validation .controls input[type="checkbox"] { margin-top: 10px; }
 
 .form-inline-validation .input-append input,
 .form-inline-validation .input-prepend input { margin-top: 0; }
+.form-inline-validation .wysihtml5-toolbar { margin-top: 5px; }
 
 .form-inline-validation .controls .field-validation-error { margin-top: 5px; }
 

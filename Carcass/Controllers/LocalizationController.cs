@@ -23,6 +23,9 @@ namespace Carcass.Controllers
             var sb = new StringBuilder();
             sb.Append(DatepickerResourcesLoader.GetResources(locale));
             sb.Append(TimepickerResourcesLoader.GetResources(locale));
+
+            sb.AppendFormat(@"// {0} translation for bootbox
+if(window.bootbox) bootbox.setLocale('{1}');", locale.Name, locale.TwoLetterISOLanguageName);
            
             return Content(sb.ToString(), "text/javascript");
         }

@@ -1,0 +1,199 @@
+﻿@using Carcass.Resources
+
+@{ ViewBag.Title = "Bootbox.js";
+   ViewBag.HidePageTitleBlock = true; 
+}
+<div class="alert alert-info">
+    <h2>Bootbox.js—alert, confirm and flexible dialogs for Twitter's Bootstrap framework</h2>
+</div>
+
+
+<div class="span4">
+    <h3>Examples</h3>
+    <ul class="nav nav-list">
+        <li class="nav-header">Basic usage</li>
+        <li><a href="#" id="bs-alert" title="Simple Alert">Alert</a></li>
+        <li><a href="#" id="bs-confirm">Confirm</a></li>
+        <li><a href="#" id="bs-prompt">Prompt</a></li>
+        <li class="nav-header">Advanced usage</li>
+        <li><a href="#" id="dialog">Custom Dialog</a></li>
+        <li><a href="#" id="multiple">Multiple Dialogs</a></li>
+        <li><a href="#" id="dialog-close">Programmatic Close</a></li>
+        <li><a href="#" id="generic-modal">Generic Modal</a></li>
+        <li><a href="#" id="dynamic">Dynamic Content</a></li>
+        <li><a href="#" id="icons-explicit">Iconified buttons (explicit)</a></li>
+        <li class="nav-header">Custom options</li>
+        <li><a href="#" id="onescape">options.onEscape &rarr; function</a></li>
+        <li><a href="#" id="nofade">options.animate &rarr; false</a></li>
+        <li><a href="#" id="nobackdrop">options.backdrop &rarr; false</a></li>
+    </ul>
+</div>
+
+<div class="span8">
+    <p><a href="http://bootboxjs.com/">Bootbox.js</a> is a small JavaScript library which allows you to create programmatic dialog boxes using 
+    <a href="http://twitter.github.com/bootstrap/javascript.html#modals">Twitter's Bootstrap modals</a>, 
+    without having to worry about creating, managing or removing any of the required DOM elements or JS event handlers.
+    Here's the simplest possible example:
+    </p>
+    <pre>bootbox.alert("Hello world!");</pre>
+    <p>Additional examples and detailde documentation see on project official site: <a href="http://bootboxjs.com/">http://bootboxjs.com/</a></p>
+    <p>Bootbox.js licensed under the <a href="@Url.Content("~/Content/licenses/Bootbox.js.txt")">MIT License</a>.</p>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        window.console = window.console || { log: function (msg) { alert(msg); } }
+
+        $(function () {
+            $("#bs-alert").click(function (e) {
+                e.preventDefault();
+                bootbox.alert("Hello world!", function () { console.log("Alert Callback"); });
+            });
+
+            $("#bs-confirm").click(function (e) {
+                e.preventDefault();
+                bootbox.confirm("Are you sure?", function (confirmed) {
+                    console.log("Confirmed: " + confirmed);
+                });
+            });
+
+            $("#bs-prompt").click(function (e) {
+                e.preventDefault();
+                bootbox.prompt("What is your name?", function (result) {
+                    console.log("Result: " + result);
+                });
+            });
+
+            $("#prompt-default").click(function (e) {
+                e.preventDefault();
+                bootbox.prompt("What is your favourite JS library?", "Cancel", "OK", function (result) {
+                    console.log("Result: " + result);
+                }, "Bootbox.js");
+            });
+
+            $("#dialog").click(function (e) {
+                e.preventDefault();
+                bootbox.dialog("I am a custom dialog", [{
+                    "label": "Success!",
+                    "class": "btn-success",
+                    "callback": function () {
+                        console.log("great success");
+                    }
+                }, {
+                    "label": "Danger!",
+                    "class": "btn-danger",
+                    "callback": function () {
+                        console.log("uh oh, look out!");
+                    }
+                }, {
+                    "label": "Click ME!",
+                    "class": "btn-primary",
+                    "callback": function () {
+                        console.log("Primary button");
+                    }
+                }, {
+                    "label": "Just a button..."
+                }, {
+                    "Condensed format": function () {
+                        console.log("condensed");
+                    }
+                }]);
+            });
+
+            $("#multiple").click(function (e) {
+                e.preventDefault();
+
+                bootbox.alert("Prepare for multiboxes...", "Argh!");
+
+                setTimeout(function () {
+                    bootbox.confirm("Are you having fun?", "No :(", "Yeah!", function (result) {
+                        if (result) {
+                            bootbox.alert("Glad to hear it!");
+                        } else {
+                            bootbox.alert("Aww boo. Click the button below to get rid of all these popups", function () {
+                                bootbox.hideAll();
+                            });
+                        }
+                    });
+                }, 1000);
+            });
+
+            $("#dialog-close").click(function (e) {
+                e.preventDefault();
+                var box = bootbox.alert("This dialog will close in two seconds");
+                setTimeout(function () {
+                    box.modal('hide');
+                }, 2000);
+            });
+
+            $("#generic-modal").click(function (e) {
+                e.preventDefault();
+                bootbox.modal('<img src="http://dummyimage.com/600x400/000/fff" alt=""/>', 'Modal popup!');
+            });
+
+            $("#dynamic").click(function (e) {
+                e.preventDefault();
+                var str = $("<p>This content is actually a jQuery object, which will change in 3 seconds...</p>");
+                bootbox.alert(str);
+                setTimeout(function () {
+                    str.html("See?");
+                }, 3000);
+            });
+
+            $("#onescape").click(function (e) {
+                e.preventDefault();
+                bootbox.dialog("Dismiss this dialog with the escape key...", {
+                    "label": "Press Escape!",
+                    "class": "btn-danger",
+                    "callback": function () {
+                        console.log("Oi! Press escape!");
+                    }
+                }, {
+                    "onEscape": function () {
+                        bootbox.alert("This alert was triggered by the onEscape callback of the previous dialog", "Dismiss");
+                    }
+                });
+            });
+
+            $("#nofade").click(function (e) {
+                e.preventDefault();
+                bootbox.dialog("This dialog does not fade in or out, and thus does not depend on <strong>bootstrap-transitions.js</strong>.",
+                {
+                    "OK": function () { }
+                }, {
+                    "animate": false
+                });
+            });
+
+            $("#nobackdrop").click(function (e) {
+                e.preventDefault();
+                bootbox.dialog("This dialog does not have a backdrop element",
+                {
+                    "OK": function () { }
+                }, {
+                    "backdrop": false
+                });
+            });
+
+            $("#icons-explicit").click(function (e) {
+                e.preventDefault();
+                bootbox.dialog("Custom dialog with icons being passed explicitly into <b>bootbox.dialog</b>.", [{
+                    "label": "Success!",
+                    "class": "btn-success",
+                    "icon": "icon-ok-sign icon-white"
+                }, {
+                    "label": "Danger!",
+                    "class": "btn-danger",
+                    "icon": "icon-warning-sign icon-white"
+                }, {
+                    "label": "Click ME!",
+                    "class": "btn-primary",
+                    "icon": "icon-ok icon-white"
+                }, {
+                    "label": "Just a button...",
+                    "icon": "icon-picture"
+                }]);
+            });
+        });
+    </script>
+}
