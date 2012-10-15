@@ -20,6 +20,7 @@ namespace Carcass
                         "~/Content/js/bootstrap-datepicker.js",
                         "~/Content/js/bootstrap-timepicker.js",
                         "~/Content/js/bootstrap-fileinput.js",
+                        "~/Content/tinymce/tiny_mce.js",
                         "~/Content/js/carcass-jquery.js",
                         "~/Content/js/carcass-mvc.js"));
 

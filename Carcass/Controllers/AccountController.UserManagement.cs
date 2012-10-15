@@ -65,10 +65,9 @@ namespace Carcass.Controllers
                 return View(model);
             }
 
-            // TODO: implement Save() operation
-            var entity = Query.Find<UserEntity>(model.Id);
-            
-            return RedirectToAction("Manage", new { Message = ManageMessageId.YourProfileUpdated });
+            Query.Lookup<UserProfile>(model).Update();
+            TempData["ManageMessageId"] = ManageMessageId.YourProfileUpdated;
+            return RedirectToAction("Manage");
         }
 
         [HttpPost]
@@ -95,7 +94,8 @@ namespace Carcass.Controllers
 
                     if (changePasswordSucceeded)
                     {
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                        TempData["ManageMessageId"] = ManageMessageId.ChangePasswordSuccess;
+                        return RedirectToAction("Manage");
                     }
                     else
                     {
@@ -118,7 +118,8 @@ namespace Carcass.Controllers
                     try
                     {
                         WebSecurity.CreateAccount(User.Identity.Name, model.NewPassword);
-                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+                        TempData["ManageMessageId"] = ManageMessageId.SetPasswordSuccess;
+                        return RedirectToAction("Manage");
                     }
                     catch (Exception e)
                     {

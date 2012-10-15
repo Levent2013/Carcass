@@ -30,6 +30,18 @@ window.Carcass = window.Carcass || {};
         $('.input-append.datepicker-control, .input-prepend.datepicker-control').datepicker({ "autoclose": true, "todayBtn": true, "language": cs.Language });
         $('.input-append.timepicker-control, .input-prepend.timepicker-control').timepicker({ "autoclose": true, "by5minutes": true, "language": cs.Language });
         $('.datetime input[type=text]').bind('change', _dateTimeLoad);
+
+        if(tinyMCE) {
+            tinyMCE.init({ 
+                mode: "textareas",
+                theme: "advanced",
+                plugins: "spellchecker,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+                skin: "carcass",
+                skin_variant: "silver",
+                editor_selector: "html-editor"
+            });
+        }
+
     });
     
 }(window.jQuery, window.Carcass, window);

@@ -13,5 +13,7 @@ namespace Carcass.Common.Data
         T Find(int id);
 
         T Find(int id1, int id2);
+
+        T Find(int id1, int id2, int id3);
     }
 }

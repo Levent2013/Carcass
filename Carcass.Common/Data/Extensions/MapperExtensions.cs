@@ -47,12 +47,24 @@ namespace Carcass.Common.Data.Extensions
             return Mapper.Map<TDestination>(source);
         }
 
-        public static TDestination MapInto<TSource, TDestination>(this TSource source, object destination)
+        public static TDestination MapToDynamic<TSource, TDestination>(this TSource source)
+        {
+            CreateMapping<TSource, TDestination>();
+            return Mapper.DynamicMap<TDestination>(source);
+        }
+
+        public static TDestination MapInto<TSource, TDestination>(this TSource source, TDestination destination)
         {
             Throw.IfNullArgument(destination, "destination");
-
             CreateMapping<TSource, TDestination>();
-            return (TDestination)Mapper.Map(source, destination, source.GetType(), typeof(TDestination));
+            return Mapper.Map<TSource, TDestination>(source, destination);
+        }
+
+        public static void MapIntoDynamic<TSource, TDestination>(this TSource source, TDestination destination)
+        {
+            Throw.IfNullArgument(destination, "destination");
+            CreateMapping<TSource, TDestination>();
+            Mapper.DynamicMap<TSource, TDestination>(source, destination);
         }
 
         private static void CreateMapping<TDestination>(object source)

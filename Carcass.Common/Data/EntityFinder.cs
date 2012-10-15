@@ -35,24 +35,40 @@ namespace Carcass.Common.Data
             _loader = loader;
         }
 
-        /// <summary>
-        ///  Finds an entity with the given primary key value.
-        /// </summary>
-        /// <returns>The entity found, or null.</returns>
-        public T Find(int id)
+        public EntityFinder(TContext context, Func<TContext, int, int, int, T> loader)
         {
-            var res = _loader.DynamicInvoke(_context, id);
-            return CastResult(res);
+            Throw.IfNullArgument(context, "context");
+            Throw.IfNullArgument(loader, "loader");
+
+            _context = context;
+            _loader = loader;
         }
 
         /// <summary>
         ///  Finds an entity with the given primary key value.
         /// </summary>
         /// <returns>The entity found, or null.</returns>
+        public T Find(int id)
+        {
+            return CastResult(_loader.DynamicInvoke(_context, id));
+        }
+
+        /// <summary>
+        ///  Finds an entity with the given primary key values
+        /// </summary>
+        /// <returns>The entity found, or null.</returns>
         public T Find(int id1, int id2)
         {
-            var res = _loader.DynamicInvoke(_context, id1, id2);
-            return CastResult(res);
+            return CastResult(_loader.DynamicInvoke(_context, id1, id2));
+        }
+
+        /// <summary>
+        ///  Finds an entity with the given primary key values
+        /// </summary>
+        /// <returns>The entity found, or null.</returns>
+        public T Find(int id1, int id2, int id3)
+        {
+            return CastResult(_loader.DynamicInvoke(_context, id1, id2, id3));
         }
 
         private static T CastResult(object res)

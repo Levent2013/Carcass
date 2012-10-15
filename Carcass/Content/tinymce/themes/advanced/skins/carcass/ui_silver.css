@@ -1,0 +1,5 @@
+/* Silver */
+.carcassSkinSilver .mceToolbar .mceToolbarStart span, .carcassSkinSilver .mceButton, .carcassSkinSilver .mceSplitButton, .carcassSkinSilver .mceSeparator, .carcassSkinSilver .mceSplitButton a.mceOpen, .carcassSkinSilver .mceListBox a.mceOpen {background-image:url(img/button_bg_silver.png)}
+.carcassSkinSilver td.mceToolbar, .carcassSkinSilver td.mceStatusbar, .carcassSkinSilver .mceMenuItemTitle a {background:#eee}
+.carcassSkinSilver .mceListBox .mceText {background:#FFF}
+.carcassSkinSilver .mceExternalToolbar, .carcassSkinSilver .mceListBox .mceText, .carcassSkinSilver div.mceMenu, .carcassSkinSilver table.mceLayout, .carcassSkinSilver .mceMenuItemTitle a, .carcassSkinSilver table.mceLayout tr.mceFirst td, .carcassSkinSilver table.mceLayout, .carcassSkinSilver .mceMenuItemTitle a, .carcassSkinSilver table.mceLayout tr.mceLast td, .carcassSkinSilver .mceIframeContainer {border-color: #bbb}

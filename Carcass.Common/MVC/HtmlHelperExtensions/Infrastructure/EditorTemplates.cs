@@ -47,7 +47,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { "CreditCard", CreditCardTemplate },
             { "Currency", CurrencyTemplate },
             
-            { "Html", MultilineTextTemplate },
+            { "Html", HtmlTemplate },
             //{ "Collection", CollectionTemplate },
             { "Duration", FloatTemplate },
             
@@ -220,6 +220,19 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 3, 
                 0, 
                 MergeAttributes(editorAttributes, "multi-line"));
+        }
+
+        internal static MvcHtmlString HtmlTemplate(HtmlHelper html,
+            object formattedValue,
+            string htmlFieldName,
+            ModelMetadata metadata,
+            IDictionary<string, object> editorAttributes)
+        {
+            return TextAreaExtensions.TextArea(
+                html,
+                htmlFieldName,
+                formattedValue as string, 5, 0,
+                MergeAttributes(editorAttributes, "html-editor"));
         }
 
         internal static MvcHtmlString PasswordTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)

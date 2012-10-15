@@ -26,7 +26,8 @@ else
     
     @Html.AntiForgeryToken()
     @Html.CarcassValidationSummary()
-            
+          
+    @Html.HiddenFor(m => m.Id)  
     @Html.CarcassFieldFor(m => m.FirstName)
     @Html.CarcassFieldFor(m => m.LastName)
     @Html.CarcassFieldFor(m => m.Email)

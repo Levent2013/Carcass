@@ -29,6 +29,13 @@ namespace Carcass.Infrastructure.Modules
             #region Register Type Mappings
 
             Mapper.CreateMap<UserEntity, UserProfile>()
+                .ForMember(u => u.Id, opt => opt.MapFrom(p => p.UserEntityId))
+                .IgnoreAllNonExisting();
+
+            Mapper.CreateMap<UserProfile, UserEntity>()
+                .ForMember(u => u.Email, opt => opt.MapFrom(p => p.Email))
+                .ForMember(u => u.FirstName, opt => opt.MapFrom(p => p.FirstName))
+                .ForMember(u => u.LastName, opt => opt.MapFrom(p => p.LastName))
                 .IgnoreAllNonExisting();
 
             #endregion
@@ -38,6 +45,7 @@ namespace Carcass.Infrastructure.Modules
             builder.RegisterType<QueryBuilder>().As<IQueryBuilder>();
             builder.Register<IRepository<UserEntity>>(container => new Repository<UserEntity>(container.Resolve<DatabaseContext>().Users));
             builder.Register<IRepository<BlogPostEntity>>(container => new Repository<BlogPostEntity>(container.Resolve<DatabaseContext>().BlogPosts));
+            
             builder.Register<IRepository<User>>(container => 
                 {
                     var context = container.Resolve<DatabaseContext>();
@@ -52,7 +60,15 @@ namespace Carcass.Infrastructure.Modules
                             BlogPostsCount = p.BlogPosts.Count()
                         }));
                 });
-            
+
+            builder.Register<ILookuper<UserProfile>>(container =>
+            {
+                var context = container.Resolve<DatabaseContext>();
+                return new EntityLookuper<UserProfile, UserEntity>(
+                    context /* DB context */,
+                    context.Users /* target table */,
+                    p => p.Id /* primary key load function */);
+            });
 
             builder.Register<IFinder<UserEntity>>(
                 container => new EntityFinder<UserEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),

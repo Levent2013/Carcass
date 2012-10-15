@@ -37,14 +37,17 @@ namespace Carcass.Common.Data
         /// <returns>The entity found, or null.</returns>
         public T Find(int id)
         {
-            var res = _loader.DynamicInvoke(id);
-            return CastResult(res);
+            return CastResult(_loader.DynamicInvoke(id));
         }
 
         public T Find(int id1, int id2)
         {
-            var res = _loader.DynamicInvoke(id1, id2);
-            return CastResult(res);
+            return CastResult(_loader.DynamicInvoke(id1, id2));
+        }
+
+        public T Find(int id1, int id2, int id3)
+        {
+            return CastResult(_loader.DynamicInvoke(id1, id2, id3));
         }
 
         private static T CastResult(object res)

@@ -97,6 +97,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Data\EntitySaver.cs" />
+    <Compile Include="Data\ILookuper.cs" />
+    <Compile Include="Data\EntityLookuper.cs" />
+    <Compile Include="Data\ISaver.cs" />
     <Compile Include="Data\EntityFinder.cs" />
     <Compile Include="Data\Extensions\MapperExtensions.cs" />
     <Compile Include="Data\IFinder.cs" />
