@@ -222,6 +222,8 @@
     <Compile Include="Infrastructure\ApplicationConfigurationSection.cs" />
     <Compile Include="Infrastructure\Tasks\CheckDatabaseTask.cs" />
     <Compile Include="Infrastructure\Tasks\LocalizationTask.cs" />
+    <Compile Include="Models\BlogPost.cs" />
+    <Compile Include="Models\Configurations\BlogPostConfiguration.cs" />
     <Compile Include="Models\ProductEditModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ComplexModel.cs" />

@@ -10,6 +10,7 @@ using Carcass.Common.Data;
 using Carcass.Common.MVC.Security;
 using Carcass.Data;
 using Carcass.Data.Entities;
+using Carcass.Models;
 
 namespace Carcass.Controllers
 {
@@ -42,14 +43,14 @@ namespace Carcass.Controllers
         [ImportViewDataFromTempData]
         public ActionResult AddBlogPost()
         {
-            return View(new BlogPostEntity());
+            return View(new BlogPost());
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [ExportViewDataToTempData]
-        public ActionResult AddBlogPost(BlogPostEntity entity)
+        public ActionResult AddBlogPost(BlogPost entity)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +68,7 @@ namespace Carcass.Controllers
         {
             ViewBag.Message = TempData["Message"];
 
-            var posts = Query.For<BlogPostEntity>().OrderByDescending(p => p.DateModified).ToList();
+            var posts = Query.For<BlogPost>().OrderByDescending(p => p.DateModified).ToList();
             return View(posts);
         }
 

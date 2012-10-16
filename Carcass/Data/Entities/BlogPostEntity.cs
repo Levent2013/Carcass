@@ -27,6 +27,8 @@ namespace Carcass.Data.Entities
         [StringLength(1024)]
         public string Origin { get; set; }
 
+        public bool CommentsEnabled { get; set; }
+
         /// <summary>
         /// Post content
         /// </summary>
@@ -39,17 +41,5 @@ namespace Carcass.Data.Entities
         public DateTime DateModified { get; set; }
 
         public virtual UserEntity UserEntity { get; set; }
-
-        [NotMapped]
-        public string Author
-        {
-            get { return UserEntity != null ? UserEntity.FullName : Carcass.Resources.AccountResources.UnknownUser;}
-        }
-
-        [NotMapped]
-        public int CommentsCount
-        {
-            get { return 0; }
-        }
     }
 }

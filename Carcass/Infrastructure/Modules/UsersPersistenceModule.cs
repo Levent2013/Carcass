@@ -53,7 +53,7 @@ namespace Carcass.Infrastructure.Modules
                             FirstName = p.FirstName,
                             LastName = p.LastName,
                             Email = p.Email,
-                            BlogPostsCount = p.BlogPosts.Count()
+                            BlogPostsCount = p.BlogPosts.Count(),
                         }));
                 });
 

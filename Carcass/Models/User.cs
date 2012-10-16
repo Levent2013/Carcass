@@ -8,7 +8,7 @@ using System.Web;
 namespace Carcass.Models
 {
     /// <summary>
-    /// Display only user model
+    /// Display-only user model
     /// </summary>
     public class User
     {

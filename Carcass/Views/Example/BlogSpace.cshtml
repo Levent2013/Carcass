@@ -1,4 +1,4 @@
-﻿@model IList<Carcass.Data.Entities.BlogPostEntity>
+﻿@model IList<Carcass.Models.BlogPost>
 @using Carcass.Resources
 
 @{ ViewBag.Title = ExamplesResources.BlogSpace; }
@@ -37,20 +37,31 @@ else
         <h2>@post.Title</h2>
         
         <div class="blog-post-header">
+        <!-- TODO: Move to helper extension -->
+        @if (post.AuthorId !=0 ) {
+            <a href="@Url.Action("UserBlog", "Example", new { UserName = post.AuthorName })"><i class="icon-user"></i> @post.AuthorName</a> 
+        } else {
+            <span class="muted">@post.AuthorName</span>
+        }
+    
+        <i class="icon-calendar"></i> @post.DateModified
+        
+        @if(post.CommentsEnabled){
+     	    <text><i class="icon-comment"></i></text>
+            <a href="#">@(post.CommentsCount > 0 ? post.CommentsCount + "Comments" : "No comments")</a>
+        }
+        
+        <br/><a class="muted" href="@post.Origin">@post.Origin</a>
+                        
+        </div>
         <!--Tags: 
     	<a href="#"><span class="label label-info">Snipp</span></a> 
     	<a href="#"><span class="label label-info">Bootstrap</span></a> 
     	<a href="#"><span class="label label-info">UI</span></a> 
     	<a href="#"><span class="label label-info">growth</span></a>
         -->
-    	<i class="icon-user"></i> <a href="#">@post.Author</a> 
-    	| <i class="icon-calendar"></i>@post.DateModified
-     	| <i class="icon-comment"></i> <a href="#">@(post.CommentsCount > 0
-                        ? post.CommentsCount + "Comments"
-                        : "No comments")</a>
-        </div>
         <div class="blog-content-preview">
-            @Html.Raw(post.Content)
+            @Html.Raw(post.Preview)
         </div>
     </div>
 }

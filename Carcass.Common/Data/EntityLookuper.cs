@@ -14,9 +14,7 @@ namespace Carcass.Common.Data
         private DbContext _context;
         private DbSet<TDest> _table;
         private Delegate _loader;
-        private TDest _entity;
-
-
+        
         public EntityLookuper(DbContext context, DbSet<TDest> table, Func<TSource, int> loader)
         {
             Throw.IfNullArgument(context, "context");

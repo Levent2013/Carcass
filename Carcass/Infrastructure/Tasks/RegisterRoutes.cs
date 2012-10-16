@@ -26,6 +26,12 @@ namespace Carcass.Infrastructure.Tasks
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            Routes.MapRoute(
+                name: "UserBlog",
+                url: "Example/UserBlog/{id}-{username}",
+                defaults: new { username = UrlParameter.Optional }
+            );
         }
     }
 }
