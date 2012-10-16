@@ -61,6 +61,24 @@ namespace Carcass.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Post.
+        /// </summary>
+        public static string AddBlogPost {
+            get {
+                return ResourceManager.GetString("AddBlogPost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blog Space.
+        /// </summary>
+        public static string BlogSpace {
+            get {
+                return ResourceManager.GetString("BlogSpace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Complex form.
         /// </summary>
         public static string ComplexForm {

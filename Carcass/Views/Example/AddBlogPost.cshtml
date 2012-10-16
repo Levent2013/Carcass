@@ -1,0 +1,16 @@
+﻿@model Carcass.Data.Entities.BlogPostEntity
+@using Carcass.Resources
+
+@{ ViewBag.Title = ExamplesResources.AddBlogPost; }
+@using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.CarcassValidationSummary(true)
+    @Html.CarcassEditorForModel( new { InlineValidation = true, ValidationClass = "alert alert-error", EditorClass = "input-block-level" })
+    @Html.CarcassFormActions(new Dictionary<string, object> { 
+        { Buttons.Submit, new { type = "submit", @class = "btn-primary" } } });
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

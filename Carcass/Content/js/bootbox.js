@@ -443,20 +443,31 @@ var bootbox = window.bootbox || (function($) {
             div.remove();
         });
 
-        div.bind('hide', function() {
+        div.bind('hide', function () {
             if (hideSource == 'escape' &&
                 typeof options.onEscape == 'function') {
-                var cb = options.onEscape();
-                setTimeout(cb, 1);
+                options.onEscape();
             }
         });
 
         // hook into the modal's keyup trigger to check for the escape key
-        $(document).bind('keyup.modal', function ( e ) {
-            if (e.which == 27) {
-                hideSource = 'escape';
-            }
-        });
+        // artiz: binding updated
+        if ($.browser.msie) {
+            div.bind('keyup.modal', function (e) {
+                if (e.which == 27) {
+                    hideSource = 'escape';
+                }
+            });
+        } else {
+            $(document).off('keyup.dismiss.modal');
+            $(document).on('keyup.dismiss.modal', function (e) {
+                if (e.which == 27) {
+                    hideSource = 'escape';
+                    div.trigger('hide');
+                }
+            });
+        }
+        
 
         // well, *if* we have a primary - give the last dom element (first displayed) focus
         div.bind('shown', function() {
@@ -483,8 +494,15 @@ var bootbox = window.bootbox || (function($) {
             options.keyboard = (typeof options.onEscape == 'function');
         }
 
+        // artiz: hide additional backdrops for multiple alerts
+        if ($('.modal-backdrop').length && options.backdrop !== false) {
+            options.backdrop = false;
+        }
+
         $("body").append(div);
 
+        // artiz: reset Bootstrap modal focus handler for multiple alerts
+        $(document).off('focusin.modal');
         div.modal({
             "backdrop" : (typeof options.backdrop  === 'undefined') ? _backdrop : options.backdrop,
             "keyboard" : options.keyboard

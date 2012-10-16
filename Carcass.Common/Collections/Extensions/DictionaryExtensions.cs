@@ -108,6 +108,11 @@ namespace Carcass.Common.Collections.Extensions
             return defaultValue;
         }
 
+        public static IDictionary<TKey, TVal> Clone<TKey, TVal>(this IDictionary<TKey, TVal> dict)
+        {
+            return new Dictionary<TKey, TVal>(dict);
+        }
+
         /// <summary>
         /// Load object of defined type from IDictionary&lt;string, string&gt;
         /// </summary>

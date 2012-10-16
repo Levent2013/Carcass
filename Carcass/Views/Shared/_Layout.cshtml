@@ -44,6 +44,7 @@
                         </a>
                         <ul class="dropdown-menu collapsed">
                             <li><a href="@Url.Action("ComplexForm", "Example")"><i class="icon-list-alt"></i>@ExamplesResources.ComplexForm</a></li>
+                            <li><a href="@Url.Action("BlogSpace", "Example")"><i class="icon-list-alt"></i>@ExamplesResources.BlogSpace</a></li>
                             <li><a href="@Url.Action("Bootbox", "Example")"><i class="icon-exclamation-sign"></i>Bootbox.js</a></li>
 
                         </ul>
@@ -96,7 +97,7 @@
             <div class="row">
                 @if (ViewBag.Title != null && ViewBag.HidePageTitleBlock == null)
                 {
-                    <section class="well well-small">
+                    <section class="well well-small well-accent">
                         <h1>@ViewBag.Title</h1>
                     </section>
                 }

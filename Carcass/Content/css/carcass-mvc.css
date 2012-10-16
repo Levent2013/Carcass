@@ -27,18 +27,39 @@
 .form-inline-validation .input-prepend { margin-top: 5px; }
     .form-inline-validation .controls input[type="checkbox"] { margin-top: 10px; }
 
-.form-inline-validation .input-append input,
-.form-inline-validation .input-prepend input { margin-top: 0; }
-.form-inline-validation .wysihtml5-toolbar { margin-top: 5px; }
+.form-inline-validation .input-append input[type=text],
+.form-inline-validation .input-prepend input[type=text] { margin-top: 0; }
 
+.input-append .add-on, .input-prepend .add-on { min-width: 16px; }
+.form-inline-validation .wysihtml5-toolbar { margin-top: 5px; }
 .form-inline-validation .controls .field-validation-error { margin-top: 5px; }
 
+.input-block-level + .field-validation-error { display: block; }
+
+.input-append input[type=text], .input-prepend input[type=text] { width: 178px; }
+.input-append.input-medium input[type=text], .input-prepend.input-medium input[type=text] { width: 122px; }
+.input-append.input-xlarge input[type=text], .input-prepend.input-xlarge input[type=text] { width: 244px; }
+.input-append.input-xxlarge input[type=text], .input-prepend.input-xxlarge input[type=text] { width: 504px; }
+
+/*
+    
+
+.input-xlarge {
+  width: 270px;
+}
+
+.input-xxlarge {
+  width: 530px;
+}
+*/
+
 /* DateTime control */
-.datetime { width: 246px; display: inline-block; vertical-align: middle;}
-.datetime .datepicker-control { float: left; }
+.datetime { display: inline-block; vertical-align: middle;}
+    .datetime, .datetime.input-small, .datetime.input-medium { width: 220px; }
+.datetime .datepicker-control { float: left;  }
 .datetime .timepicker-control { float: right; }
-.datetime .datepicker-control input { width: 90px; }
-.datetime .timepicker-control input { width: 60px; }
+.datetime .datepicker-control input { width: 75px; }
+.datetime .timepicker-control input { width: 45px; }
 
 /* Bordered tabs */
 .tabs-border .nav.nav-tabs { margin-bottom: 0; }
@@ -56,4 +77,14 @@
 
 .tabs-border .form-actions { margin-bottom: -20px;}
 .tab-form { margin: 20px; }
+
+/* Responsive layout */
+@media (max-width: 979px) {
+
+}
+
+@media (max-width: 480px) {
+
+}
+
 

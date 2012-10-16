@@ -2,6 +2,8 @@ Completed Items
 --------------------------------------------------------------------------------
 * Migrated legacy ASP.NET MVC EditorForModel<> templates to Carcass base (with integrated TB styles)
 * Integrated MvcExtensions and Autofac 
+* Added common alert/confirm dialogs JS
+* Added inline HTML editor for fields with DataType == DataType.Html
 
 TODO list
 --------------------------------------------------------------------------------
@@ -11,7 +13,6 @@ TODO list
 
 UI and Javascript
 * Add nice-UI customizations for IE7 (round corners - PIE)
-* Add common alert/confirm dialogs JS
 * Integrate https://github.com/blueimp/jQuery-File-Upload with MVC handler
 * Integrate jqGrid with custom styles and examples
 

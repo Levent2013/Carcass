@@ -106,6 +106,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         {
             var viewData = html.ViewContext.ViewData;
             var templateInfo = viewData.TemplateInfo;
+            var containerData = html.ViewDataContainer.ViewData;
+
             var formContext = html.ViewContext.FormContext;
             var isHorisontalForm = (formContext is CarcassMvcFormContext) &&
                 ((formContext as CarcassMvcFormContext).FormClass ?? String.Empty).HasCssClass (FormExtensions.BootsrapFormClassHorisontal);
@@ -123,7 +125,11 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 var inlineValidation = htmlAttributes.Get("InlineValidation", true);
                 var validationClass = htmlAttributes.Get("ValidationClass", FormExtensions.ValidationMessageClass );
                 var validationAttrs = new Dictionary<string, object>() { { "class", validationClass } };
-
+                
+                var editorAttributes = new Dictionary<string, object>();
+                if(htmlAttributes.ContainsKey("EditorClass"))
+                    editorAttributes.Add("class", htmlAttributes["EditorClass"]);
+                
                 var content = new TagBuilder("div");
                 if (htmlAttributes.ContainsKey("CssClass"))
                     content.AddCssClass(htmlAttributes["CssClass"] as string);
@@ -149,30 +155,39 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                             sb.AppendFormat("<div class=\"{0}\">", FormExtensions.BootsrapFormFieldControlsClass);
                     }
 
+                    // Reset ViewBag values
+                    if (containerData.ContainsKey(metadata.PropertyName))
+                        containerData.Remove(metadata.PropertyName);
+                    
                     var fieldName = templateInfo.GetFullHtmlFieldName(metadata.PropertyName);
-                    sb.Append(html.CarcassEditorFor(metadata, null, fieldName).ToHtmlString());
+                    sb.Append(html.CarcassEditorFor(metadata, null, fieldName, editorAttributes.Clone()).ToHtmlString());
 
                     if (!metadata.HideSurroundingHtml)
                     {
                         if (inlineValidation)
                         {
+                            var typeName = metadata.ModelType.Name;
+                            if (metadata.IsNullableValueType && metadata.ModelType.GenericTypeArguments.Length > 0)
+                                typeName = metadata.ModelType.GenericTypeArguments[0].Name;
+                            var fieldType = metadata.DataTypeName ?? typeName;
+
                             sb.Append(" ");
-                            if (metadata.DataTypeName == "DateTime")
+                            if (fieldType == "DateTime")
                             {
                                 sb.Append(
-                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + DateControlPostfix, null, validationAttrs)
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + DateControlPostfix, null, validationAttrs.Clone())
                                         .ToHtmlString()).Append(" ");
                                 sb.Append(
-                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + TimeControlPostfix, null, validationAttrs)
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + TimeControlPostfix, null, validationAttrs.Clone())
                                         .ToHtmlString()).Append(" ");
                                 sb.Append(
-                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName, null, validationAttrs)
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName, null, validationAttrs.Clone())
                                         .ToHtmlString());
                             }
                             else
                             {
                                 sb.Append(
-                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName, null, validationAttrs)
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName, null, validationAttrs.Clone())
                                     .ToHtmlString());
                             }
                         }
@@ -320,7 +335,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue, 
-                MergeAttributes(editorAttributes, "creditcard"));
+                MergeAttributes(editorAttributes, "creditcard", null, true));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-credit-card""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -339,7 +354,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "url", "text"));
+                MergeAttributes(editorAttributes, "url", "text", true));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-globe""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -358,7 +373,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "phoneNumber", "text"));
+                MergeAttributes(editorAttributes, "phoneNumber", "text", true));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-phone""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -377,7 +392,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "email", "text"));
+                MergeAttributes(editorAttributes, "email", "text", true));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-e-mail""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -396,7 +411,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
               html,
               htmlFieldName,
               formattedValue,
-              MergeAttributes(editorAttributes, "date", "text"));
+              MergeAttributes(editorAttributes, "date", "text", true));
 
             var format = @"<div class=""input-append datepicker-control"" data-date-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-calendar""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, GetDateFormat(), box.ToHtmlString()));
@@ -415,7 +430,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
               html,
               htmlFieldName,
               formattedValue,
-              MergeAttributes(editorAttributes, "time", "text"));
+              MergeAttributes(editorAttributes, "time", "text", true));
 
             var format = @"<div class=""input-append timepicker-control"" data-time-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-time""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, GetTimeFormat(), box.ToHtmlString()));
@@ -456,7 +471,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html,
                 htmlFieldName,
                 formattedValue,
-                MergeAttributes(editorAttributes, "postalCode", "text"));
+                MergeAttributes(editorAttributes, "postal-code", "text", true));
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-envelope""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
         }
@@ -565,7 +580,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             }
         }
 
-        private static IDictionary<string, object> MergeAttributes(IDictionary<string, object> editorAttributes, string className, string inputType = null)
+        private static IDictionary<string, object> MergeAttributes(IDictionary<string, object> editorAttributes, string className, string inputType = null, bool replaceClass = false)
         {
             if (editorAttributes == null)
                 editorAttributes = new Dictionary<string, object>();
@@ -574,15 +589,22 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             {
                 if (editorAttributes.ContainsKey("class"))
                 {
-                    var existingClass = (editorAttributes["class"] as string) ?? String.Empty;
-                    var parts = className.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                    foreach (var css in parts)
+                    if (replaceClass)
                     {
-                        if(!existingClass.HasCssClass(css))
-                            existingClass += " " + css;
+                        editorAttributes["class"] = className;
                     }
+                    else
+                    {
+                        var existingClass = (editorAttributes["class"] as string) ?? String.Empty;
+                        var parts = className.Split(" ".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var css in parts)
+                        {
+                            if (!existingClass.HasCssClass(css))
+                                existingClass += " " + css;
+                        }
 
-                    editorAttributes["class"] = existingClass;
+                        editorAttributes["class"] = existingClass;
+                    }
                 }
                 else
                 {

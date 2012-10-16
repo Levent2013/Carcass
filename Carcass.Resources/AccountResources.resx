@@ -120,4 +120,7 @@
   <data name="RegistrationForm" xml:space="preserve">
     <value>Registration Form</value>
   </data>
+  <data name="UnknownUser" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
 </root>

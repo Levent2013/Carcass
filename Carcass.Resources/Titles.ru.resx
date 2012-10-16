@@ -138,7 +138,13 @@
   <data name="LogIn" xml:space="preserve">
     <value>Войти</value>
   </data>
+  <data name="LogInPage" xml:space="preserve">
+    <value>Вход на сайт</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Зарегистрироваться</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Пользователи</value>
   </data>
 </root>

@@ -1,0 +1,63 @@
+﻿@model IList<Carcass.Data.Entities.BlogPostEntity>
+@using Carcass.Resources
+
+@{ ViewBag.Title = ExamplesResources.BlogSpace; }
+<div class="alert alert-comment">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    Very simple blogging engine.    
+</div>
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        @ViewBag.Message    
+    </div>
+}
+
+@if (Request.IsAuthenticated)
+{
+    <p>
+    <a href="@Url.Action("AddBlogPost", "Example")" class="btn btn-primary">
+        <i class="icon-plus icon-white"></i> Add post
+    </a>
+    </p>
+}
+else
+{
+    <div class="alert alert-warn">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        Please login to add new posts.
+    </div>
+}
+
+@foreach (var post in Model)
+{
+    <div class="span4">
+        <h2>@post.Title</h2>
+        
+        <div class="blog-post-header">
+        <!--Tags: 
+    	<a href="#"><span class="label label-info">Snipp</span></a> 
+    	<a href="#"><span class="label label-info">Bootstrap</span></a> 
+    	<a href="#"><span class="label label-info">UI</span></a> 
+    	<a href="#"><span class="label label-info">growth</span></a>
+        -->
+    	<i class="icon-user"></i> <a href="#">@post.Author</a> 
+    	| <i class="icon-calendar"></i>@post.DateModified
+     	| <i class="icon-comment"></i> <a href="#">@(post.CommentsCount > 0
+                        ? post.CommentsCount + "Comments"
+                        : "No comments")</a>
+        </div>
+        <div class="blog-content-preview">
+            @Html.Raw(post.Content)
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    <script type="text/javascript">
+        
+    </script>
+}

@@ -19,13 +19,10 @@ using Carcass.Data.Entities;
 
 namespace Carcass.Infrastructure.Modules
 {
-    public class PersistenceModule : Module
+    public class UsersPersistenceModule : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
-            // InstancePerHttpRequest() does not work in Autofack 2.6.3.862
-            // builder.RegisterType<Data.DatabaseContext>().InstancePerHttpRequest();
-
             #region Register Type Mappings
 
             Mapper.CreateMap<UserEntity, UserProfile>()
@@ -42,7 +39,6 @@ namespace Carcass.Infrastructure.Modules
             
             #region Register Data Access components
 
-            builder.RegisterType<QueryBuilder>().As<IQueryBuilder>();
             builder.Register<IRepository<UserEntity>>(container => new Repository<UserEntity>(container.Resolve<DatabaseContext>().Users));
             builder.Register<IRepository<BlogPostEntity>>(container => new Repository<BlogPostEntity>(container.Resolve<DatabaseContext>().BlogPosts));
             

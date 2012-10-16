@@ -23,17 +23,13 @@ body > .navbar .brand {
 
 body > .navbar .brand:hover { text-decoration: none; text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.4);}
 .navbar a.username { margin-right: 20px; font-weight: bold; text-decoration: none; }
-#page-content { padding-top: 20px; }
+
 h1, h2, h3, h4, h5, legend { text-shadow: 1px 1px 2px #cccccc; }
 form h4 { margin-left: 180px; }
 
 .footer { margin-bottom: 20px; }
 
 /* Bootstrap UI elements */
-.well { background: #f5f5f5 url("../img/bg02.png") repeat; border-color: #cfcfcf;
-    -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
-    .well h1 { margin-top: 0; }
-
 .alert-comment {  position: relative; padding-left: 6.5em; color: #111111; background-color: #fafafa; border-color: #e8e8e8; }
 .alert pre { margin: 10px 0; }
 
@@ -42,6 +38,10 @@ form h4 { margin-left: 180px; }
   background-color: #f5f5f5; border: 1px solid #e8e8e8; color: #999999;
   -webkit-border-radius: 4px 0 4px 0; -moz-border-radius: 4px 0 4px 0; border-radius: 4px 0 4px 0;
 }
+
+.well-accent { background: #f5f5f5 url("../img/bg02.png") repeat; border-color: #cfcfcf;
+    -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
+    .well-accent h1 { margin-top: 0;  margin-bottom: 0;}
 
 /* Nice numbers icons */
 ol.round { list-style-type: none; padding-left: 0; }
@@ -61,7 +61,13 @@ ol.round li { margin: 25px 0; padding-left: 45px; }
 h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3px 0;}
 
 /* Site elements */
+#page-content { padding-top: 20px; }
+
 #languages { margin: 0 20px; }
+
+/* Examples */
+.blog-post-header { margin: 20px 0 20px; }
+.blog-content-preview h1, .blog-content-preview h2, .blog-content-preview h3, .blog-content-preview h4 { font-size: 120%;}
 
 /* Responsive layout */
 @media (max-width: 979px) {
