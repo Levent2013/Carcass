@@ -38,7 +38,8 @@ namespace Carcass
                 .Include<RegisterModelMetadata>()
                 //.Include<RegisterModelBinders>()
                 //.Include<RegisterActionInvokers>()
-                .Include<Infrastructure.RegisterPerRequestServices>(ConfigureRegisterPerRequestServices);
+                .Include<Infrastructure.RegisterPerRequestServices>(ConfigureRegisterPerRequestServices)
+                .Include<InitializeMappings>();
                
             Error += OnError;
         }
@@ -68,8 +69,6 @@ namespace Carcass
 #if DEBUG
             Bootstrapper.PerRequestTasks.Include<CheckDatabaseTask>();
 #endif
-            InitializeMappings.Init();
-            
         }
 
         protected override void OnEnd()

@@ -54,6 +54,10 @@ namespace Carcass.Infrastructure.Modules
             builder.Register<IFinder<UserEntity>>(
                 container => new EntityFinder<UserEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),
                     (context, id) => context.Users.Find(id)));
+
+            builder.Register<IFinder<User>>(
+                container => new EntityFinder<User, DatabaseContext>(container.Resolve<DatabaseContext>(),
+                    (context, id) => context.Users.Find(id).MapTo<User>()));
           
             #endregion
 

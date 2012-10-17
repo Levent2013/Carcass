@@ -9,7 +9,7 @@ namespace Carcass.Infrastructure
     {
         public static DateTime Now 
         {
-            // TODO: Replace with DateTime.Now, add timezone for each user, 
+            // TODO: Replace with DateTime.UtcNow, add timezone for each user, 
             //       and update all datetime rendering 
             get { return DateTime.Now; }
         }

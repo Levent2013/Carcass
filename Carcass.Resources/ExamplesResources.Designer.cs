@@ -86,5 +86,14 @@ namespace Carcass.Resources {
                 return ResourceManager.GetString("ComplexForm", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personal blog of {0}.
+        /// </summary>
+        public static string UserBlog {
+            get {
+                return ResourceManager.GetString("UserBlog", resourceCulture);
+            }
+        }
     }
 }

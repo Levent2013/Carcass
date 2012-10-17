@@ -26,7 +26,13 @@ namespace Carcass.Models
         [Display(Name = "Full Name")]
         public string FullName
         {
-            get { return (FirstName + " " + LastName).Trim(); }
+            get 
+            {
+                if (!String.IsNullOrEmpty(FirstName) || !String.IsNullOrEmpty(LastName))
+                    return (FirstName + " " + LastName).Trim();
+                
+                return UserName;
+            }
         }
 
         public int BlogPostsCount { get; set; }

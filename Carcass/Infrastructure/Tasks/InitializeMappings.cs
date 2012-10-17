@@ -48,6 +48,14 @@ namespace Carcass.Infrastructure.Tasks
                 .ForMember(u => u.DateRegistered, opt => opt.Ignore())
                 .IgnoreAllNonExisting();
 
+            Mapper.CreateMap<UserEntity, User>()
+                .ForMember(u => u.Id, opt => opt.MapFrom(p => p.UserEntityId))
+                .ForMember(u => u.UserName, opt => opt.MapFrom(p => p.UserName))
+                .ForMember(u => u.FirstName, opt => opt.MapFrom(p => p.FirstName))
+                .ForMember(u => u.LastName, opt => opt.MapFrom(p => p.LastName))
+                .ForMember(u => u.Email, opt => opt.MapFrom(p => p.Email))
+                .ForMember(u => u.BlogPostsCount, opt => opt.MapFrom(p => p.BlogPosts.Count()));
+            
             #endregion
 
 
@@ -64,14 +72,7 @@ namespace Carcass.Infrastructure.Tasks
             Mapper.CreateMap<BlogPostEntity, BlogPost>()
                 .ForMember(u => u.Id, opt => opt.MapFrom(p => p.BlogPostEntityId))
                 .ForMember(u => u.AuthorId, opt => opt.MapFrom(p => p.UserEntityId ?? 0))
-                .ForMember(u => u.Author, opt => opt.MapFrom(p => new User
-                {
-                    Id = p.UserEntityId ?? 0,
-                    FirstName = p.UserEntity != null ? p.UserEntity.FirstName : null,
-                    LastName = p.UserEntity != null ? p.UserEntity.LastName : null,
-                    Email = p.UserEntity != null ? p.UserEntity.Email : null,
-                    BlogPostsCount = p.UserEntity != null ? p.UserEntity.BlogPosts.Count() : 0,
-                }))
+                .ForMember(u => u.Author, opt => opt.MapFrom(p => p.UserEntity.MapTo<User>()))
                 .IgnoreAllNonExisting();
 
             #endregion

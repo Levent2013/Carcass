@@ -13,6 +13,7 @@ using Carcass.Data;
 using Carcass.Data.Entities;
 using Carcass.Models;
 using Carcass.Infrastructure;
+using Carcass.Resources;
 
 namespace Carcass.Controllers
 {
@@ -69,14 +70,21 @@ namespace Carcass.Controllers
         public ActionResult BlogSpace()
         {
             TempData.Remove("AddBlogPost");
+            
             ViewBag.Message = TempData["Message"];
-
+            ViewBag.Title = ExamplesResources.BlogSpace;
+            
             var posts = Query.For<BlogPost>().OrderByDescending(p => p.DateModified).ToList();
             return View(posts);
         }
 
-        public ActionResult UserBlog(int id)
+        public ActionResult UserBlog(int id, string username)
         {
+            var user = Query.Find<User>(id);
+
+            ViewBag.Title = String.Format(
+                ExamplesResources.UserBlog,
+                user == null ? AccountResources.UnknownUser : user.FullName);
             var posts = Query.For<BlogPost>(p => p.AuthorId == id)
                 .OrderByDescending(p => p.DateModified).ToList();
             return View("BlogSpace", posts);

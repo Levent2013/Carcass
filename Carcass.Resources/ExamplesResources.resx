@@ -126,4 +126,7 @@
   <data name="ComplexForm" xml:space="preserve">
     <value>Complex form</value>
   </data>
+  <data name="UserBlog" xml:space="preserve">
+    <value>Personal blog of {0}</value>
+  </data>
 </root>

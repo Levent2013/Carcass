@@ -95,19 +95,19 @@
           </div>
         </div>
         <div class="container" id="page-content">
-            <div class="row">
-                @if (ViewBag.Title != null && ViewBag.HidePageTitleBlock == null)
-                {
-                    <section class="well well-small well-accent">
-                        <h1>@ViewBag.Title</h1>
-                    </section>
-                }
+            @if (ViewBag.Title != null && ViewBag.HidePageTitleBlock == null)
+            {
+                <section class="well well-small well-accent">
+                    <h1>@ViewBag.Title</h1>
+                </section>
+            }
+            
+            @RenderSection("ContentHeader", required: false)
+            <div id="page-content-body">
+            @RenderBody()
             </div>
-            <div class="row">
-                @RenderSection("ContentHeader", required: false)
-                @RenderBody()
-                @RenderSection("ContentFooter", required: false)
-            </div>
+            @RenderSection("ContentFooter", required: false)
+            
         </div>
                     
         <footer class="footer">

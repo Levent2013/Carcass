@@ -66,8 +66,11 @@ h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3p
 #languages { margin: 0 20px; }
 
 /* Examples */
-.blog-post-header { margin: 10px 0 20px; }
-.blog-post-footer { margin: 10px 0 20px; }
+.blog-post-thumbnail { padding: 10px 20px;}
+.blog-post-header { margin-bottom: 20px; }
+.blog-post-annotation {  }
+.blog-post-header [class^="icon-"], .blog-post-header [class*=" icon-"] { vertical-align: middle; margin: 0 0 4px;}
+.blog-post-footer { margin-top: 20px; text-align: right;}
 
 /* Responsive layout */
 @media (max-width: 979px) {
