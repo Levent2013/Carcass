@@ -38,10 +38,8 @@ namespace Carcass
                 .Include<RegisterModelMetadata>()
                 //.Include<RegisterModelBinders>()
                 //.Include<RegisterActionInvokers>()
-                .Include<Infrastructure.RegisterPerRequestServices>(ConfigureRegisterPerRequestServices)
-                .Include<InitializeMappings>();
-                
-
+                .Include<Infrastructure.RegisterPerRequestServices>(ConfigureRegisterPerRequestServices);
+               
             Error += OnError;
         }
 
@@ -60,7 +58,7 @@ namespace Carcass
         protected override void OnStart()
         {
             log.Debug("------------ Application_Start ------------ ");
-            
+
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
@@ -70,7 +68,8 @@ namespace Carcass
 #if DEBUG
             Bootstrapper.PerRequestTasks.Include<CheckDatabaseTask>();
 #endif
-                
+            InitializeMappings.Init();
+            
         }
 
         protected override void OnEnd()

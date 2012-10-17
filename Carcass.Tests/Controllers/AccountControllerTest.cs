@@ -17,6 +17,8 @@ using Carcass.Common.Data.Extensions;
 using Carcass.Models;
 using Carcass.Controllers;
 using Carcass.Data.Entities;
+using Carcass.Infrastructure;
+
 using Subtext.TestLibrary;
 
 namespace Carcass.Tests.Controllers
@@ -41,7 +43,7 @@ namespace Carcass.Tests.Controllers
                 var user = new UserEntity
                 {
                     UserEntityId = ndx + 1,
-                    DateRegistered = DateTime.Now,
+                    DateRegistered = ServerTime.Now,
                     UserName = "User" + postfix,
                     Email = String.Format("user.{0}@test.com", ndx)
                 };

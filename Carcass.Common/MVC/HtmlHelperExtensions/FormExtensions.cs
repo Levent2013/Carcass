@@ -22,27 +22,6 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
         private const string FormIndexKey = "LastFormId";
 
-        public const string ValidationAttributeRequired = "data-val-required";
-
-        public const string ValidationMessageClass = "alert alert-error";
-
-        public const string BootsrapClassError = "text-error";
-
-        public const string BootsrapFormClassHorisontal = "form-horizontal";
-
-        public const string BootsrapFormFieldClass = "control-group";
-
-        public const string BootsrapFormFieldControlsClass = "controls";
-
-        public const string BootsrapFormLabelClass = "control-label";
-
-        public const string BootsrapFormActionsClass = "form-actions";
-
-
-        public const string TemplatesFolderEdit = "EditorTemplates";
-
-        public const string TemplatesFolderDisplay = "DisplayTemplates";
-
         public static FormContext GetFormContextForClientValidation(this HtmlHelper html)
         {
             
@@ -61,8 +40,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <param name="method">The HTTP method for processing the form, either GET or POST.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         /// <returns>An opening <form> tag</returns>
-        public static CarcassMvcForm CarcassBeginForm(this HtmlHelper htmlHelper, 
-            string formClass = BootsrapFormClassHorisontal, 
+        public static CarcassMvcForm CarcassBeginForm(this HtmlHelper htmlHelper,
+            string formClass = CarcassMvcSettings.BootsrapFormClassHorisontal, 
             FormMethod method = FormMethod.Post,
             object htmlAttributes = null)
         {
@@ -128,7 +107,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 htmlHelper.ViewContext.RequestContext,
                 true);
 
-            return CarcassBeginFormImpl(htmlHelper, formAction, BootsrapFormClassHorisontal, method, htmlAttributes);
+            return CarcassBeginFormImpl(htmlHelper, formAction, CarcassMvcSettings.BootsrapFormClassHorisontal, method, htmlAttributes);
         }
 
         /// <summary>
@@ -161,7 +140,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 htmlHelper.RouteCollection, 
                 htmlHelper.ViewContext.RequestContext, 
                 true);
-            return CarcassBeginFormImpl(htmlHelper, formAction, BootsrapFormClassHorisontal, method, htmlAttributes);
+            return CarcassBeginFormImpl(htmlHelper, formAction, CarcassMvcSettings.BootsrapFormClassHorisontal, method, htmlAttributes);
         }
 
         /// <summary>
@@ -175,7 +154,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         public static MvcHtmlString CarcassFormActions(
             this HtmlHelper html,
             IDictionary<string, object> buttons,
-            string groupClass = BootsrapFormActionsClass)
+            string groupClass = CarcassMvcSettings.BootsrapFormActionsClass)
         {
             Throw.IfNullArgument(buttons, "buttons");
             

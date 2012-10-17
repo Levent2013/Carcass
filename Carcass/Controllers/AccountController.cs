@@ -18,6 +18,7 @@ using Carcass.Common.Data;
 using Carcass.Models;
 using Carcass.Data;
 using Carcass.Data.Entities;
+using Carcass.Infrastructure;
 
 using MvcExtensions;
 
@@ -93,7 +94,7 @@ namespace Carcass.Controllers
                 // Attempt to register the user
                 try
                 {
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { DateRegistered = DateTime.UtcNow });
+                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password, new { DateRegistered = ServerTime.Now });
                     WebSecurity.Login(model.UserName, model.Password);
                     return RedirectToAction("Index", "Home");
                 }
@@ -213,7 +214,7 @@ namespace Carcass.Controllers
                     using (var transaction = new SafeTransaction())
                     {
                         // Insert name into the profile table
-                        context.Users.Add(new UserEntity { UserName = model.UserName, DateRegistered = DateTime.UtcNow });
+                        context.Users.Add(new UserEntity { UserName = model.UserName, DateRegistered = ServerTime.Now });
                         context.SaveChanges();
 
                         OAuthWebSecurity.CreateOrUpdateAccount(provider, providerUserId, model.UserName);

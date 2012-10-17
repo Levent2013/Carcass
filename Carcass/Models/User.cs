@@ -19,10 +19,8 @@ namespace Carcass.Models
         [Display(Name = "Username")]
         public string UserName { get; set; }
         
-        [ScaffoldColumn(false)]
         public string FirstName { get; set; }
 
-        [ScaffoldColumn(false)]
         public string LastName { get; set; }
 
         [Display(Name = "Full Name")]

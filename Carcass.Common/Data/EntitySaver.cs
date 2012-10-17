@@ -16,8 +16,9 @@ namespace Carcass.Common.Data
         private TDest _target;
         private DbContext _context;
         private DbSet<TDest> _targetTable;
-        
-        public EntitySaver(TSource source, TDest target, DbSet<TDest> targetTable, DbContext context)
+        private Action<TDest> _initializer;
+
+        public EntitySaver(TSource source, TDest target, DbSet<TDest> targetTable, DbContext context, Action<TDest> initializer = null)
         {
             Throw.IfNullArgument(source, "source");
             Throw.IfNullArgument(targetTable, "targetTable");
@@ -27,6 +28,7 @@ namespace Carcass.Common.Data
             _target = target;
             _context = context;
             _targetTable = targetTable;
+            _initializer = initializer;
         }
 
         public bool IsNew 
@@ -46,6 +48,9 @@ namespace Carcass.Common.Data
 
             // copy the values
             _source.MapIntoDynamic(target);
+
+            if (_initializer != null)
+                _initializer(target);
 
             if(isNew)
             {

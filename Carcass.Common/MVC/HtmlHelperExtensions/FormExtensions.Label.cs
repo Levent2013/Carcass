@@ -93,15 +93,15 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                     string requredMessage = null;
                     var validationAttributes = html.GetUnobtrusiveValidationAttributes(htmlFieldName, metadata);
                     html.ViewContext.FormContext.RenderedField(htmlFieldName, false);
-                    if (validationAttributes.ContainsKey(ValidationAttributeRequired))
-                        requredMessage = validationAttributes[ValidationAttributeRequired] as string;
+                    if (validationAttributes.ContainsKey(CarcassMvcSettings.ValidationAttributeRequired))
+                        requredMessage = validationAttributes[CarcassMvcSettings.ValidationAttributeRequired] as string;
 
                     if (requredMessage == null)
                         requredMessage = String.Format(ValidationResources.Requred, labelText);
                     
                     TagBuilder star = new TagBuilder("span");
                     star.SetInnerText("*");
-                    star.AddCssClass(BootsrapClassError);
+                    star.AddCssClass(CarcassMvcSettings.BootsrapClassError);
                     star.MergeAttribute("title", requredMessage);
                     tg.InnerHtml = html.Encode(labelText) + " " + star.ToString(TagRenderMode.Normal);
                 }

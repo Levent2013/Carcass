@@ -110,7 +110,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
 
             var formContext = html.ViewContext.FormContext;
             var isHorisontalForm = (formContext is CarcassMvcFormContext) &&
-                ((formContext as CarcassMvcFormContext).FormClass ?? String.Empty).HasCssClass (FormExtensions.BootsrapFormClassHorisontal);
+                ((formContext as CarcassMvcFormContext).FormClass ?? String.Empty).HasCssClass (CarcassMvcSettings.BootsrapFormClassHorisontal);
 
             var sb = new StringBuilder();
             if (templateInfo.TemplateDepth > 1)
@@ -123,7 +123,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             else
             {
                 var inlineValidation = htmlAttributes.Get("InlineValidation", true);
-                var validationClass = htmlAttributes.Get("ValidationClass", FormExtensions.ValidationMessageClass );
+                var validationClass = htmlAttributes.Get("ValidationClass", CarcassMvcSettings.ValidationMessageClass);
                 var validationAttrs = new Dictionary<string, object>() { { "class", validationClass } };
                 
                 var editorAttributes = new Dictionary<string, object>();
@@ -140,7 +140,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                     if (!metadata.HideSurroundingHtml)
                     {
                         var labelAttributes = isHorisontalForm 
-                            ? new Dictionary<string, object> { { "class", FormExtensions.BootsrapFormLabelClass } } : null;
+                            ? new Dictionary<string, object> { { "class", CarcassMvcSettings.BootsrapFormLabelClass } } : null;
                         var label = FormExtensions.FormatCarcassLabel(
                             (HtmlHelper)html, 
                             metadata,
@@ -149,10 +149,10 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                             labelAttributes);
 
                         if (isHorisontalForm)
-                            sb.AppendFormat("<div class=\"{0}\">", FormExtensions.BootsrapFormFieldClass);
+                            sb.AppendFormat("<div class=\"{0}\">", CarcassMvcSettings.BootsrapFormFieldClass);
                         sb.Append(label.ToHtmlString());
                         if (isHorisontalForm)
-                            sb.AppendFormat("<div class=\"{0}\">", FormExtensions.BootsrapFormFieldControlsClass);
+                            sb.AppendFormat("<div class=\"{0}\">", CarcassMvcSettings.BootsrapFormFieldControlsClass);
                     }
 
                     // Reset ViewBag values
@@ -231,8 +231,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             return TextAreaExtensions.TextArea(
                 html, 
                 htmlFieldName, 
-                formattedValue as string, 
-                3, 
+                formattedValue as string,
+                CarcassMvcSettings.TextAreaRows, 
                 0, 
                 MergeAttributes(editorAttributes, "multi-line"));
         }
@@ -246,7 +246,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             return TextAreaExtensions.TextArea(
                 html,
                 htmlFieldName,
-                formattedValue as string, 5, 0,
+                formattedValue as string, CarcassMvcSettings.HtmlTextAreaRows, 0,
                 MergeAttributes(editorAttributes, "html-editor"));
         }
 

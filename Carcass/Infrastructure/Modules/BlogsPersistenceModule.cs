@@ -23,11 +23,6 @@ namespace Carcass.Infrastructure.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-      
-            #region Register Type Mappings
-
-          
-            #endregion
             
             #region Register Data Access components
 
@@ -45,19 +40,45 @@ namespace Carcass.Infrastructure.Modules
                         Content = p.Content,
                         DateCreated = p.DateCreated,
                         DateModified = p.DateModified,
+                        AuthorId = p.UserEntityId ?? 0,
                         Author = new User
                             { 
-                                Id = p.UserEntity == null ? 0 : p.UserEntity.UserEntityId,
-                                Email = p.UserEntity == null ? null : p.UserEntity.Email,
-                                FirstName = p.UserEntity == null ? null : p.UserEntity.FirstName,
-                                LastName = p.UserEntity == null ? null : p.UserEntity.LastName,
-                                BlogPostsCount = p.UserEntity == null ? 0 : p.UserEntity.BlogPosts.Count(),
+                                Id = p.UserEntityId ?? 0,
+                                Email = p.UserEntity.Email,
+                                UserName = p.UserEntity.UserName,
+                                FirstName = p.UserEntity.FirstName,
+                                LastName = p.UserEntity.LastName,
+                                BlogPostsCount = p.UserEntity.BlogPosts.Count(),
                             },
                         
                         CommentsEnabled = p.CommentsEnabled,
                         // CommentsCount = p.Comments.Count()
                     }));
             });
+
+            
+            builder.Register<IFinder<BlogPost>>(
+              container =>
+                  new EntityFinder<BlogPost, DatabaseContext>(
+                      container.Resolve<DatabaseContext>(),
+                      (context, id) => context.BlogPosts.Find(id).MapTo<BlogPost>())
+            );
+
+            builder.Register<ILookuper<BlogPost>>(container =>
+            {
+                var context = container.Resolve<DatabaseContext>();
+                return new EntityLookuper<BlogPost, BlogPostEntity>(
+                    context /* DB context */,
+                    context.BlogPosts /* target table */,
+                    p => p.Id /* primary key load function */,
+                    p => 
+                    {
+                        if(p.BlogPostEntityId == 0)
+                            p.DateCreated = ServerTime.Now;
+                        p.DateModified = ServerTime.Now;
+                    });
+            });
+
 
             #endregion
 

@@ -14,8 +14,9 @@ namespace Carcass.Common.Data
         private DbContext _context;
         private DbSet<TDest> _table;
         private Delegate _loader;
-        
-        public EntityLookuper(DbContext context, DbSet<TDest> table, Func<TSource, int> loader)
+        private Action<TDest> _initializer;
+
+        public EntityLookuper(DbContext context, DbSet<TDest> table, Func<TSource, int> loader, Action<TDest> initializer = null)
         {
             Throw.IfNullArgument(context, "context");
             Throw.IfNullArgument(table, "table");
@@ -24,9 +25,10 @@ namespace Carcass.Common.Data
             _context = context;
             _table = table;
             _loader = loader;
+            _initializer = initializer;
         }
 
-        public EntityLookuper(DbContext context, DbSet<TDest> table, Func<TSource, object> loader)
+        public EntityLookuper(DbContext context, DbSet<TDest> table, Func<TSource, object> loader, Action<TDest> initializer = null)
         {
             Throw.IfNullArgument(context, "context");
             Throw.IfNullArgument(table, "table");
@@ -35,9 +37,10 @@ namespace Carcass.Common.Data
             _context = context;
             _table = table;
             _loader = loader;
+            _initializer = initializer;
         }
 
-        public EntityLookuper(DbContext context, DbSet<TDest> table, Func<TSource, object[]> loader)
+        public EntityLookuper(DbContext context, DbSet<TDest> table, Func<TSource, object[]> loader, Action<TDest> initializer = null)
         {
             Throw.IfNullArgument(context, "context");
             Throw.IfNullArgument(table, "table");
@@ -46,6 +49,7 @@ namespace Carcass.Common.Data
             _context = context;
             _table = table;
             _loader = loader;
+            _initializer = initializer;
         }
 
         public ISaver<TSource> Lookup(TSource entity)
@@ -76,7 +80,7 @@ namespace Carcass.Common.Data
                 target = _table.Find(primaryKey);
             }
 
-            return new EntitySaver<TSource, TDest>(entity, target, _table, _context);
+            return new EntitySaver<TSource, TDest>(entity, target, _table, _context, _initializer);
         }
     }
 }

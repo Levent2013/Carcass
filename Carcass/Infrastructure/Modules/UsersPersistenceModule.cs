@@ -23,24 +23,9 @@ namespace Carcass.Infrastructure.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
-            #region Register Type Mappings
-
-            Mapper.CreateMap<UserEntity, UserProfile>()
-                .ForMember(u => u.Id, opt => opt.MapFrom(p => p.UserEntityId))
-                .IgnoreAllNonExisting();
-
-            Mapper.CreateMap<UserProfile, UserEntity>()
-                .ForMember(u => u.Email, opt => opt.MapFrom(p => p.Email))
-                .ForMember(u => u.FirstName, opt => opt.MapFrom(p => p.FirstName))
-                .ForMember(u => u.LastName, opt => opt.MapFrom(p => p.LastName))
-                .IgnoreAllNonExisting();
-
-            #endregion
-            
             #region Register Data Access components
 
             builder.Register<IRepository<UserEntity>>(container => new Repository<UserEntity>(container.Resolve<DatabaseContext>().Users));
-            builder.Register<IRepository<BlogPostEntity>>(container => new Repository<BlogPostEntity>(container.Resolve<DatabaseContext>().BlogPosts));
             
             builder.Register<IRepository<User>>(container => 
                 {
@@ -69,10 +54,7 @@ namespace Carcass.Infrastructure.Modules
             builder.Register<IFinder<UserEntity>>(
                 container => new EntityFinder<UserEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),
                     (context, id) => context.Users.Find(id)));
-            builder.Register<IFinder<BlogPostEntity>>(
-                container => new EntityFinder<BlogPostEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),
-                    (context, id) => context.BlogPosts.Find(id)));
-
+          
             #endregion
 
             base.Load(builder);

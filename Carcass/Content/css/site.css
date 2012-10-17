@@ -66,8 +66,8 @@ h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3p
 #languages { margin: 0 20px; }
 
 /* Examples */
-.blog-post-header { margin: 20px 0 20px; }
-.blog-content-preview h1, .blog-content-preview h2, .blog-content-preview h3, .blog-content-preview h4 { font-size: 120%;}
+.blog-post-header { margin: 10px 0 20px; }
+.blog-post-footer { margin: 10px 0 20px; }
 
 /* Responsive layout */
 @media (max-width: 979px) {

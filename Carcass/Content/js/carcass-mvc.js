@@ -59,11 +59,15 @@ window.Carcass = window.Carcass || {};
 
         $('textarea.html-editor')
             .addClass('input-block-level')
-            .wysihtml5({
-                "color": true,
-                "html": true,
-                stylesheets: [cs.BaseUrl + "Content/css/wysiwyg-color.css"]
+            .each(function () {
+                $(this).wysihtml5({
+                    "color": true,
+                    "html": true,
+                    "miniButtons": true,
+                    stylesheets: [cs.BaseUrl + "Content/css/wysiwyg-color.css"]
+                })
             });
+            
     });
     
 }(window.jQuery, window.Carcass, window);

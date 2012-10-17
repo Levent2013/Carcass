@@ -5,12 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 
 using MvcExtensions;
+using WebMatrix.WebData;
 
 using Carcass.Common.Data;
 using Carcass.Common.MVC.Security;
 using Carcass.Data;
 using Carcass.Data.Entities;
 using Carcass.Models;
+using Carcass.Infrastructure;
 
 namespace Carcass.Controllers
 {
@@ -29,7 +31,7 @@ namespace Carcass.Controllers
             // Use dynamic typing without @model usage on view
             return View(new Models.ComplexModel
                 {
-                    Date = DateTime.Now,
+                    Date = ServerTime.Now,
                     Currency = 50.0m
                 });
         }
@@ -40,21 +42,21 @@ namespace Carcass.Controllers
         }
 
         [AuthorizeWithMessage("You must be logged in to get access to this page.")]
-        [ImportViewDataFromTempData]
+        [ImportViewDataFromTempData(Key = "AddBlogPost")]
         public ActionResult AddBlogPost()
         {
-            return View(new BlogPost());
+            return View("EditBlogPost", new BlogPost { AuthorId = WebSecurity.CurrentUserId });
         }
 
         [HttpPost]
-        [AllowAnonymous]
+        [AuthorizeWithMessage("You must be logged in to get access to this page.")]
         [ValidateAntiForgeryToken]
-        [ExportViewDataToTempData]
-        public ActionResult AddBlogPost(BlogPost entity)
+        [ExportViewDataToTempData(Key = "AddBlogPost")]
+        public ActionResult AddBlogPost(BlogPost model)
         {
             if (ModelState.IsValid)
             {
-                // TODO: Save post
+                Query.Lookup<BlogPost>(model).Save();
 
                 TempData["Message"] = "Your post added successfully";
                 return RedirectToAction("BlogSpace");
@@ -66,12 +68,29 @@ namespace Carcass.Controllers
 
         public ActionResult BlogSpace()
         {
+            TempData.Remove("AddBlogPost");
             ViewBag.Message = TempData["Message"];
 
             var posts = Query.For<BlogPost>().OrderByDescending(p => p.DateModified).ToList();
             return View(posts);
         }
 
+        public ActionResult UserBlog(int id)
+        {
+            var posts = Query.For<BlogPost>(p => p.AuthorId == id)
+                .OrderByDescending(p => p.DateModified).ToList();
+            return View("BlogSpace", posts);
+        }
+
+        public ActionResult ViewBlogPost(int id)
+        {
+            var post = Query.Find<BlogPost>(id);
+            if (post == null)
+                return HttpNotFound("Post not found");
+
+            return View(post);
+        }
+        
         [HttpPost]
         public ActionResult ComplexForm(Models.ComplexModel complexModel)
         {

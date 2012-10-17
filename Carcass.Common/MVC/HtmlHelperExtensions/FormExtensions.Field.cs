@@ -175,7 +175,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 if (String.IsNullOrEmpty(folder))
                     continue;
 
-                var template = TemplatesFolderEdit + "/" + folder;
+                var template = CarcassMvcSettings.TemplatesFolderEdit + "/" + folder;
                 var partialView = ViewEngines.Engines.FindPartialView(html.ViewContext, template);
                 if (partialView.View != null)
                 {
@@ -232,9 +232,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
            object validationAttributes = null)
         {
             Throw.IfNullArgument(metadata, "metadata");
-            var isHorisontalForm = (formClass ?? String.Empty).HasCssClass(FormExtensions.BootsrapFormClassHorisontal);
+            var isHorisontalForm = (formClass ?? String.Empty).HasCssClass(CarcassMvcSettings.BootsrapFormClassHorisontal);
 
-            var labelAttributes = isHorisontalForm ? new Dictionary<string, object>{ { "class", BootsrapFormLabelClass } } : null;
+            var labelAttributes = isHorisontalForm ? new Dictionary<string, object> { { "class", CarcassMvcSettings.BootsrapFormLabelClass } } : null;
             var label = FormExtensions.FormatCarcassLabel((HtmlHelper)html, metadata, htmlFieldName, null, labelAttributes);
             var editor = html.CarcassEditorFor(metadata, null, htmlFieldName, editorAttributes);
 
@@ -242,11 +242,11 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             if (inlineValidation)
             {
                 var validationHtmlAttrs = validationAttributes == null
-                    ? new Dictionary<string, object>() { { "class", FormExtensions.ValidationMessageClass } }
+                    ? new Dictionary<string, object>() { { "class", CarcassMvcSettings.ValidationMessageClass } }
                     : (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(validationAttributes);
 
                 if (!validationHtmlAttrs.ContainsKey("class"))
-                    validationHtmlAttrs.Add("class", FormExtensions.ValidationMessageClass);
+                    validationHtmlAttrs.Add("class", CarcassMvcSettings.ValidationMessageClass);
 
                 validation = html.FieldValidationMessage(metadata, htmlFieldName, null, validationHtmlAttrs);
             }
@@ -256,10 +256,10 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             if (isHorisontalForm)
             {
                 var tb = new TagBuilder("div");
-                tb.AddCssClass(BootsrapFormFieldClass);
+                tb.AddCssClass(CarcassMvcSettings.BootsrapFormFieldClass);
 
                 var tbControls = new TagBuilder("div");
-                tbControls.AddCssClass(BootsrapFormFieldControlsClass);
+                tbControls.AddCssClass(CarcassMvcSettings.BootsrapFormFieldControlsClass);
                 tbControls.InnerHtml = editor.ToHtmlString() + " " + (validation != null ? validation.ToHtmlString() : String.Empty);
 
                 var sb = new StringBuilder();

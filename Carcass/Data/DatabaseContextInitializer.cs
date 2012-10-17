@@ -95,8 +95,8 @@ namespace Carcass.Data
             var random = new Random(DateTime.Now.Millisecond);
 
             var post = context.BlogPosts.Create();
-            post.DateCreated = DateTime.Now.AddDays(-random.Next(365));
-            post.DateModified = post.DateCreated.AddDays(random.Next(365));
+            post.DateCreated = new DateTime(2012, 8, 20, random.Next(24), random.Next(60), 0);
+            post.DateModified = post.DateCreated.AddDays(random.Next(50));
             post.Title = "Bootstrap 2.1.0 released";
             post.Origin = "http://blog.getbootstrap.com/2012/08/20/bootstrap-2-1-0-released/";
             post.Content = @"
@@ -132,8 +132,8 @@ namespace Carcass.Data
             context.BlogPosts.Add(post);
 
             post = context.BlogPosts.Create();
-            post.DateCreated = DateTime.Now.AddDays(-random.Next(365));
-            post.DateModified = post.DateCreated.AddDays(random.Next(365));
+            post.DateCreated = new DateTime(2012, 4, 19, random.Next(24), random.Next(60), 0);
+            post.DateModified = post.DateCreated.AddDays(random.Next(50));
             post.Title = "Bootstrap, JSHint, and Recess";
             post.Origin = "http://blog.getbootstrap.com/2012/04/19/bootstrap-jshint-and-recess/";
             post.Content = @"

@@ -8,7 +8,8 @@
 .dropdown-menu a [class*=" icon-"] {  margin: 3px 5px 0; }
 
 /* icons on buttons */
-.btn [class^="icon-"], .btn [class*=" icon-"] {  margin: 3px 5px 3px; }
+.btn [class^="icon-"], .btn [class*=" icon-"] {  margin: 3px 0 3px; }
+.btn-mini [class^="icon-"] { margin-top: 0; margin-bottom: 0; }
 
 /* additional icons */
 .icon-credit-card { background-image: url("../img/icon-half-credit-card.png"); background-position: 50% 50%; background-repeat: no-repeat; }

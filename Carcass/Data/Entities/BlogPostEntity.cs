@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
+using Carcass.Infrastructure;
 
 namespace Carcass.Data.Entities
 {
@@ -18,6 +19,12 @@ namespace Carcass.Data.Entities
         public int BlogPostEntityId { get; set; }
         
         public int? UserEntityId { get; set; }
+
+        [NotMapped]
+        public int AuthorId {
+            get { return UserEntityId ?? 0; }
+            set { UserEntityId = value; }
+        }
 
         [DataType(DataType.Text)]
         [StringLength(255)]
@@ -35,6 +42,14 @@ namespace Carcass.Data.Entities
         [DataType(DataType.Html)]
         [AllowHtml]
         public string Content { get; set; }
+
+        /// <summary>
+        /// Post content short annotation
+        /// </summary>
+        [DataType(DataType.Html)]
+        [AllowHtml]
+        [StringLength(512)]
+        public string Annotation { get; set; }
 
         public DateTime DateCreated { get; set; }
 

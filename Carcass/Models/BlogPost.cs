@@ -15,29 +15,40 @@ namespace Carcass.Models
     {
         #region Fields
 
-        private string _preview;
+        private string _annotation;
 
         #endregion
 
-        public BlogPost()
-        {
-            Author = new User();
-        }
-            
-        
         public int Id { get; set; }
         
         public string Title { get; set; }
 
         public string Origin { get; set; }
 
-        [AllowHtml]
         public string Content { get; set; }
+
+        public string Annotation 
+        {
+            get 
+            { 
+                if (_annotation == null)
+                    _annotation = MvcHelper.GetHtmlPreview(Content);
+                
+                return _annotation;
+            }
+            
+            set 
+            { 
+                _annotation = value; 
+            } 
+        }
 
         public DateTime DateCreated { get; set; }
 
         public DateTime DateModified { get; set; }
 
+        public int AuthorId { get; set; }
+        
         public User Author { get; set; }
 
         public int CommentsCount { get; set; }
@@ -46,33 +57,13 @@ namespace Carcass.Models
 
         #region Calculable properties
 
-        public string Preview
-        {
-            get
-            {
-                if (_preview == null)
-                {
-                    lock(this)
-                    {
-                        if (_preview == null)
-                        {
-                            _preview = MvcHelper.GetHtmlPreview(Content);
-                        }
-                    }
-                }
-
-                return _preview;
-            }
-        }
-
         public string AuthorName
         {
-            get { return Author.FullName ?? Carcass.Resources.AccountResources.UnknownUser; }
-        }
-
-        public int AuthorId
-        {
-            get { return Author.Id; }
+            get { return Author != null && !String.IsNullOrEmpty(Author.FullName) 
+                ? Author.FullName
+                : Author != null && !String.IsNullOrEmpty(Author.UserName)
+                    ? Author.UserName
+                    : Carcass.Resources.AccountResources.UnknownUser; }
         }
 
         #endregion

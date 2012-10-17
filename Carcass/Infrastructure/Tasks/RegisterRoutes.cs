@@ -21,17 +21,20 @@ namespace Carcass.Infrastructure.Tasks
             Routes.IgnoreRoute("favicon.ico");
             Routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
             Routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                "UserBlog",
+                "Example/UserBlog/{id}-{username}",
+                new { controller = "Example", action = "UserBlog", username = UrlParameter.Optional },
+                new { id = @"\d+" }
             );
 
             Routes.MapRoute(
-                name: "UserBlog",
-                url: "Example/UserBlog/{id}-{username}",
-                defaults: new { username = UrlParameter.Optional }
+                "Default",
+                "{controller}/{action}/{id}",
+                new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
         }
     }
 }

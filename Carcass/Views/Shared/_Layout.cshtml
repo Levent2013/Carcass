@@ -25,6 +25,7 @@
                  "BaseUrl": "@Url.Content("~/")"
              }
          </script>
+         @RenderSection("Head", required: false)
     </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
@@ -114,7 +115,7 @@
                 <div class="row">
                     <hr />
                     <div class="span2">
-                        &copy; @DateTime.Now.Year - Carcass
+                        &copy; @Carcass.Infrastructure.ServerTime.Now.Year - Carcass
                     </div>
                     <div class="span4 muted">
                         Culture: @Thread.CurrentThread.CurrentCulture.Name <br />

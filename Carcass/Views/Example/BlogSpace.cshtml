@@ -18,9 +18,9 @@
 @if (Request.IsAuthenticated)
 {
     <p>
-    <a href="@Url.Action("AddBlogPost", "Example")" class="btn btn-primary">
-        <i class="icon-plus icon-white"></i> Add post
-    </a>
+        <a href="@Url.Action("AddBlogPost", "Example")" class="btn btn-primary">
+            <i class="icon-plus icon-white"></i> Add post
+        </a>
     </p>
 }
 else
@@ -33,15 +33,15 @@ else
 
 @foreach (var post in Model)
 {
-    <div class="span4">
-        <h2>@post.Title</h2>
+    <div class="span4" data-post-id="@post.Id.ToStringInvariant()">
+        <h2><a href="@Url.Action("ViewBlogPost", "Example", new { id = post.Id})">@post.Title</a></h2>
         
         <div class="blog-post-header">
         <!-- TODO: Move to helper extension -->
-        @if (post.AuthorId !=0 ) {
-            <a href="@Url.Action("UserBlog", "Example", new { UserName = post.AuthorName })"><i class="icon-user"></i> @post.AuthorName</a> 
+        @if (post.AuthorId != 0 ) {
+            <a href="@Url.Action("UserBlog", "Example", new { id = post.AuthorId, username = post.AuthorName })"><i class="icon-user"></i> @post.AuthorName</a> 
         } else {
-            <span class="muted">@post.AuthorName</span>
+            <span class="muted"><i class="icon-user"></i> @post.AuthorName</span>
         }
     
         <i class="icon-calendar"></i> @post.DateModified
@@ -61,7 +61,13 @@ else
     	<a href="#"><span class="label label-info">growth</span></a>
         -->
         <div class="blog-content-preview">
-            @Html.Raw(post.Preview)
+            @Html.Raw(post.Annotation)
+        </div>
+
+        <div class="pull-right blog-post-footer">
+            <a href="@Url.Action("ViewBlogPost", "Example", new { id = post.Id})" class="btn btn-success btn-mini">
+            <i class="icon-play icon-white"></i> @Buttons.ReadMore
+        </a>
         </div>
     </div>
 }

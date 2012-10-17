@@ -1,0 +1,16 @@
+﻿@model Carcass.Models.BlogPost
+@using Carcass.Resources
+
+@{ ViewBag.Title = Model.Title; }
+
+<hr />
+@Html.Raw(Model.Content)
+<hr />
+@section Head {
+    @Styles.Render("~/Content/css/wysiwyg-color.css")
+}
+@section Scripts {
+    <script type="text/javascript">
+        
+    </script>
+}

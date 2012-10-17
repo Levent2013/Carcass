@@ -110,6 +110,9 @@
 
         window.editor = this.editor;
 
+        if (options.miniButtons)
+            this.toolbar.find('.btn').addClass('btn-mini');
+            
         $('iframe.wysihtml5-sandbox').each(function(i, el){
             $(el.contentWindow).off('focus.wysihtml5').on({
                 'focus.wysihtml5' : function(){
@@ -347,6 +350,7 @@
         "html": false,
         "link": true,
         "image": true,
+        "miniButtons": false,
         events: {},
         parserRules: {
             classes: {
