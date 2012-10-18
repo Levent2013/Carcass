@@ -20,12 +20,6 @@ namespace Carcass.Data.Entities
         
         public int? UserEntityId { get; set; }
 
-        [NotMapped]
-        public int AuthorId {
-            get { return UserEntityId ?? 0; }
-            set { UserEntityId = value; }
-        }
-
         [DataType(DataType.Text)]
         [StringLength(255)]
         public string Title { get; set; }
@@ -40,14 +34,12 @@ namespace Carcass.Data.Entities
         /// Post content
         /// </summary>
         [DataType(DataType.Html)]
-        [AllowHtml]
         public string Content { get; set; }
 
         /// <summary>
         /// Post content short annotation
         /// </summary>
         [DataType(DataType.Html)]
-        [AllowHtml]
         [StringLength(512)]
         public string Annotation { get; set; }
 

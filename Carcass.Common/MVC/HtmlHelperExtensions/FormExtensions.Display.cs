@@ -38,7 +38,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             object value = metadata.Model;
             if (metadata.Model == null)
                 value = (object)metadata.NullDisplayText;
-
+            
+            // TODO: Implement this!
 
             return MvcHtmlString.Empty;
         }

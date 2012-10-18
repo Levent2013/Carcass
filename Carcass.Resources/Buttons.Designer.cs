@@ -115,7 +115,7 @@ namespace Carcass.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Read More....
+        ///   Looks up a localized string similar to Read More.
         /// </summary>
         public static string ReadMore {
             get {

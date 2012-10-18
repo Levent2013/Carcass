@@ -630,6 +630,8 @@
     <Content Include="Views\Example\BlogSpace.cshtml" />
     <Content Include="Views\Example\EditBlogPost.cshtml" />
     <Content Include="Views\Example\ViewBlogPost.cshtml" />
+    <Content Include="Views\Shared\_ClientGlobals.cshtml" />
+    <Content Include="Views\Example\_BlogPostHeader.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

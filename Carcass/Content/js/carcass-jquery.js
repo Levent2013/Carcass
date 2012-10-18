@@ -2,17 +2,11 @@
     // Useful jQuery helpers
     $.extend({
         disable: function () {
-            return $(this).each(function () {
-                var item = $(this);
-                item.addClass('disabled').attr('disabled', true);
-            });
+            return $(this).addClass('disabled').attr('disabled', true);
         },
 
         enable: function () {
-            return $(this).each(function () {
-                var item = $(this);
-                item.removeClass('disabled').removeAttr('disabled');
-            });
+            return $(this).removeClass('disabled').removeAttr('disabled');
         },
 
         clientSize: function () {

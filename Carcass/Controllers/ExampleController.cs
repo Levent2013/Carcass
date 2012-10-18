@@ -8,6 +8,7 @@ using MvcExtensions;
 using WebMatrix.WebData;
 
 using Carcass.Common.Data;
+using Carcass.Common.MVC;
 using Carcass.Common.MVC.Security;
 using Carcass.Data;
 using Carcass.Data.Entities;
@@ -57,6 +58,11 @@ namespace Carcass.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (String.IsNullOrWhiteSpace(model.Annotation))
+                {
+                    model.Annotation = MvcHelper.GetHtmlPreview(model.Content, 512);
+                }
+
                 Query.Lookup<BlogPost>(model).Save();
 
                 TempData["Message"] = "Your post added successfully";

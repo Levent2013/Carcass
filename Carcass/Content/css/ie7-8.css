@@ -1,3 +1,7 @@
+body, input, button, select, textarea {
+  font-family: "Lucida Grande", Tahoma, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
 /* Enable some nice Bootstrap design features in IE7-8 */
 
 img { max-width: 10000px; }

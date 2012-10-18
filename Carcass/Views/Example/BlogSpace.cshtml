@@ -2,14 +2,14 @@
 @using Carcass.Resources
 
 <div class="alert alert-comment">
-    <button type="button" class="close" data-dismiss="alert">×</button>
+    @Html.BoostrapCloseBtn()
     Very simple blogging engine.    
 </div>
 
 @if (ViewBag.Message != null)
 {
     <div class="alert alert-success">
-        <button type="button" class="close" data-dismiss="alert">×</button>
+        @Html.BoostrapCloseBtn()
         @ViewBag.Message    
     </div>
 }
@@ -25,7 +25,7 @@
 else
 {
     <div class="alert alert-warn">
-        <button type="button" class="close" data-dismiss="alert">×</button>
+        @Html.BoostrapCloseBtn()
         Please login to add new posts.
     </div>
 }
@@ -35,21 +35,7 @@ else
     <li class="span4">
         <div class="thumbnail blog-post-thumbnail" data-post-id="@post.Id.ToStringInvariant()">
             <h3><a href="@Url.Action("ViewBlogPost", "Example", new { id = post.Id})">@post.Title</a></h3>
-        
-            <div class="blog-post-header">
-                <!-- TODO: Move to helper extension -->
-                @if (post.AuthorId != 0 ) {
-                    <a href="@Url.Action("UserBlog", "Example", new { id = post.AuthorId, username = post.AuthorName })"><i class="icon-user"></i> @post.AuthorName</a> 
-                } else {
-                    <span class="muted"><i class="icon-user"></i> @post.AuthorName</span>
-                }
-                <i class="icon-calendar"></i> @post.DateModified
-                @if(post.CommentsEnabled){
-     	            <text><i class="icon-comment"></i></text>
-                    <a href="#">@(post.CommentsCount > 0 ? post.CommentsCount + "Comments" : "No comments")</a>
-                }
-                <br/><a class="muted" href="@post.Origin">@post.Origin</a>
-            </div>
+            @Html.Partial("_BlogPostHeader", post)
 
             <!--Tags: 
     	    <a href="#"><span class="label label-info">Snipp</span></a> 
@@ -57,9 +43,9 @@ else
     	    <a href="#"><span class="label label-info">UI</span></a> 
     	    <a href="#"><span class="label label-info">growth</span></a>
             -->
-            <div class="blog-post-annotation">
+            <article class="blog-post-annotation">
                 @Html.Raw(post.Annotation)
-            </div>
+            </article>
 
             <div class="blog-post-footer">
                 <a href="@Url.Action("ViewBlogPost", "Example", new { id = post.Id})" class="btn btn-success btn-mini">

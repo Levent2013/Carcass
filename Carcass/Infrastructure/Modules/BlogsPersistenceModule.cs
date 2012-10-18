@@ -38,6 +38,7 @@ namespace Carcass.Infrastructure.Modules
                         Title = p.Title,
                         Origin = p.Origin,
                         Content = p.Content,
+                        Annotation = p.Annotation,
                         DateCreated = p.DateCreated,
                         DateModified = p.DateModified,
                         AuthorId = p.UserEntityId ?? 0,

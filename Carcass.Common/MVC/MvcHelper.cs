@@ -13,7 +13,7 @@ namespace Carcass.Common.MVC
         {
             private static string[] AllowedPreviewTags = new[]
             {
-                "p", "i", "b", "a", "h1", "h2", "h3", "h4", "h5", "h6" 
+                "p", "i", "b", "a", "h1", "h2", "h3", "h4", "h5", "h6", "br"
             };
 
             private bool _fullReplace;
@@ -32,8 +32,10 @@ namespace Carcass.Common.MVC
             {
                 if (!_fullReplace && AllowedPreviewTags.Contains(m.Groups[2].Value))
                 {
-                    return m.Value;
-                    // return String.Format("<{0}{1}>", m.Groups[1].Value, m.Groups[2].Value);
+                    if(m.Groups[2].Value == "br")
+                        return "<br/>"; // make valid
+                        
+                    return m.Value; // return String.Format("<{0}{1}>", m.Groups[1].Value, m.Groups[2].Value);
                 }
 
                 return String.Empty;
@@ -74,7 +76,7 @@ namespace Carcass.Common.MVC
                 return content;
             
             var regex = new Regex(
-                @"<(/?)(\w+)((\s+\w+(\s*=\s*(?:"".*?""|'.*?'|[^'"">\s]+))?)+\s*|\s*)/?>", 
+                @"<(/?)(\w+)((\s+\w+(\s*=\s*(?:"".*?""|'.*?'|[^'"">\s]+))?)+\s*|\s*)(/?)>", 
                 RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace);
             
             var matcher = new ReplaceHtmlForPreview(false);
@@ -103,7 +105,7 @@ namespace Carcass.Common.MVC
 
                     stack.Pop();
                 }
-                else
+                else if(m.Groups[6].Length == 0) // skip self-closed tags
                 {
                     stack.Push(pair);
                 }
@@ -111,12 +113,7 @@ namespace Carcass.Common.MVC
                 ndx = m.Index + m.Length;
             }
 
-            if (!validHtml)
-            {
-                matcher = new ReplaceHtmlForPreview(true);
-                content = regex.Replace(content, matcher.Replace).Trim();
-            }
-            else
+            if (validHtml)
             {
                 if(stack.Count > 0)
                 {
@@ -127,6 +124,11 @@ namespace Carcass.Common.MVC
                     var pair = stack.Pop();
                     content += String.Format("</{0}>", pair.Key);
                 }
+            }
+            
+            if (!validHtml || content.Length > symbolsCount) {
+                matcher = new ReplaceHtmlForPreview(true);
+                content = regex.Replace(content, matcher.Replace).Trim();
             }
             
             return content;

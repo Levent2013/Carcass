@@ -117,6 +117,7 @@
     <Compile Include="MVC\DataAnnotations\FileUploadAttribute.cs" />
     <Compile Include="MVC\DataTypes\Binding\PostedFileArrayBinder.cs" />
     <Compile Include="MVC\DataTypes\PostedFile.cs" />
+    <Compile Include="MVC\HtmlHelperExtensions\BootstrapExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\CarcassMvcForm.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\CarcassMvcSettings.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\ValueExtensions.cs" />

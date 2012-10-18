@@ -129,6 +129,9 @@
   <data name="Contact" xml:space="preserve">
     <value>Контакты</value>
   </data>
+  <data name="Documentation" xml:space="preserve">
+    <value>Документация</value>
+  </data>
   <data name="Examples" xml:space="preserve">
     <value>Примеры</value>
   </data>

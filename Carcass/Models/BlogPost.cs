@@ -13,12 +13,6 @@ namespace Carcass.Models
 {
     public class BlogPost
     {
-        #region Fields
-
-        private string _annotation;
-
-        #endregion
-
         public int Id { get; set; }
         
         public string Title { get; set; }
@@ -27,22 +21,8 @@ namespace Carcass.Models
 
         public string Content { get; set; }
 
-        public string Annotation 
-        {
-            get 
-            { 
-                if (_annotation == null)
-                    _annotation = MvcHelper.GetHtmlPreview(Content);
-                
-                return _annotation;
-            }
-            
-            set 
-            { 
-                _annotation = value; 
-            } 
-        }
-
+        public string Annotation { get; set; }
+        
         public DateTime DateCreated { get; set; }
 
         public DateTime DateModified { get; set; }

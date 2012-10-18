@@ -1,0 +1,16 @@
+﻿@model Carcass.Models.BlogPost
+<div class="blog-post-header">
+    @if (Model.AuthorId != 0)
+    {
+        <a href="@Url.Action("UserBlog", "Example", new { id = Model.AuthorId, username = Model.AuthorName })"><i class="icon-user"></i> @Model.AuthorName</a> 
+    } else {
+        <span class="muted"><i class="icon-user"></i> @Model.AuthorName</span>
+    }
+    <i class="icon-calendar"></i> @Model.DateModified
+    @if (Model.CommentsEnabled)
+    {
+     	<text><i class="icon-comment"></i></text>
+        <a href="#">@(Model.CommentsCount > 0 ? Model.CommentsCount + "Comments" : "No comments")</a>
+    }
+    <br/><a class="muted" href="@Model.Origin">@Model.Origin</a>
+</div>

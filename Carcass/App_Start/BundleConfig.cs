@@ -15,15 +15,17 @@ namespace Carcass
                         "~/Content/js/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common").Include(
-                        "~/Content/js/bootstrap.js",
+                        "~/Content/js/bootstrap.js", // menus, alerts and so on
                         "~/Content/js/carcass-util.js",
+                        "~/Content/js/carcass-jquery.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/carcass-client").Include(
                         "~/Content/js/bootstrap-datepicker.js",
                         "~/Content/js/bootstrap-timepicker.js",
                         "~/Content/js/bootstrap-fileinput.js",
                         "~/Content/js/wysihtml5-0.3.0_rc2.js", // HTML editor, optional
                         "~/Content/js/bootstrap-wysihtml5.js", // HTML editor wrapper, optional
                         "~/Content/js/bootbox.js", // TB alerts library
-                        "~/Content/js/carcass-jquery.js",
                         "~/Content/js/carcass-mvc.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(

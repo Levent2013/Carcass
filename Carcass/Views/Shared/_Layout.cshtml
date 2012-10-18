@@ -19,12 +19,7 @@
         <![endif]-->
         <!--[if lt IE 8]><link href="@Url.Content("~/Content/css/ie7.css")" rel="stylesheet"><![endif]-->
          @Scripts.Render("~/bundles/startup")
-         <script type="text/javascript">
-             window.Carcass = {
-                 "Language": "@Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName",
-                 "BaseUrl": "@Url.Content("~/")"
-             }
-         </script>
+         @Html.Partial("_ClientGlobals")
          @RenderSection("Head", required: false)
     </head>
     <body>
@@ -46,18 +41,18 @@
                         <ul class="dropdown-menu collapsed">
                             <li><a href="@Url.Action("ComplexForm", "Example")"><i class="icon-list-alt"></i>@ExamplesResources.ComplexForm</a></li>
                             <li><a href="@Url.Action("BlogSpace", "Example")"><i class="icon-list-alt"></i>@ExamplesResources.BlogSpace</a></li>
+                            <li class="nav-header">@ExamplesResources.Components</li>
                             <li><a href="@Url.Action("Bootbox", "Example")"><i class="icon-exclamation-sign"></i>Bootbox.js</a></li>
-
                         </ul>
                     </li>
 
                     <li class="dropdown" id="bootstrap-menu">
                         <a href="#bootstrap-menu" class="dropdown-toggle" data-toggle="dropdown">
-                            @Titles.BootsrapDocs
+                            @Titles.Documentation
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu collapsed">
-                            <li><a href="http://twitter.github.com/bootstrap/scaffolding.html"><i class="icon-question-sign"></i> Scaffolding</a></li>
+                            <li class="nav-header">Carcass</li>                            <li class="nav-header">Bootsrap</li>                            <li><a href="http://twitter.github.com/bootstrap/scaffolding.html"><i class="icon-question-sign"></i> Scaffolding</a></li>
                             <li><a href="http://twitter.github.com/bootstrap/base-css.html"><i class="icon-question-sign"></i> Base CSS</a></li>
                             <li><a href="http://twitter.github.com/bootstrap/components.html"><i class="icon-question-sign"></i> Components</a></li>
                             <li><a href="http://twitter.github.com/bootstrap/javascript.html"><i class="icon-question-sign"></i> Javascript</a></li>
@@ -125,7 +120,9 @@
             </div>
         </footer>
         @Scripts.Render("~/bundles/common")
-        @* Scripts.Render("~/Content/tinymce/jquery.tinymce.js") *@
+        @if (ViewBag.DoNotIncludeCarcassClient == null) {
+            @Scripts.Render("~/bundles/carcass-client")
+        }
         @Scripts.Render(Url.Action("Controls", "Localization", new { culture = Thread.CurrentThread.CurrentUICulture.Name } ))
         <!-- Render page scripts -->
         @RenderSection("scripts", required: false)
