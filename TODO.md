@@ -4,10 +4,11 @@ Completed Items
 * Integrated MvcExtensions and Autofac 
 * Added common alert/confirm dialogs JS
 * Added inline HTML editor for fields with DataType == DataType.Html
+* Added views localization (LocalizedRazorViewEngine)
+* JS controls localization (Localization/Controls?lang=[lang])
 
 TODO list
 --------------------------------------------------------------------------------
-* Add localization (using RESX files and Support/JavaScriptLocalization?lang=[lang])
 * Integrate architecture principles described at http://www.slideshare.net/AlexanderByndyu/aspnet-mvc-7557204
 * Add common set of DB models - UserProfile, Blog Posts, Comments
 

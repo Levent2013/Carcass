@@ -4,10 +4,10 @@
     var culture = Thread.CurrentThread.CurrentUICulture;
     var lang = culture.TwoLetterISOLanguageName; 
 }
-<a href="@Url.Action("SetLanguage", "Localization", new { lang = "en" })" class="language-btn label @(lang != "en" ? "label-inverse" : "")" data-language="en">@Languages.English</a>
-<a href="@Url.Action("SetLanguage", "Localization", new { lang = "ru" })" class="language-btn label @(lang != "ru" ? "label-inverse" : "")" data-language="ru">@Languages.Russian</a>
+<a href="@Url.Action("SetLanguage", "Localization", new { lang = "en", returnUrl = Request.Url.PathAndQuery })" class="language-btn label @(lang != "en" ? "label-inverse" : "")" data-language="en">@Languages.English</a>
+<a href="@Url.Action("SetLanguage", "Localization", new { lang = "ru", returnUrl = Request.Url.PathAndQuery  })" class="language-btn label @(lang != "ru" ? "label-inverse" : "")" data-language="ru">@Languages.Russian</a>
 
 @if(lang != "ru" && lang != "en") {
-    <a href="@Url.Action("SetLanguage", "Localization", new { lang })" 
+    <a href="@Url.Action("SetLanguage", "Localization", new { lang, returnUrl = Request.Url.PathAndQuery })" 
         class="language-btn label label-inverse" data-language="@lang">@culture.ThreeLetterISOLanguageName.ToUpperInvariant()</a>
 }

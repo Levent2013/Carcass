@@ -25,21 +25,9 @@ namespace Carcass.Infrastructure.Tasks
 
         public override TaskContinuation Execute()
         {
-            InitializeViewEngines();
             Carcass.Common.MVC.Bootstrap.Init();
 
             return TaskContinuation.Continue;
-        }
-
-        private void InitializeViewEngines()
-        {
-            var viewEngines = ViewEngines.Engines;
-            var webFormsEngine = viewEngines.OfType<WebFormViewEngine>().FirstOrDefault();
-            if (webFormsEngine != null)
-            {
-                Log.Debug("WebForms ViewEngine disabled");
-                viewEngines.Remove(webFormsEngine);
-            }
         }
     }
 }

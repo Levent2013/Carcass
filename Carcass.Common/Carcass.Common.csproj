@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collections\Extensions\DictionaryExtensions.cs" />
+    <Compile Include="Data\EntityRepository.cs" />
     <Compile Include="Data\EntitySaver.cs" />
     <Compile Include="Data\ILookuper.cs" />
     <Compile Include="Data\EntityLookuper.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Data\SafeTransaction.cs" />
     <Compile Include="Http\MimeType.cs" />
     <Compile Include="IO\StreamPipe.cs" />
+    <Compile Include="MVC\AreaHelper.cs" />
     <Compile Include="MVC\Bootstrap.cs" />
     <Compile Include="MVC\DataAnnotations\TemplatesVisibilityAttribute.cs" />
     <Compile Include="MVC\DataAnnotations\FileUploadAttribute.cs" />
@@ -129,6 +131,7 @@
     <Compile Include="MVC\HtmlHelperExtensions\ValidationExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.cs" />
     <Compile Include="MVC\JavaScriptHelper.cs" />
+    <Compile Include="MVC\LocalizedRazorViewEngine.cs" />
     <Compile Include="MVC\MvcHelper.cs" />
     <Compile Include="MVC\Security\AuthorizeWithMessageAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

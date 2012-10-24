@@ -16,7 +16,6 @@ using Carcass.Data;
 using Carcass.Data.Entities;
 
 
-
 namespace Carcass.Infrastructure.Modules
 {
     public class UsersPersistenceModule : Module
@@ -24,23 +23,23 @@ namespace Carcass.Infrastructure.Modules
         protected override void Load(ContainerBuilder builder)
         {
             #region Register Data Access components
-
-            builder.Register<IRepository<UserEntity>>(container => new Repository<UserEntity>(container.Resolve<DatabaseContext>().Users));
             
-            builder.Register<IRepository<User>>(container => 
-                {
-                    var context = container.Resolve<DatabaseContext>();
-                    return new Repository<User>(
-                        context.Users.Select(p => new User
-                        {
-                            Id = p.UserEntityId,
-                            UserName = p.UserName,
-                            FirstName = p.FirstName,
-                            LastName = p.LastName,
-                            Email = p.Email,
-                            BlogPostsCount = p.BlogPosts.Count(),
-                        }));
-                });
+            builder.Register<IRepository<UserEntity>>(container => new EntityRepository<DatabaseContext, UserEntity>(container, p => p.Users));
+            
+            builder.Register<IRepository<User>>(container =>
+                new EntityRepository<DatabaseContext, UserEntity, User>(
+                    container,
+                    p => p.Users,
+                    u => new User
+                    {
+                        Id = u.UserEntityId,
+                        UserName = u.UserName,
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Email = u.Email,
+                        BlogPostsCount = u.BlogPosts.Count(),
+                    })    
+            );
 
             builder.Register<ILookuper<UserProfile>>(container =>
             {

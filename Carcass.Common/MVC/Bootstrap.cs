@@ -21,11 +21,21 @@ namespace Carcass.Common.MVC
             {
                 if (_inited)
                     throw new ApplicationException("Carcass Bootstrap already initialized");
-
+                
+                InitializeViewEngines();
                 InitializeModelBinders();
 
                 _inited = true;
             }
+        }
+
+        /// <summary>
+        /// Disable ASP.NET Web-Forms engine to use only System.Web.Mvc.RazorViewEngine
+        /// </summary>
+        private static void InitializeViewEngines()
+        {
+            ViewEngines.Engines.Clear();
+            ViewEngines.Engines.Add(new LocalizedRazorViewEngine());
         }
         
         private static void InitializeModelBinders()

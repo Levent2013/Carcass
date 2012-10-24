@@ -1,4 +1,5 @@
 /*************** Bootstrap fixes ***********/
+
 /* https://github.com/twitter/bootstrap/issues/4550 - Button dropdown links don't work on mobile*/
 .nav-collapse .dropdown-menu { display: none; }
 .nav-collapse .open > .dropdown-menu { display: block; }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data;
+using System.Data.Entity;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,14 +12,13 @@ using Carcass.Common.Data.Extensions;
 
 namespace Carcass.Common.Data
 {
-    // TODO: Implement EntityRepository to return source.AsNoTracking()
     public class Repository<T> : IRepository<T>
     {
         private IQueryable<T> _source;
 
         public Repository(IQueryable<T> source)
         {
-            Throw.IfNullArgument(source, "source");            
+            Throw.IfNullArgument(source, "source");
             _source = source;
         }
 

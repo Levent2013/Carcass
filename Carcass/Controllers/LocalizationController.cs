@@ -30,7 +30,7 @@ if(window.bootbox) bootbox.setLocale('{1}');", locale.Name, locale.TwoLetterISOL
             return Content(sb.ToString(), "text/javascript");
         }
 
-        public ActionResult SetLanguage(string lang)
+        public ActionResult SetLanguage(string lang, string returnUrl)
         {
             var locale = ParseCulture(lang);
 
@@ -40,7 +40,10 @@ if(window.bootbox) bootbox.setLocale('{1}');", locale.Name, locale.TwoLetterISOL
             cookie.Value = locale.TwoLetterISOLanguageName;
             Response.Cookies.Set(cookie);
 
-            return RedirectToAction("Index", "Home");
+            if (String.IsNullOrEmpty(returnUrl))
+                return RedirectToAction("Index", "Home");
+            
+            return Redirect(returnUrl);
         }
 
         private static CultureInfo ParseCulture(string culture)
