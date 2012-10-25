@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 
 using Carcass.Infrastructure;
+using Carcass.Common.Resources;
 using Carcass.Common.Resources.Controls;
 
 using MvcExtensions;
@@ -28,6 +29,13 @@ namespace Carcass.Controllers
 if(window.bootbox) bootbox.setLocale('{1}');", locale.Name, locale.TwoLetterISOLanguageName);
            
             return Content(sb.ToString(), "text/javascript");
+        }
+
+        [OutputCache(Duration = 300, VaryByParam = "*")]
+        public ActionResult Validation(string culture)
+        {
+            CultureInfo locale = ParseCulture(culture);
+            return Content(ValidationResourcesLoader.GetResources(locale), "text/javascript");
         }
 
         public ActionResult SetLanguage(string lang, string returnUrl)

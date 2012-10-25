@@ -21,5 +21,7 @@ namespace Carcass.Common.Data
         /// <param name="entity">Entity to lookup</param>
         /// <returns></returns>
         ISaver<T> Lookup<T>(T entity);
+        
+        ISaver<T> LookupById<T>(int id);
     }
 }

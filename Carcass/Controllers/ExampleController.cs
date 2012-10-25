@@ -73,6 +73,17 @@ namespace Carcass.Controllers
             return RedirectToAction("AddBlogPost");
         }
 
+        [AuthorizeWithMessage("You must be logged in to get access to this page.")]
+        public ActionResult DeleteBlogPost(int id, string returnUrl)
+        {
+            Query.LookupById<BlogPost>(id).Remove();
+            
+            if(String.IsNullOrEmpty(returnUrl))
+                return RedirectToAction("BlogSpace");
+
+            return Redirect(returnUrl);
+        }
+
         public ActionResult BlogSpace()
         {
             TempData.Remove("AddBlogPost");

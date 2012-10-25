@@ -82,5 +82,11 @@ namespace Carcass.Common.Data
 
             return new EntitySaver<TSource, TDest>(entity, target, _table, _context, _initializer);
         }
+
+        public ISaver<TSource> LookupById(int id)
+        {
+            TDest target = _table.Find(id);
+            return new EntitySaver<TSource, TDest>(default(TSource), target, _table, _context, _initializer);
+        }
     }
 }

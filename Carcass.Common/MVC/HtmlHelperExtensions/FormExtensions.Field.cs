@@ -16,6 +16,7 @@ using System.Web.Routing;
 using Carcass.Common.Utility;
 using Carcass.Common.Resources;
 using Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure;
+using Carcass.Common.MVC.Extensions;
 
 namespace Carcass.Common.MVC.HtmlHelperExtensions
 {
@@ -169,7 +170,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             
             var htmlFieldPrefix = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName);
             var localTemplates = new string[3] { templateName, metadata.TemplateHint, metadata.DataTypeName };
-
+            
             foreach (string folder in localTemplates)
             {
                 if (String.IsNullOrEmpty(folder))

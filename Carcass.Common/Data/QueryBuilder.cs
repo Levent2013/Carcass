@@ -44,10 +44,19 @@ namespace Carcass.Common.Data
         public ISaver<T> Lookup<T>(T entity)
         {
             Throw.IfNullArgument(entity, "entity");
+            return GetLookuper<T>().Lookup(entity);
+        }
+
+        public ISaver<T> LookupById<T>(int id)
+        {
+            return GetLookuper<T>().LookupById(id);
+        }
+
+        private static ILookuper<T> GetLookuper<T>()
+        {
             var lookuper = DependencyResolver.Current.GetService<ILookuper<T>>();
             Throw.IfTrue(lookuper == null, (message) => new KeyNotFoundException(message), "Lookuper for {0} not found", typeof(T).Name);
-
-            return lookuper.Lookup(entity);
+            return lookuper;
         }
 
         private static IFinder<T> GetFinder<T>()

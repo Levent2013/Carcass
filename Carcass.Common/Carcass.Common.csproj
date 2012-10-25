@@ -122,12 +122,12 @@
     <Compile Include="MVC\HtmlHelperExtensions\BootstrapExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\CarcassMvcForm.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\CarcassMvcSettings.cs" />
-    <Compile Include="MVC\HtmlHelperExtensions\ValueExtensions.cs" />
+    <Compile Include="MVC\Extensions\ValueExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Display.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Field.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Label.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\Infrastructure\EditorTemplates.cs" />
-    <Compile Include="MVC\HtmlHelperExtensions\Infrastructure\StringExtensions.cs" />
+    <Compile Include="MVC\Extensions\StringExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\ValidationExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.cs" />
     <Compile Include="MVC\JavaScriptHelper.cs" />

@@ -11,11 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-using Carcass.Common.Utility;
-using Carcass.Common.Collections.Extensions;
-using Carcass.Common.Resources;
-
-namespace Carcass.Common.MVC.HtmlHelperExtensions
+namespace Carcass.Common.MVC.Extensions
 {
     public static class ValueExtensions
     {

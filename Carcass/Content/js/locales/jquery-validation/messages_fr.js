@@ -20,6 +20,7 @@ jQuery.extend(jQuery.validator.messages, {
 	range: $.validator.format("Veuillez fournir une valeur entre {0} et {1}."),
 	max: $.validator.format("Veuillez fournir une valeur inférieur ou égal à {0}."),
 	min: $.validator.format("Veuillez fournir une valeur supérieur ou égal à {0}."),
+
 	maxWords: $.validator.format("Veuillez fournir au plus {0} mots."),
 	minWords: $.validator.format("Veuillez fournir au moins {0} mots."),
 	rangeWords: $.validator.format("Veuillez fournir entre {0} et {1} mots."),

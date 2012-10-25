@@ -1,5 +1,7 @@
 ﻿@model IList<Carcass.Models.BlogPost>
 @using Carcass.Resources
+@using Carcass.Infrastructure
+@using Carcass.Common.MVC
 
 <div class="alert alert-comment">
     @Html.BoostrapCloseBtn()
@@ -51,6 +53,13 @@ else
                 <a href="@Url.Action("ViewBlogPost", "Example", new { id = post.Id})" class="btn btn-success btn-mini">
                     <i class="icon-play icon-white"></i> @Buttons.ReadMore
                 </a>
+                @if (User.IsInRole(AppConstants.AdministratorsGroup) || WebSecurity.CurrentUserId == post.AuthorId)
+                {
+                    <a href="@Url.Action("DeleteBlogPost", "Example", new { id = post.Id, returnUrl = Request.Url.PathAndQuery })" 
+                        class="btn btn-danger btn-mini delete-post-btn">
+                        <i class="icon-trash icon-white"></i> @Buttons.Delete
+                    </a>
+                }
             </div>
         </div>
     </li>
@@ -59,6 +68,15 @@ else
 
 @section Scripts {
     <script type="text/javascript">
-        
+        $('.delete-post-btn').click(function (e) {
+            var target = $('.delete-post-btn').prop('href');
+            e.preventDefault();
+            bootbox.confirm(@Html.Raw(JavaScriptHelper.EncodeJavaScript(ExamplesResources.BlogDeletePostConfirmation)), function (confirmed) {
+                if(confirmed)
+                    window.location.href = target;
+            });
+
+            return false;
+        });
     </script>
 }

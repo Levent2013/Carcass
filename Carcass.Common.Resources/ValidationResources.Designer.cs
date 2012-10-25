@@ -61,11 +61,74 @@ namespace Carcass.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a value with a valid mimetype..
+        /// </summary>
+        public static string Accept {
+            get {
+                return ResourceManager.GetString("Accept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid credit card number..
+        /// </summary>
+        public static string Creditcard {
+            get {
+                return ResourceManager.GetString("Creditcard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid date..
+        /// </summary>
+        public static string Date {
+            get {
+                return ResourceManager.GetString("Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid date (ISO)..
+        /// </summary>
+        public static string DateISO {
+            get {
+                return ResourceManager.GetString("DateISO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter only digits..
+        /// </summary>
+        public static string Digits {
+            get {
+                return ResourceManager.GetString("Digits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Editor template for &quot;{0}&quot; not found..
         /// </summary>
         public static string EditorTemplateNotFoundFor {
             get {
                 return ResourceManager.GetString("EditorTemplateNotFoundFor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid email address..
+        /// </summary>
+        public static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the same value again..
+        /// </summary>
+        public static string EqualTo {
+            get {
+                return ResourceManager.GetString("EqualTo", resourceCulture);
             }
         }
         
@@ -79,11 +142,101 @@ namespace Carcass.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} field is required..
+        ///   Looks up a localized string similar to Please enter a value less than or equal to {0}..
+        /// </summary>
+        public static string Max {
+            get {
+                return ResourceManager.GetString("Max", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter no more than {0} characters..
+        /// </summary>
+        public static string MaxLength {
+            get {
+                return ResourceManager.GetString("MaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a value greater than or equal to {0}..
+        /// </summary>
+        public static string Min {
+            get {
+                return ResourceManager.GetString("Min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter at least {0} characters..
+        /// </summary>
+        public static string MinLength {
+            get {
+                return ResourceManager.GetString("MinLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid number..
+        /// </summary>
+        public static string Number {
+            get {
+                return ResourceManager.GetString("Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a value between {0} and {1}..
+        /// </summary>
+        public static string Range {
+            get {
+                return ResourceManager.GetString("Range", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a value between {0} and {1} characters long..
+        /// </summary>
+        public static string RangeLength {
+            get {
+                return ResourceManager.GetString("RangeLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please fix this field..
+        /// </summary>
+        public static string Remote {
+            get {
+                return ResourceManager.GetString("Remote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &quot;{0}&quot; field is required..
         /// </summary>
         public static string Requred {
             get {
                 return ResourceManager.GetString("Requred", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid time..
+        /// </summary>
+        public static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid URL..
+        /// </summary>
+        public static string Url {
+            get {
+                return ResourceManager.GetString("Url", resourceCulture);
             }
         }
         

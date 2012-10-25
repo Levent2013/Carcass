@@ -70,6 +70,15 @@ namespace Carcass.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to delete this post?.
+        /// </summary>
+        public static string BlogDeletePostConfirmation {
+            get {
+                return ResourceManager.GetString("BlogDeletePostConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Blog Space.
         /// </summary>
         public static string BlogSpace {

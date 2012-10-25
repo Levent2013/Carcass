@@ -65,7 +65,7 @@ namespace Carcass.Controllers
                 return View(model);
             }
 
-            Query.Lookup<UserProfile>(model).Update();
+            Query.Lookup<UserProfile>(model).Save();
             TempData["ManageMessageId"] = ManageMessageId.YourProfileUpdated;
             return RedirectToAction("Manage");
         }

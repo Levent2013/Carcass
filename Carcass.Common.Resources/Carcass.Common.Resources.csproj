@@ -101,6 +101,12 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="Controls\DatepickerResourcesLoader.cs" />
+    <Compile Include="ValidationResources.ru.Designer.cs">
+      <DependentUpon>ValidationResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="ValidationResourcesLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidationResources.Designer.cs">
       <DependentUpon>ValidationResources.resx</DependentUpon>
@@ -132,6 +138,11 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>DatepickerResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ValidationResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationResources.ru.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="ValidationResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

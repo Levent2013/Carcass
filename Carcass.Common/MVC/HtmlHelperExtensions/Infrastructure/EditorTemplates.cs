@@ -15,6 +15,7 @@ using System.Web.Routing;
 using Carcass.Common.Utility;
 using Carcass.Common.Collections.Extensions;
 using Carcass.Common.Resources;
+using Carcass.Common.MVC.Extensions;
 
 namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
 {

@@ -20,7 +20,6 @@ namespace Carcass.Common.Data
 
         public EntitySaver(TSource source, TDest target, DbSet<TDest> targetTable, DbContext context, Action<TDest> initializer = null)
         {
-            Throw.IfNullArgument(source, "source");
             Throw.IfNullArgument(targetTable, "targetTable");
             Throw.IfNullArgument(context, "context");
             
@@ -36,8 +35,16 @@ namespace Carcass.Common.Data
             get { return _target == null; }
         }
 
+        public void SetSource(TSource source)
+        {
+            _source = source;
+        }
+
         public TSource Save()
         {
+            Throw.IfNullArgument(_source, "Could not save entity, source is not set");
+            Throw.IfTrue(_target == null, (msg) => new InvalidOperationException(msg), "Database entity to update not found, source type: {0}", typeof(TSource));
+
             var isNew = false;
             var target = _target;
             if (target == null)
@@ -56,22 +63,26 @@ namespace Carcass.Common.Data
             {
                 _targetTable.Add(target);
             }
-                        
-            _context.SaveChanges();
+
+            try
+            {
+                _context.SaveChanges();
+            } 
+            catch (System.Data.Entity.Validation.DbEntityValidationException vex)
+            {
+                var sb = new StringBuilder();
+                foreach (var error in vex.EntityValidationErrors)
+                {
+                    var messages = error.ValidationErrors.Select(p => p.ErrorMessage).ToArray();
+                    sb.Append(String.Join(System.Environment.NewLine, messages))
+                        .Append(System.Environment.NewLine);
+                }
+
+                throw new ArgumentException(sb.ToString(), vex);
+                
+            }
 
             return target.MapTo<TSource>();
-        }
-
-        public TSource Update()
-        {
-            Throw.IfTrue(_target == null, (msg) => new InvalidOperationException(msg), "Database entity to update not found, source type: {0}", typeof(TSource));
-            return Save();
-        }
-
-        public TSource Insert()
-        {
-            Throw.IfTrue(_target != null, (msg) => new InvalidOperationException(msg), "Database entity to insert already exists: {0}", _target);
-            return Save();
         }
 
         public void Remove()

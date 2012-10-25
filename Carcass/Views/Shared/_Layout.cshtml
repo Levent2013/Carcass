@@ -122,8 +122,8 @@
         @Scripts.Render("~/bundles/common")
         @if (ViewBag.DoNotIncludeCarcassClient == null) {
             @Scripts.Render("~/bundles/carcass-client")
+            @Scripts.Render(Url.Action("Controls", "Localization", new { culture = Thread.CurrentThread.CurrentUICulture.Name } ))
         }
-        @Scripts.Render(Url.Action("Controls", "Localization", new { culture = Thread.CurrentThread.CurrentUICulture.Name } ))
         <!-- Render page scripts -->
         @RenderSection("scripts", required: false)
     </body>

@@ -8,11 +8,10 @@ namespace Carcass.Common.Data
     {
         bool IsNew { get; }
 
+        void SetSource(T source);
+
         T Save();
 
-        T Update();
-
-        T Insert();
 
         void Remove();
     }

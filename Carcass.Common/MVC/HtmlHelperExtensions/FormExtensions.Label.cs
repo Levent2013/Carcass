@@ -60,19 +60,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             
             if (labelText == null)
             {
-                var displayName = metadata.DisplayName;
-                if (displayName == null)
-                {
-                    var propertyName = metadata.PropertyName;
-                    if (propertyName == null)
-                        labelText = Enumerable.Last<string>((IEnumerable<string>)htmlFieldName.Split(".".ToCharArray()));
-                    else
-                        labelText = propertyName;
-                }
-                else
-                {
-                    labelText = displayName;
-                }
+                labelText = LoadFieldName(metadata, htmlFieldName);
             }
 
             if (string.IsNullOrEmpty(labelText))
@@ -116,6 +104,21 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 return new MvcHtmlString(tg.ToString(TagRenderMode.Normal));
             }
             
+        }
+
+        internal static string LoadFieldName(ModelMetadata metadata, string htmlFieldName)
+        {
+            var displayName = metadata.DisplayName;
+            if (displayName == null)
+            {
+                var propertyName = metadata.PropertyName;
+                if (propertyName == null)
+                    displayName = Enumerable.Last<string>((IEnumerable<string>)htmlFieldName.Split(".".ToCharArray()));
+                else
+                    displayName = propertyName;
+            }
+
+            return displayName;
         }
 
 

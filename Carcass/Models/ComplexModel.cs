@@ -7,6 +7,7 @@ using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
 
+using Carcass.Common.Resources;
 using Carcass.Common.MVC.DataAnnotations;
 using Carcass.Common.MVC.DataTypes;
 
@@ -21,22 +22,26 @@ namespace Carcass.Models
 
         public int? SignedInt { get; set; }
 
+        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Requred")]
         public bool Boolean { get; set; }
 
-        [Required]
-        [DataType(DataType.Currency)]
+        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName="Requred")]
+        [DataType(DataType.Currency, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Number")]
         public decimal Currency { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Date")]
+        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Requred")]
         public DateTime Date { get; set; }
 
-        [DataType(DataType.Time)]
+        [DataType(DataType.Time, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Time")]
+        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Requred")]
         public DateTime Time { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime? DateTime { get; set; }
 
         [DataType(DataType.Duration)]
+        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Requred")]
         public decimal Duration { get; set; }
 
         [DataType(DataType.EmailAddress)]

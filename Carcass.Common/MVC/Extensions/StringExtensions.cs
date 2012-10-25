@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
+namespace Carcass.Common.MVC.Extensions
 {
     public static class StringExtensions
     {
