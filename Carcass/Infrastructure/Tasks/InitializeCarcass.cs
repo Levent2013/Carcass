@@ -25,7 +25,10 @@ namespace Carcass.Infrastructure.Tasks
 
         public override TaskContinuation Execute()
         {
+            var appAssembly = typeof(Carcass.MvcApplication).Assembly;
+
             Carcass.Common.MVC.Bootstrap.Init();
+            Carcass.Common.MVC.Bootstrap.LocalizeModels(appAssembly, "Carcass.Models");
 
             return TaskContinuation.Continue;
         }

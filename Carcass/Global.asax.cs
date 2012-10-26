@@ -32,13 +32,13 @@ namespace Carcass
             Bootstrapper.BootstrapperTasks
                 .Include<InitializeDatabase>()
                 .Include<RegisterRoutes>()
-                .Include<InitializeCarcass>()
                 .Include<RegisterAreas>()
                 .Include<RegisterControllers>()
                 .Include<RegisterModelMetadata>()
-                //.Include<RegisterModelBinders>()
-                //.Include<RegisterActionInvokers>()
+                .Include<RegisterModelBinders>()
+                .Include<RegisterActionInvokers>()
                 .Include<Infrastructure.RegisterPerRequestServices>(ConfigureRegisterPerRequestServices)
+                .Include<InitializeCarcass>() // include this task after MvcExtensions task RegisterModelMetadata
                 .Include<InitializeMappings>();
                
             Error += OnError;

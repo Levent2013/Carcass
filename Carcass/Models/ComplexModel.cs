@@ -22,26 +22,26 @@ namespace Carcass.Models
 
         public int? SignedInt { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Requred")]
+        [Required]
         public bool Boolean { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName="Requred")]
+        [Required]
         [DataType(DataType.Currency, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Number")]
         public decimal Currency { get; set; }
 
         [DataType(DataType.Date, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Date")]
-        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Requred")]
+        [Required]
         public DateTime Date { get; set; }
 
         [DataType(DataType.Time, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Time")]
-        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Requred")]
+        [Required]
         public DateTime Time { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime? DateTime { get; set; }
 
         [DataType(DataType.Duration)]
-        [Required(ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Requred")]
+        [Required]
         public decimal Duration { get; set; }
 
         [DataType(DataType.EmailAddress)]
