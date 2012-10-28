@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -33,8 +34,6 @@ namespace Carcass.Common.MVC
                 if (_inited)
                     throw new ApplicationException("Carcass Bootstrap already initialized");
 
-                _log.Debug("Init()");
-
                 InitializeViewEngines();
                 InitializeModelBinders();
 
@@ -48,6 +47,8 @@ namespace Carcass.Common.MVC
         private static void InitializeViewEngines()
         {
             ViewEngines.Engines.Clear();
+
+            _log.Debug("Setup localized Razor view engine");
             ViewEngines.Engines.Add(new LocalizedRazorViewEngine());
         }
         
@@ -62,50 +63,6 @@ namespace Carcass.Common.MVC
                 new DataTypes.Binding.PostedFileArrayBinder());
         }
 
-        public static void LocalizeModels(Assembly assembly, string modelsNamespace)
-        {
-            Throw.IfNullArgument(assembly, "assembly");
-
-            var scanner = new ClassScanner(assembly);
-            scanner.Process(modelsNamespace, LocalizeModel);
-        }
-
-        public static void LocalizeModel(Type model)
-        {
-            Throw.IfNullArgument(model, "model");
-            
-            var metadataRegistry = DependencyResolver.Current.GetService<IModelMetadataRegistry>();
-            if(metadataRegistry == null)
-            {
-                _log.Error("IModelMetadataRegistry service loading failed, MvcExtensions have not been initilized correctly");
-                return;
-            }
-            
-            var validationResourcesType = typeof(ValidationResources);
-            var props = model.GetProperties();
-            _log.DebugFormat("Localize model {0}", model.Name);
-            
-            var propertiesMetadata = new Dictionary<string, ModelMetadataItem>();
-            foreach (var property in props)
-            {
-                var metadataItem = metadataRegistry.GetModelPropertyMetadata(model, property.Name)
-                                    ?? new ModelMetadataItem();
-                var required = property.GetCustomAttribute<RequiredAttribute>();
-                var dataType = property.GetCustomAttribute<DataTypeAttribute>();
-                
-                // check that message is not localized yet
-                if (required != null && required.ErrorMessageResourceType == null)
-                {
-                    var validation = metadataItem.GetValidationOrCreateNew<RequiredValidationMetadata>();
-                    validation.ErrorMessage = () => ValidationResources.Requred;
-                    validation.ErrorMessageResourceType = validationResourcesType;
-                    validation.ErrorMessageResourceName = ValidationResourcesLoader.RuleRequired;
-                }
-
-                propertiesMetadata.Add(property.Name, metadataItem);
-            }
-
-            metadataRegistry.RegisterModelProperties(model, propertiesMetadata);
-        }
+       
     }
 }

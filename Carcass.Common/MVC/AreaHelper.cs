@@ -15,9 +15,9 @@ namespace Carcass.Common.MVC
             }
             else
             {
-                Route route1 = route as Route;
-                if (route1 != null && route1.DataTokens != null)
-                    return route1.DataTokens["area"] as string;
+                Route routeTmp = route as Route;
+                if (routeTmp != null && routeTmp.DataTokens != null)
+                    return routeTmp.DataTokens["area"] as string;
                 else
                     return (string)null;
             }

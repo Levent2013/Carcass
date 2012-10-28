@@ -24,6 +24,13 @@ namespace Carcass.Common.Reflection
             Types = new List<Type>(assemblies.SelectMany(a => a.GetLoadableTypes()));
         }
 
+        public ClassScanner(Assembly assembly, Func<Type, bool> filter)
+        {
+            Throw.IfNullArgument(assembly, "assembly");
+            Types = new List<Type>(assembly.GetLoadableTypes().Where(filter));
+        }
+
+
         private List<Type> Types { get; set; }
 
         public IEnumerable<Type> GetPublicClasses()

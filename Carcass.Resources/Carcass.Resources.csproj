@@ -49,6 +49,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Buttons.resx</DependentUpon>
     </Compile>
+    <Compile Include="AccountResources.ru.Designer.cs">
+      <DependentUpon>AccountResources.ru.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="ExamplesResources.ru.Designer.cs">
       <DependentUpon>ExamplesResources.ru.resx</DependentUpon>
       <AutoGen>True</AutoGen>
@@ -89,6 +94,10 @@
     <EmbeddedResource Include="Buttons.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Buttons.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AccountResources.ru.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>AccountResources.ru.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="ExamplesResources.ru.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

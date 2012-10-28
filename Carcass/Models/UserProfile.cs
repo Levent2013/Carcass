@@ -5,6 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
+using Carcass.Resources;
+
 namespace Carcass.Models
 {
     public class UserProfile
@@ -14,12 +16,15 @@ namespace Carcass.Models
         [Required]
         [DataType(DataType.EmailAddress)]
         [StringLength(255)]
+        [Display(Name = "E-mail")]
         public string Email { get; set; }
 
         [StringLength(255)]
+        [Display(Name = "FirstName", ResourceType = typeof(AccountResources))]
         public string FirstName { get; set; }
 
         [StringLength(255)]
+        [Display(Name = "LastName", ResourceType = typeof(AccountResources))]
         public string LastName { get; set; }
     }
 

@@ -39,4 +39,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render(Url.Action("Validation", "Localization", new { culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name } ))
 }

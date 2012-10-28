@@ -28,10 +28,10 @@ else
     @Html.CarcassValidationSummary()
           
     @Html.HiddenFor(m => m.Id)  
+    @Html.CarcassFieldFor(m => m.Email)
     @Html.CarcassFieldFor(m => m.FirstName)
     @Html.CarcassFieldFor(m => m.LastName)
-    @Html.CarcassFieldFor(m => m.Email)
-   
+       
     @Html.CarcassFormActions(new Dictionary<string, object> 
         { { Buttons.Save, new { type = "submit", @class="btn-primary" }} });
 }
@@ -44,4 +44,5 @@ else
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render(Url.Action("Validation", "Localization", new { culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name } ))
 }

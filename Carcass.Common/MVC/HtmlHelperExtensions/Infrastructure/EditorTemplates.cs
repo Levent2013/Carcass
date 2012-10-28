@@ -170,10 +170,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                             var typeName = metadata.ModelType.Name;
                             if (metadata.IsNullableValueType && metadata.ModelType.GenericTypeArguments.Length > 0)
                                 typeName = metadata.ModelType.GenericTypeArguments[0].Name;
-                            var fieldType = metadata.DataTypeName ?? typeName;
-
+                            
                             sb.Append(" ");
-                            if (fieldType == "DateTime")
+                            if (typeName == "DateTime")
                             {
                                 sb.Append(
                                     ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + DateControlPostfix, null, validationAttrs.Clone())
@@ -571,7 +570,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         {
             if (metadata.ShowForEdit
                     && metadata.ModelType != typeof(System.Data.EntityState) // do not show internal Entity State
-                    && (metadata.DataTypeName == "Upload" || !metadata.IsComplexType))
+                    && (metadata.DataTypeName == "Upload"
+                            || metadata.TemplateHint == "Upload" 
+                            || !metadata.IsComplexType))
             {
                 return !templateInfo.Visited(metadata);
             }

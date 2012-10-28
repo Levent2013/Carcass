@@ -28,6 +28,11 @@ h1, h2, h3, h4, h5, legend { text-shadow: 1px 1px 2px #cccccc; }
 form h4 { margin-left: 180px; }
 
 .footer { margin-bottom: 20px; }
+.logo-128 { min-height: 128px; padding-left: 168px; 
+            background-image: url("../img/logo-128.png"); background-repeat: no-repeat; 
+            background-position: 10px 20px;
+}
+.hero-unit.logo-128 { background-position: 10px 60px; }
 
 /* Bootstrap UI elements */
 .alert-comment {  position: relative; padding-left: 6.5em; color: #111111; background-color: #fafafa; border-color: #e8e8e8; }

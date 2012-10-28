@@ -118,21 +118,21 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="FirstName" xml:space="preserve">
-    <value>First Name</value>
+    <value>Имя</value>
   </data>
   <data name="LastName" xml:space="preserve">
-    <value>Last Name</value>
+    <value>Фамилия</value>
   </data>
   <data name="Password" xml:space="preserve">
-    <value>Password</value>
+    <value>Пароль</value>
   </data>
   <data name="RegistrationForm" xml:space="preserve">
-    <value>Registration Form</value>
+    <value>Регистрация пользователя</value>
   </data>
   <data name="UnknownUser" xml:space="preserve">
-    <value>Unknown</value>
+    <value>Неизвестный</value>
   </data>
   <data name="UserName" xml:space="preserve">
-    <value>User Name</value>
+    <value>Имя пользователя</value>
   </data>
 </root>

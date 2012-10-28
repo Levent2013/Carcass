@@ -7,9 +7,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-using Carcass.Data;
+using Carcass.Common.MVC;
 using MvcExtensions;
 using log4net;
+
 
 namespace Carcass.Infrastructure.Tasks
 {
@@ -27,8 +28,8 @@ namespace Carcass.Infrastructure.Tasks
         {
             var appAssembly = typeof(Carcass.MvcApplication).Assembly;
 
-            Carcass.Common.MVC.Bootstrap.Init();
-            Carcass.Common.MVC.Bootstrap.LocalizeModels(appAssembly, "Carcass.Models");
+            Bootstrap.Init();
+            Localizer.LocalizeValidators(appAssembly, "Carcass.Models");
 
             return TaskContinuation.Continue;
         }
