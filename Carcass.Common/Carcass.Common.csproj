@@ -63,6 +63,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
@@ -119,7 +120,6 @@
     <Compile Include="IO\StreamPipe.cs" />
     <Compile Include="MVC\AreaHelper.cs" />
     <Compile Include="MVC\Bootstrap.cs" />
-    <Compile Include="MVC\Localizer.cs" />
     <Compile Include="MVC\DataAnnotations\TemplatesVisibilityAttribute.cs" />
     <Compile Include="MVC\DataAnnotations\FileUploadAttribute.cs" />
     <Compile Include="MVC\DataTypes\Binding\PostedFileArrayBinder.cs" />
@@ -140,6 +140,9 @@
     <Compile Include="MVC\MvcHelper.cs" />
     <Compile Include="MVC\Security\AuthorizeWithMessageAttribute.cs" />
     <Compile Include="MVC\FluentMetadataHelper.cs" />
+    <Compile Include="MVC\Validation\DataTypeModelValidator.cs" />
+    <Compile Include="MVC\Validation\GlobalResourceProvider.cs" />
+    <Compile Include="MVC\Validation\ValidationResourceProviderFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\AssemblyExtensions.cs" />
     <Compile Include="Reflection\ClassScanner.cs" />
@@ -155,9 +158,7 @@
       <Name>Carcass.Common.Resources</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MVC\Validation\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

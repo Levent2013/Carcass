@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Globalization;
 using System.Linq;
 using System.Data;
 using System.Data.Entity;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -29,7 +32,7 @@ namespace Carcass.Infrastructure.Tasks
             var appAssembly = typeof(Carcass.MvcApplication).Assembly;
 
             Bootstrap.Init();
-            Localizer.LocalizeValidators(appAssembly, "Carcass.Models");
+            Bootstrap.SetupValidators(appAssembly, "Carcass.Models");
 
             return TaskContinuation.Continue;
         }

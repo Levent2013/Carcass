@@ -26,14 +26,14 @@ namespace Carcass.Models
         public bool Boolean { get; set; }
 
         [Required]
-        [DataType(DataType.Currency, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Number")]
+        [DataType(DataType.Currency)]
         public decimal Currency { get; set; }
 
-        [DataType(DataType.Date, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Date")]
+        [DataType(DataType.Date)]
         [Required]
         public DateTime Date { get; set; }
 
-        [DataType(DataType.Time, ErrorMessageResourceType = typeof(ValidationResources), ErrorMessageResourceName = "Time")]
+        [DataType(DataType.Time)]
         [Required]
         public DateTime Time { get; set; }
 

@@ -129,6 +129,9 @@
   <data name="DateISO" xml:space="preserve">
     <value>Пожалуйста, введите корректную дату в формате ISO.</value>
   </data>
+  <data name="DateTime" xml:space="preserve">
+    <value>Пожалуйста, введите корректные дату и время.</value>
+  </data>
   <data name="Digits" xml:space="preserve">
     <value>Пожалуйста, вводите только цифры.</value>
   </data>
@@ -140,6 +143,14 @@
   </data>
   <data name="EqualTo" xml:space="preserve">
     <value>Пожалуйста, введите такое же значение ещё раз.</value>
+  </data>
+  <data name="FieldMustBeDate" xml:space="preserve">
+    <value>Значение для "{0}" должно быть датой.</value>
+    <comment>Localization for legacy MVC ClientDataTypeModelValidatorProvider</comment>
+  </data>
+  <data name="FieldMustBeNumeric" xml:space="preserve">
+    <value>Значение для "{0}" должно быть числом.</value>
+    <comment>Localization for legacy MVC ClientDataTypeModelValidatorProvider</comment>
   </data>
   <data name="InvalidPropertyValue" xml:space="preserve">
     <value>Неправильное значение: {0}</value>
@@ -159,6 +170,14 @@
   <data name="Number" xml:space="preserve">
     <value>Пожалуйста, введите число.</value>
   </data>
+  <data name="PropertyValueInvalid" xml:space="preserve">
+    <value>Некорректное значение "{0}" для "{1}".</value>
+    <comment>Localization for legacy MVC DefaultModelBinder</comment>
+  </data>
+  <data name="PropertyValueRequired" xml:space="preserve">
+    <value>Поле "{0}" необходимо заполнить.</value>
+    <comment>Localization for legacy MVC DefaultModelBinder</comment>
+  </data>
   <data name="Range" xml:space="preserve">
     <value>Пожалуйста, введите число от {0} до {1}.</value>
   </data>
@@ -167,9 +186,6 @@
   </data>
   <data name="Remote" xml:space="preserve">
     <value>Пожалуйста, введите правильное значение.</value>
-  </data>
-  <data name="Requred" xml:space="preserve">
-    <value>Поле "{0}" необходимо заполнить.</value>
   </data>
   <data name="Time" xml:space="preserve">
     <value>Пожалуйста, введите корректное значение времени.</value>

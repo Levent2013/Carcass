@@ -85,7 +85,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                         requredMessage = validationAttributes[CarcassMvcSettings.ValidationAttributeRequired] as string;
 
                     if (requredMessage == null)
-                        requredMessage = String.Format(ValidationResources.Requred, labelText);
+                        requredMessage = String.Format(ValidationResources.PropertyValueRequired, labelText);
                     
                     TagBuilder star = new TagBuilder("span");
                     star.SetInnerText("*");

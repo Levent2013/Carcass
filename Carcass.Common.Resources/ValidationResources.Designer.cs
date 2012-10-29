@@ -97,6 +97,15 @@ namespace Carcass.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid date and time..
+        /// </summary>
+        public static string DateTime {
+            get {
+                return ResourceManager.GetString("DateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter only digits..
         /// </summary>
         public static string Digits {
@@ -129,6 +138,24 @@ namespace Carcass.Common.Resources {
         public static string EqualTo {
             get {
                 return ResourceManager.GetString("EqualTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid date for &quot;{0}&quot;..
+        /// </summary>
+        public static string FieldMustBeDate {
+            get {
+                return ResourceManager.GetString("FieldMustBeDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid number for &quot;{0}&quot;..
+        /// </summary>
+        public static string FieldMustBeNumeric {
+            get {
+                return ResourceManager.GetString("FieldMustBeNumeric", resourceCulture);
             }
         }
         
@@ -187,6 +214,24 @@ namespace Carcass.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The value &quot;{0}&quot; is invalid for the property &quot;{1}&quot;.
+        /// </summary>
+        public static string PropertyValueInvalid {
+            get {
+                return ResourceManager.GetString("PropertyValueInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &quot;{0}&quot; field is required..
+        /// </summary>
+        public static string PropertyValueRequired {
+            get {
+                return ResourceManager.GetString("PropertyValueRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a value between {0} and {1}..
         /// </summary>
         public static string Range {
@@ -210,15 +255,6 @@ namespace Carcass.Common.Resources {
         public static string Remote {
             get {
                 return ResourceManager.GetString("Remote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The &quot;{0}&quot; field is required..
-        /// </summary>
-        public static string Requred {
-            get {
-                return ResourceManager.GetString("Requred", resourceCulture);
             }
         }
         
