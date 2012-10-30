@@ -40,7 +40,7 @@ namespace Carcass.Common.MVC.Validation
 
         public override IEnumerable<ModelValidationResult> Validate(object container)
         {
-            if (Metadata.Model == null && !Metadata.IsRequired)
+            if (Metadata.Model == null)
                 yield break;
 
             string formattedValue = null;

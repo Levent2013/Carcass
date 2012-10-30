@@ -9,9 +9,16 @@ namespace Carcass.Infrastructure
     {
         public static DateTime Now 
         {
-            // TODO: Replace with DateTime.UtcNow, add timezone for each user, 
-            //       and update all datetime rendering 
-            get { return DateTime.Now; }
+            get { return DateTime.UtcNow; }
+        }
+
+        public static DateTime ToDisplayDate(DateTime date)
+        {
+            if (HttpContext.Current == null)
+                return date;
+
+            // TODO: Load current user timezone and apply it
+            return date;
         }
     }
 }

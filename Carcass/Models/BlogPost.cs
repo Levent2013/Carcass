@@ -43,7 +43,7 @@ namespace Carcass.Models
                 ? Author.FullName
                 : Author != null && !String.IsNullOrEmpty(Author.UserName)
                     ? Author.UserName
-                    : Carcass.Resources.AccountResources.UnknownUser; }
+                    : Carcass.Common.Resources.AccountResources.UnknownUser; }
         }
 
         #endregion

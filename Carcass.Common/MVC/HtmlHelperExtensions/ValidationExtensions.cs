@@ -23,7 +23,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
     /// </summary>
     public static class ValidationExtensions
     {
-        public static MvcHtmlString CarcassValidationSummary(this HtmlHelper htmlHelper,
+        public static IHtmlString CarcassValidationSummary(this HtmlHelper htmlHelper,
             string cssClass,
             bool excludePropertyErrors = false)
         {
@@ -34,7 +34,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 new Dictionary<string, object> { { "class", (object)cssClass }});
         }
 
-        public static MvcHtmlString CarcassValidationSummary(this HtmlHelper htmlHelper, 
+        public static IHtmlString CarcassValidationSummary(this HtmlHelper htmlHelper, 
             bool excludePropertyErrors = false, 
             string message = null, 
             IDictionary<string, object> htmlAttributes = null)
@@ -136,7 +136,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <returns> If the property or object is valid, an empty string; 
         ///         otherwise, a span elementthat contains an error message.
         /// </returns>
-        public static MvcHtmlString CarcassValidationMessageFor<TModel, TProperty>(
+        public static IHtmlString CarcassValidationMessageFor<TModel, TProperty>(
             this HtmlHelper<TModel> html, 
             Expression<Func<TModel, TProperty>> expression, 
             string validationMessage = null,
@@ -148,7 +148,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             return FieldValidationMessage(html, metadata, htmlFieldName, validationMessage, htmlAttributes);
         }
 
-        internal static MvcHtmlString FieldValidationMessage(
+        internal static IHtmlString FieldValidationMessage(
             this HtmlHelper htmlHelper, 
             ModelMetadata metadata, 
             string htmlFieldName, 

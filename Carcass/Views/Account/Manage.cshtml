@@ -26,12 +26,8 @@ else
     
     @Html.AntiForgeryToken()
     @Html.CarcassValidationSummary()
+    @Html.CarcassEditorForModel()
           
-    @Html.HiddenFor(m => m.Id)  
-    @Html.CarcassFieldFor(m => m.Email)
-    @Html.CarcassFieldFor(m => m.FirstName)
-    @Html.CarcassFieldFor(m => m.LastName)
-       
     @Html.CarcassFormActions(new Dictionary<string, object> 
         { { Buttons.Save, new { type = "submit", @class="btn-primary" }} });
 }

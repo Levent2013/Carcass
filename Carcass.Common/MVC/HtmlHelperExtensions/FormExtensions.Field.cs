@@ -31,7 +31,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <param name="expression">An expression that identifies the property to display.</param>
         /// <param name="editorAttributes">An object that contains the HTML attributes to set for the input.</param>
         /// <returns></returns>
-        public static MvcHtmlString CarcassFieldFor<TModel, TValue>(
+        public static IHtmlString CarcassFieldFor<TModel, TValue>(
             this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression,
             object editorAttributes = null)
@@ -54,7 +54,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <param name="inlineValidation">If <c>true</c> then control validation message will be rendered (CarcassValidationMessageFor)</param>
         /// <param name="editorAttributes">An object that contains the HTML attributes to set for the input.</param>
         /// <returns></returns>
-        public static MvcHtmlString CarcassFieldFor<TModel, TValue>(
+        public static IHtmlString CarcassFieldFor<TModel, TValue>(
             this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression,
             bool inlineValidation,
@@ -82,7 +82,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <param name="inlineValidation">If <c>true</c> then control validation message will be rendered (CarcassValidationMessageFor)</param>
         /// <param name="editorAttributes">An object that contains the HTML attributes to set for the input.</param>
         /// <returns></returns>
-        public static MvcHtmlString CarcassFieldFor<TModel, TValue>(
+        public static IHtmlString CarcassFieldFor<TModel, TValue>(
             this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression,
             string htmlFieldName,
@@ -108,7 +108,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <param name="htmlFieldName">Model field name</param>
         /// <param name="editorAttributes">An object that contains the HTML attributes to set for the input.</param>
         /// <returns></returns>
-        public static MvcHtmlString CarcassFieldFor<TModel, TValue>(
+        public static IHtmlString CarcassFieldFor<TModel, TValue>(
             this HtmlHelper<TModel> html, 
             Expression<Func<TModel, TValue>> expression,
             string htmlFieldName,
@@ -140,7 +140,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         ///                             are rendered for properties that have the same name.</param>
         /// <param name="templateName">The name of the template to use to render the object.</param>
         /// <returns>An HTML input element for each property in the object that is represented by the expression</returns>
-        public static MvcHtmlString CarcassEditorFor<TModel, TValue>(
+        public static IHtmlString CarcassEditorFor<TModel, TValue>(
             HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression,
             string htmlFieldName = null,
@@ -157,7 +157,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 editorAttributes);
         }
 
-        public static MvcHtmlString CarcassEditorFor(
+        public static IHtmlString CarcassEditorFor(
             this HtmlHelper html, 
             ModelMetadata metadata, 
             string templateName = null,
@@ -170,7 +170,18 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             
             var htmlFieldPrefix = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName);
             var localTemplates = new string[3] { templateName, metadata.TemplateHint, metadata.DataTypeName };
-            
+
+            var localViewData = new ViewDataDictionary(html.ViewDataContainer.ViewData)
+            {
+                Model = metadata.Model,
+                ModelMetadata = metadata,
+                TemplateInfo = new TemplateInfo()
+                {
+                    FormattedModelValue = formattedValue,
+                    HtmlFieldPrefix = htmlFieldPrefix
+                }
+            };
+
             foreach (string folder in localTemplates)
             {
                 if (String.IsNullOrEmpty(folder))
@@ -180,24 +191,14 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 var partialView = ViewEngines.Engines.FindPartialView(html.ViewContext, template);
                 if (partialView.View != null)
                 {
-                    var viewData = new ViewDataDictionary(html.ViewDataContainer.ViewData)
-                    {
-                        Model = metadata.Model,
-                        ModelMetadata = metadata,
-                        TemplateInfo = new TemplateInfo()
-                        {
-                            FormattedModelValue = formattedValue,
-                            HtmlFieldPrefix = htmlFieldPrefix
-                        }
-                    };
-
                     using (var writer = new StringWriter(CultureInfo.InvariantCulture))
                     {
                         partialView.View.Render(new ViewContext(
                             html.ViewContext, 
-                            partialView.View, 
-                            viewData,
+                            partialView.View,
+                            localViewData,
                             html.ViewContext.TempData, writer), writer);
+                        
                         return MvcHtmlString.Create(writer.ToString());
                     }
                 }
@@ -219,11 +220,11 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
             if (editorAttributes == null)
                 editorAttributes = new Dictionary<string, object>();
-
-            return formatAction((HtmlHelper)html, formattedValue, htmlFieldName, metadata, editorAttributes);
+            
+            return formatAction(html, formattedValue, htmlFieldName, metadata, editorAttributes);
         }
 
-        internal static MvcHtmlString RenderCarcassFieldFor<TModel>(
+        internal static IHtmlString RenderCarcassFieldFor<TModel>(
            HtmlHelper<TModel> html,
            ModelMetadata metadata,
            string htmlFieldName,
@@ -239,7 +240,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             var label = FormExtensions.FormatCarcassLabel((HtmlHelper)html, metadata, htmlFieldName, null, labelAttributes);
             var editor = html.CarcassEditorFor(metadata, null, htmlFieldName, editorAttributes);
 
-            MvcHtmlString validation = null;
+            IHtmlString validation = null;
             if (inlineValidation)
             {
                 var validationHtmlAttrs = validationAttributes == null

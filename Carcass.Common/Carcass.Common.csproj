@@ -58,8 +58,9 @@
     <Reference Include="MvcExtensions.Autofac">
       <HintPath>..\packages\MvcExtensions.Autofac.2.5.0\lib\net40\MvcExtensions.Autofac.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.4.5.6\lib\net40\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.4.5.10\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -135,14 +136,17 @@
     <Compile Include="MVC\Extensions\StringExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\ValidationExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.cs" />
-    <Compile Include="MVC\JavaScriptHelper.cs" />
-    <Compile Include="MVC\LocalizedRazorViewEngine.cs" />
+    <Compile Include="MVC\Html\HtmlRenderer.cs" />
+    <Compile Include="MVC\Html\JavaScriptHelper.cs" />
+    <Compile Include="MVC\Localization\LocalizedRazorViewEngine.cs" />
+    <Compile Include="MVC\Metadata\CarcassSelectListAction.cs" />
     <Compile Include="MVC\MvcHelper.cs" />
     <Compile Include="MVC\Security\AuthorizeWithMessageAttribute.cs" />
     <Compile Include="MVC\FluentMetadataHelper.cs" />
     <Compile Include="MVC\Validation\DataTypeModelValidator.cs" />
     <Compile Include="MVC\Validation\GlobalResourceProvider.cs" />
     <Compile Include="MVC\Validation\ValidationResourceProviderFactory.cs" />
+    <Compile Include="MVC\ViewDataContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\AssemblyExtensions.cs" />
     <Compile Include="Reflection\ClassScanner.cs" />

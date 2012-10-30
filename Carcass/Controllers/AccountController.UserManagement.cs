@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Transactions;
+using System.Globalization;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -15,7 +17,9 @@ using WebMatrix.WebData;
 
 using Carcass.Common.Data;
 using Carcass.Common.Data.Extensions;
+using Carcass.Common.MVC.Metadata;
 using Carcass.Common.MVC.Security;
+using Carcass.Common.MVC.Extensions;
 using Carcass.Models;
 using Carcass.Data;
 using Carcass.Data.Entities;
@@ -138,9 +142,32 @@ namespace Carcass.Controllers
             Order = 1)]
         public ActionResult Users()
         {
-            var users = Query.For<User>();
-            return View("DisplayList", users);
+            var users = Query.For<Carcass.Models.User>();
+            return View("DisplayList", users.ToList());
         }
 
+        [ChildActionOnly, CarcassSelectListAction]
+        // [OutputCache(VaryByParam="selected", Duration=1800)] 
+        public ActionResult TimeZones(string name, int selected)
+        {
+            var timeZones = TimeZoneInfo.GetSystemTimeZones();
+            var items = new List<SelectListItem>();
+            
+            foreach (TimeZoneInfo timeZone in timeZones)
+            {
+                var offset = (int)timeZone.BaseUtcOffset.TotalMinutes;
+                items.Add(new SelectListItem
+                {
+                    Text = String.Format("{0} ({1})", timeZone.DisplayName, timeZone.Id),
+                    Value = offset.ToStringInvariant(),
+                    Selected = offset == selected
+                });
+            }
+
+            // Direct call could be used:
+            // return Content(Carcass.Common.MVC.Html.HtmlRenderer.Dropdown(name, items).ToString());
+
+            return View("DropDownList", new SelectList(items, "Value", "Text", selected.ToStringInvariant()));
+        }
     }
 }

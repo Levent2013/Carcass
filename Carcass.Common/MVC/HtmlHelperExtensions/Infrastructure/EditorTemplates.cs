@@ -17,6 +17,8 @@ using Carcass.Common.Collections.Extensions;
 using Carcass.Common.Resources;
 using Carcass.Common.MVC.Extensions;
 
+using MvcExtensions;
+
 namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
 {
     internal static class EditorTemplates
@@ -36,7 +38,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         internal const string DateControlPostfix = ".Date";
         internal const string TimeControlPostfix = ".Time";
 
-        public delegate MvcHtmlString ActionDelegate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata fieldMetadata, IDictionary<string, object> editorAttributes);
+        public delegate IHtmlString ActionDelegate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata fieldMetadata, IDictionary<string, object> editorAttributes);
 
         private static readonly Dictionary<string, ActionDelegate> _defaultEditorActions
             = new Dictionary<string, ActionDelegate>((IEqualityComparer<string>)StringComparer.OrdinalIgnoreCase)
@@ -61,6 +63,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { "Date", DateTemplate },
             { "Time", TimeTemplate },
             { "Upload", UploadTemplate },
+            
+            { "RenderAction", RenderActionTemplate },
             
             { typeof (sbyte).Name, SignedIntegerTemplate},
             { typeof (int).Name, SignedIntegerTemplate },
@@ -88,7 +92,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 : NotImplementedTemplate; 
         }
 
-        internal static MvcHtmlString NotImplementedTemplate(HtmlHelper html,
+        internal static IHtmlString NotImplementedTemplate(HtmlHelper html,
             object formattedValue,
             string htmlFieldName,
             ModelMetadata modelMetadata,
@@ -99,7 +103,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 htmlFieldName ?? modelMetadata.DisplayName ?? modelMetadata.PropertyName));
         }
 
-        internal static MvcHtmlString ObjectTemplate(HtmlHelper html, 
+        internal static IHtmlString ObjectTemplate(HtmlHelper html, 
             object formattedValue, 
             string htmlFieldName,
             ModelMetadata modelMetadata, 
@@ -138,7 +142,10 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
 
                 foreach (var metadata in modelMetadata.Properties.Where(pm => EditorTemplates.ShouldShow(pm, templateInfo)))
                 {
-                    if (!metadata.HideSurroundingHtml)
+                    var fieldType = metadata.TemplateHint ?? metadata.DataTypeName;
+                    var isHidden = fieldType == "HiddenInput";
+
+                    if (!isHidden && !metadata.HideSurroundingHtml)
                     {
                         var labelAttributes = isHorisontalForm 
                             ? new Dictionary<string, object> { { "class", CarcassMvcSettings.BootsrapFormLabelClass } } : null;
@@ -163,7 +170,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                     var fieldName = templateInfo.GetFullHtmlFieldName(metadata.PropertyName);
                     sb.Append(html.CarcassEditorFor(metadata, null, fieldName, editorAttributes.Clone()).ToHtmlString());
 
-                    if (!metadata.HideSurroundingHtml)
+                    if (!isHidden && !metadata.HideSurroundingHtml)
                     {
                         if (inlineValidation)
                         {
@@ -203,7 +210,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             return MvcHtmlString.Create(sb.ToString());
         }
 
-        internal static MvcHtmlString HiddenInputTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
+        internal static IHtmlString HiddenInputTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
             Throw.IfNullArgument(metadata, "metadata");
             object value = formattedValue;
@@ -222,7 +229,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             return InputExtensions.Hidden(html, htmlFieldName, value, editorAttributes);
         }
 
-        internal static MvcHtmlString MultilineTextTemplate(HtmlHelper html, 
+        internal static IHtmlString MultilineTextTemplate(HtmlHelper html, 
             object formattedValue, 
             string htmlFieldName, 
             ModelMetadata metadata, 
@@ -237,7 +244,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 MergeAttributes(editorAttributes, "multi-line"));
         }
 
-        internal static MvcHtmlString HtmlTemplate(HtmlHelper html,
+        internal static IHtmlString HtmlTemplate(HtmlHelper html,
             object formattedValue,
             string htmlFieldName,
             ModelMetadata metadata,
@@ -250,7 +257,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 MergeAttributes(editorAttributes, "html-editor"));
         }
 
-        internal static MvcHtmlString PasswordTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
+        internal static IHtmlString PasswordTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
             // evaluate field value maxlength
             LoadMaxLength(html, metadata, editorAttributes);
@@ -262,7 +269,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 MergeAttributes(editorAttributes, "password", "password"));
         }
 
-        internal static MvcHtmlString StringTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
+        internal static IHtmlString StringTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
             // evaluate field value maxlength
             LoadMaxLength(html, metadata, editorAttributes);
@@ -274,14 +281,50 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 editorAttributes);
         }
 
-        internal static MvcHtmlString CurrencyTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
+        internal static IHtmlString CurrencyTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
             editorAttributes = MergeAttributes(editorAttributes, "currency");
             MergeCurrencyAttributes (editorAttributes);
             return InputExtensions.TextBox(html, htmlFieldName, formattedValue, editorAttributes);
         }
 
-        internal static MvcHtmlString UploadTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
+        internal static IHtmlString RenderActionTemplate(
+            HtmlHelper html, 
+            object formattedValue, 
+            string htmlFieldName, 
+            ModelMetadata metadata, 
+            IDictionary<string, object> editorAttributes)
+        {
+            var settings = metadata.GetRenderActionSetting();
+
+            Throw.IfNullArgument(settings, "RenderAction settings not found");
+            Throw.IfNullArgument(settings.Action, "RenderAction is not initialized");
+
+            var htmlFieldPrefix = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName);
+            var viewData = new ViewDataDictionary(html.ViewData)
+            {
+                Model = metadata.Model,
+                ModelMetadata = metadata,
+                TemplateInfo = new TemplateInfo()
+                {
+                    FormattedModelValue = formattedValue,
+                    HtmlFieldPrefix = htmlFieldPrefix
+                }
+            };
+
+            ViewContext viewContext = new ViewContext(
+                (ControllerContext)html.ViewContext, 
+                html.ViewContext.View, 
+                viewData, 
+                html.ViewContext.TempData,
+                html.ViewContext.Writer);
+
+            var htmlLocal = new HtmlHelper(viewContext, new ViewDataContainer(viewData));
+
+            return settings.Action(htmlLocal);
+        }
+
+        internal static IHtmlString UploadTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
             var inputAttributes = MergeAttributes(editorAttributes, null, "file");
             
@@ -325,7 +368,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// Cards numbers examples: http://www.darkcoding.net/credit-card-numbers/
         /// <example>5264504967381667, 4485261232680516, 180058738148485</example>
         /// </summary>
-        internal static MvcHtmlString CreditCardTemplate(HtmlHelper html, 
+        internal static IHtmlString CreditCardTemplate(HtmlHelper html, 
             object formattedValue, 
             string htmlFieldName, 
             ModelMetadata metadata, 
@@ -335,7 +378,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue, 
-                MergeAttributes(editorAttributes, "creditcard", null, true));
+                MergeAttributes(editorAttributes, "creditcard", null, true, true));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-credit-card""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -344,7 +387,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Format URL editor
         /// </summary>
-        internal static MvcHtmlString UrlTemplate(HtmlHelper html, 
+        internal static IHtmlString UrlTemplate(HtmlHelper html, 
             object formattedValue, 
             string htmlFieldName, 
             ModelMetadata metadata, 
@@ -354,7 +397,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "url", "text", true));
+                MergeAttributes(editorAttributes, "url", "text", true, true));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-globe""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -363,7 +406,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Format Phone Number editor
         /// </summary>
-        internal static MvcHtmlString PhoneNumberTemplate(HtmlHelper html, 
+        internal static IHtmlString PhoneNumberTemplate(HtmlHelper html, 
             object formattedValue, 
             string htmlFieldName, 
             ModelMetadata metadata, 
@@ -373,7 +416,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "phoneNumber", "text", true));
+                MergeAttributes(editorAttributes, "phoneNumber", "text", true, true));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-phone""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -382,7 +425,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Format E-Mail editor
         /// </summary>
-        internal static MvcHtmlString EmailAddressTemplate(HtmlHelper html, 
+        internal static IHtmlString EmailAddressTemplate(HtmlHelper html, 
             object formattedValue, 
             string htmlFieldName, 
             ModelMetadata metadata, 
@@ -392,7 +435,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "email", "text", true));
+                MergeAttributes(editorAttributes, "email", "text", true, true));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-e-mail""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -401,7 +444,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Date editor, got from: https://github.com/eternicode/bootstrap-datepicker
         /// </summary>
-        internal static MvcHtmlString DateTemplate(HtmlHelper html, 
+        internal static IHtmlString DateTemplate(HtmlHelper html, 
             object formattedValue, 
             string htmlFieldName, 
             ModelMetadata metadata, 
@@ -420,7 +463,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Time editor
         /// </summary>
-        internal static MvcHtmlString TimeTemplate(HtmlHelper html,
+        internal static IHtmlString TimeTemplate(HtmlHelper html,
             object formattedValue,
             string htmlFieldName,
             ModelMetadata metadata,
@@ -436,7 +479,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             return MvcHtmlString.Create(String.Format(format, GetTimeFormat(), box.ToHtmlString()));
         }
 
-        internal static MvcHtmlString DateTimeTemplate(HtmlHelper html,
+        internal static IHtmlString DateTimeTemplate(HtmlHelper html,
             object formattedValue,
             string htmlFieldName,
             ModelMetadata metadata,
@@ -465,7 +508,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Format Postal Code editor
         /// </summary>
-        internal static MvcHtmlString PostalCodeTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
+        internal static IHtmlString PostalCodeTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
             var box = InputExtensions.TextBox(
                 html,
@@ -479,7 +522,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Format editor for unsigned integer number
         /// </summary>
-        internal static MvcHtmlString UnsignedIntegerTemplate(HtmlHelper html, 
+        internal static IHtmlString UnsignedIntegerTemplate(HtmlHelper html, 
             object formattedValue, 
             string htmlFieldName, 
             ModelMetadata metadata, 
@@ -495,7 +538,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Format editor for signed integer number
         /// </summary>
-        internal static MvcHtmlString SignedIntegerTemplate(HtmlHelper html,
+        internal static IHtmlString SignedIntegerTemplate(HtmlHelper html,
             object formattedValue,
             string htmlFieldName,
             ModelMetadata metadata,
@@ -511,7 +554,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Format editor for float number
         /// </summary>
-        internal static MvcHtmlString FloatTemplate(HtmlHelper html,
+        internal static IHtmlString FloatTemplate(HtmlHelper html,
             object formattedValue,
             string htmlFieldName,
             ModelMetadata metadata,
@@ -527,7 +570,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Format editor for boolean value
         /// </summary>
-        internal static MvcHtmlString BooleanTemplate(HtmlHelper html,
+        internal static IHtmlString BooleanTemplate(HtmlHelper html,
             object formattedValue,
             string htmlFieldName,
             ModelMetadata metadata,
@@ -536,7 +579,6 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             var isChecked = false;
             if (formattedValue is bool)
                 isChecked = (bool)formattedValue;
-            
             
             return InputExtensions.CheckBox(
                 html,
@@ -582,7 +624,12 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             }
         }
 
-        private static IDictionary<string, object> MergeAttributes(IDictionary<string, object> editorAttributes, string className, string inputType = null, bool replaceClass = false)
+        private static IDictionary<string, object> MergeAttributes(
+            IDictionary<string, object> editorAttributes, 
+            string className, 
+            string inputType = null, 
+            bool replaceClass = false,
+            bool validate = false)
         {
             if (editorAttributes == null)
                 editorAttributes = new Dictionary<string, object>();
@@ -618,6 +665,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             {
                 editorAttributes.Add("type", inputType);
             }
+
+            if (validate)
+                editorAttributes.Set("data-val", "true");
 
             return editorAttributes;
         }

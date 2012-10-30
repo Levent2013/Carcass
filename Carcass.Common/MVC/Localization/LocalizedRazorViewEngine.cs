@@ -7,7 +7,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 
-namespace Carcass.Common.MVC
+namespace Carcass.Common.MVC.Localization
 {
     public class LocalizedRazorViewEngine : RazorViewEngine
     {

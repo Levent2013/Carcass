@@ -32,6 +32,11 @@ namespace Carcass.Data.Entities
         [StringLength(255)]
         public string LastName { get; set; }
 
+        /// <summary>
+        /// Timezone offset in minutes
+        /// </summary>
+        public int TimeZoneOffset { get; set; }
+
         [NotMapped]
         public string FullName 
         {

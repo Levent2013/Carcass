@@ -24,7 +24,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <param name="html">The HTML helper instance that this method extends.</param>
         /// <param name="expression">An expression that identifies the property to display.</param>
         /// <returns></returns>
-        public static MvcHtmlString CarcassDisplayFor<TModel, TValue>(
+        public static IHtmlString CarcassDisplayFor<TModel, TValue>(
             this HtmlHelper<TModel> html,
             Expression<Func<TModel, TValue>> expression)
         {

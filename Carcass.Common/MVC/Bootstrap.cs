@@ -80,7 +80,7 @@ namespace Carcass.Common.MVC
             ViewEngines.Engines.Clear();
 
             _log.Debug("Setup localized Razor view engine");
-            ViewEngines.Engines.Add(new LocalizedRazorViewEngine());
+            ViewEngines.Engines.Add(new Localization.LocalizedRazorViewEngine());
         }
         
         private static void InitializeModelBinders()
@@ -130,17 +130,17 @@ namespace Carcass.Common.MVC
                 if (property.Value.IsRequired ?? false)
                 {
                     var validator = property.Value.GetValidationOrCreateNew<RequiredValidationMetadata>();
+                    
                     // check that message is not localized yet
                     if (validator.ErrorMessage == null && validator.ErrorMessageResourceType == null)
                     {
                         validator.ErrorMessage = () => ValidationResources.PropertyValueRequired;
                     }
                 }
-
+              
                 var typeValidator = property.Value.GetValidationOrCreateNew<CustomValidationMetadata<DataTypeModelValidator>>();
                 typeValidator.Factory = (mdata, context) => new DataTypeModelValidator(mdata, context);
                 typeValidator.Configure = v => DataTypeModelValidator.Configure(v);
-
             }
         }
        

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Carcass.Common.MVC.HtmlHelperExtensions
@@ -14,7 +15,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// </summary>
         /// <param name="html">The HTML helper instance that this method extends.</param>
         /// <returns>HTML button representation</returns>
-        public static MvcHtmlString BoostrapCloseBtn(this HtmlHelper html)
+        public static IHtmlString BoostrapCloseBtn(this HtmlHelper html)
         {
             var tb = RenderCloseBtn();
             return MvcHtmlString.Create(tb.ToString());

@@ -15,6 +15,7 @@ using Carcass.Data.Entities;
 using Carcass.Models;
 using Carcass.Infrastructure;
 using Carcass.Resources;
+using Carcass.Common.Resources;
 
 namespace Carcass.Controllers
 {

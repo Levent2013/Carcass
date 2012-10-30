@@ -26,7 +26,7 @@ namespace Carcass.Common.Data
             Throw.IfNullArgument(loader, "loader");
 
             var context = container.Resolve<TDbContext>();
-            _source = loader(context).AsNoTracking();
+            _source = loader(context);
         }
 
         public IQueryable<T> Source
@@ -41,14 +41,16 @@ namespace Carcass.Common.Data
     {
         private IQueryable<TDest> _source;
 
-        public EntityRepository(IComponentContext container, Func<TDbContext, DbSet<TSource>> loader, Func<TSource, TDest> selector)
+        public EntityRepository(IComponentContext container, 
+            Func<TDbContext, DbSet<TSource>> loader,
+            Expression<Func<TSource, TDest>> selector)
         {
             Throw.IfNullArgument(container, "container");
             Throw.IfNullArgument(loader, "loader");
             Throw.IfNullArgument(selector, "selector");
 
             var context = container.Resolve<TDbContext>();
-            _source = loader(context).AsNoTracking().Select(p => selector(p));
+            _source = loader(context).Select(selector);
         }
 
         public IQueryable<TDest> Source

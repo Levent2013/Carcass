@@ -25,7 +25,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <param name="expression">An expression that identifies the property to display.</param>
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         /// <returns>An formatted HTML label element</returns>
-        public static MvcHtmlString CarcassLabelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, object htmlAttributes = null)
+        public static IHtmlString CarcassLabelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, object htmlAttributes = null)
         {
             Throw.IfNullArgument(expression, "expression");
             
@@ -48,7 +48,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <param name="htmlAttributes">An object that contains the HTML attributes to set for the element.</param>
         /// <param name="metadataProvider">The metadata provider</param>
         /// <returns></returns>
-        internal static MvcHtmlString FormatCarcassLabel(
+        internal static IHtmlString FormatCarcassLabel(
             HtmlHelper html, 
             ModelMetadata metadata,
             string htmlFieldName,

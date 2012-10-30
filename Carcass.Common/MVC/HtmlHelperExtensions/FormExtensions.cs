@@ -107,7 +107,12 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 htmlHelper.ViewContext.RequestContext,
                 true);
 
-            return CarcassBeginFormImpl(htmlHelper, formAction, CarcassMvcSettings.BootsrapFormClassHorisontal, method, htmlAttributes);
+            return CarcassBeginFormImpl(
+                htmlHelper, 
+                formAction, 
+                CarcassMvcSettings.BootsrapFormClassHorisontal, 
+                method, 
+                htmlAttributes);
         }
 
         /// <summary>
@@ -151,7 +156,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <param name="htmlFieldName">Model field name</param>
         /// <param name="editorAttributes">An object that contains the HTML attributes to set for the input.</param>
         /// <returns></returns>
-        public static MvcHtmlString CarcassFormActions(
+        public static IHtmlString CarcassFormActions(
             this HtmlHelper html,
             IDictionary<string, object> buttons,
             string groupClass = CarcassMvcSettings.BootsrapFormActionsClass)
@@ -202,14 +207,14 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// </list>
         /// </param>
         /// <returns>An HTML input element for each property in the model.</returns>
-        public static MvcHtmlString CarcassEditorForModel(this HtmlHelper html, object options)
+        public static IHtmlString CarcassEditorForModel(this HtmlHelper html, object options = null)
         {
             return CarcassEditorFor(
                 html, 
                 html.ViewData.ModelMetadata, 
                 "Object", 
                 html.ViewData.ModelMetadata.PropertyName,
-                (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(options));
+                options != null ? (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(options) : null);
         }
 
 

@@ -9,39 +9,6 @@ namespace Carcass.Common.MVC
 {
     public static class MvcHelper
     {
-        private class ReplaceHtmlForPreview
-        {
-            private static string[] AllowedPreviewTags = new[]
-            {
-                "p", "i", "b", "a", "h1", "h2", "h3", "h4", "h5", "h6", "br"
-            };
-
-            private bool _fullReplace;
-
-            public ReplaceHtmlForPreview(bool fullReplace)
-            {
-                _fullReplace = fullReplace;
-            }
-
-            /// <summary>
-            /// Pass only AllowedPreviewTags tags
-            /// </summary>
-            /// <param name="m">Match to test</param>
-            /// <returns></returns>
-            public string Replace(Match m)
-            {
-                if (!_fullReplace && AllowedPreviewTags.Contains(m.Groups[2].Value))
-                {
-                    if(m.Groups[2].Value == "br")
-                        return "<br/>"; // make valid
-                        
-                    return m.Value; // return String.Format("<{0}{1}>", m.Groups[1].Value, m.Groups[2].Value);
-                }
-
-                return String.Empty;
-            }
-        }
-
         public static string LimitText(string content, int symbolsCount = 512)
         {
             if (String.IsNullOrEmpty(content))
@@ -70,6 +37,7 @@ namespace Carcass.Common.MVC
             return content;
         }
 
+        // TODO: Add UT for this method
         public static string GetHtmlPreview(string content, int symbolsCount = 512)
         {
             if (String.IsNullOrEmpty(content))
@@ -133,5 +101,42 @@ namespace Carcass.Common.MVC
             
             return content;
         }
+
+        #region Privats
+
+        private class ReplaceHtmlForPreview
+        {
+            private static string[] AllowedPreviewTags = new[]
+            {
+                "p", "i", "b", "a", "h1", "h2", "h3", "h4", "h5", "h6", "br"
+            };
+
+            private bool _fullReplace;
+
+            public ReplaceHtmlForPreview(bool fullReplace)
+            {
+                _fullReplace = fullReplace;
+            }
+
+            /// <summary>
+            /// Pass only AllowedPreviewTags tags
+            /// </summary>
+            /// <param name="m">Match to test</param>
+            /// <returns></returns>
+            public string Replace(Match m)
+            {
+                if (!_fullReplace && AllowedPreviewTags.Contains(m.Groups[2].Value))
+                {
+                    if (m.Groups[2].Value == "br")
+                        return "<br/>"; // make valid
+
+                    return m.Value; // return String.Format("<{0}{1}>", m.Groups[1].Value, m.Groups[2].Value);
+                }
+
+                return String.Empty;
+            }
+        }
+
+        #endregion
     }
 }

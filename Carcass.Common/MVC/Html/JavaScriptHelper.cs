@@ -6,7 +6,7 @@ using System.Globalization;
 
 using Newtonsoft.Json;
 
-namespace Carcass.Common.MVC
+namespace Carcass.Common.MVC.Html
 {
     public static class JavaScriptHelper
     {

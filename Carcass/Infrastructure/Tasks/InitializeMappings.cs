@@ -42,10 +42,6 @@ namespace Carcass.Infrastructure.Tasks
                 .IgnoreAllNonExisting();
 
             Mapper.CreateMap<UserProfile, UserEntity>()
-                .ForMember(u => u.Email, opt => opt.MapFrom(p => p.Email))
-                .ForMember(u => u.FirstName, opt => opt.MapFrom(p => p.FirstName))
-                .ForMember(u => u.LastName, opt => opt.MapFrom(p => p.LastName))
-                .ForMember(u => u.DateRegistered, opt => opt.Ignore())
                 .IgnoreAllNonExisting();
 
             Mapper.CreateMap<UserEntity, User>()
