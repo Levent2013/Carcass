@@ -377,8 +377,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             var box = InputExtensions.TextBox(
                 html, 
                 htmlFieldName, 
-                formattedValue, 
-                MergeAttributes(editorAttributes, "creditcard", null, true, true));
+                formattedValue,
+                MergeAttributes(editorAttributes, "creditcard", null, true, html.ViewContext.UnobtrusiveJavaScriptEnabled));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-credit-card""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -397,7 +397,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "url", "text", true, true));
+                MergeAttributes(editorAttributes, "url", "text", true, html.ViewContext.UnobtrusiveJavaScriptEnabled));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-globe""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -416,7 +416,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "phoneNumber", "text", true, true));
+                MergeAttributes(editorAttributes, "phoneNumber", "text", true, html.ViewContext.UnobtrusiveJavaScriptEnabled));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-phone""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
@@ -435,7 +435,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "email", "text", true, true));
+                MergeAttributes(editorAttributes, "email", "text", true, html.ViewContext.UnobtrusiveJavaScriptEnabled));
 
             var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-e-mail""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));

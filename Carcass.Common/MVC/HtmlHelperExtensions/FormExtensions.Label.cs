@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 using System.Web.Routing;
 
 using Carcass.Common.Utility;
@@ -35,6 +36,24 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 ExpressionHelper.GetExpressionText((LambdaExpression) expression),
                 null,
                 (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+        }
+
+        /// <summary>
+        /// Gets the description given in DisplayName attribute.
+        /// </summary>
+        /// <typeparam name="TModel">The type of the model.</typeparam>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="html">The HTML helper instance that this method extends.</param>
+        /// <param name="expression">An expression that identifies the object that contains the description.</param>
+        /// <returns>The description for the model.</returns>
+        public static IHtmlString DescriptionFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression)
+        {
+            var metadata = ModelMetadata.FromLambdaExpression<TModel, TValue>(expression, html.ViewData);
+            var description = metadata.Description;
+            if (!String.IsNullOrEmpty(description))
+                return new MvcHtmlString(description);
+
+            return html.DisplayNameFor(expression);
         }
 
         /// <summary>
@@ -83,7 +102,6 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                     html.ViewContext.FormContext.RenderedField(htmlFieldName, false);
                     if (validationAttributes.ContainsKey(CarcassMvcSettings.ValidationAttributeRequired))
                         requredMessage = validationAttributes[CarcassMvcSettings.ValidationAttributeRequired] as string;
-
                     if (requredMessage == null)
                         requredMessage = String.Format(ValidationResources.PropertyValueRequired, labelText);
                     
@@ -91,7 +109,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                     star.SetInnerText("*");
                     star.AddCssClass(CarcassMvcSettings.BootsrapClassError);
                     star.MergeAttribute("title", requredMessage);
-                    tg.InnerHtml = html.Encode(labelText) + " " + star.ToString(TagRenderMode.Normal);
+                    tg.InnerHtml = html.Encode(labelText) + "&nbsp;" + star.ToString(TagRenderMode.Normal);
                 }
                 else
                 {

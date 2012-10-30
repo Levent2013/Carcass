@@ -259,11 +259,29 @@ namespace Carcass.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter an integer value, sign allowed..
+        /// </summary>
+        public static string SignedInt {
+            get {
+                return ResourceManager.GetString("SignedInt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a valid time..
         /// </summary>
         public static string Time {
             get {
                 return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a positive integer value..
+        /// </summary>
+        public static string UnsignedInt {
+            get {
+                return ResourceManager.GetString("UnsignedInt", resourceCulture);
             }
         }
         

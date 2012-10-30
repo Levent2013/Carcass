@@ -14,7 +14,7 @@ namespace Carcass.Models.Configurations
     {
         public BlogPostConfiguration()
         {
-            Configure(model => model.Id).Hide();
+            Configure(model => model.Id).AsHidden();
             Configure(model => model.Title).Required().MaximumLength(255).Order(1);
             Configure(model => model.Origin).MaximumLength(1024, () => ValidationResources.MaxLength).Order(2).AsUrl();
             Configure(model => model.Content).Required().Order(3).AllowHtml().AsHtml();

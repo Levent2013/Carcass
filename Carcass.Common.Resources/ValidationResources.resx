@@ -187,8 +187,14 @@
   <data name="Remote" xml:space="preserve">
     <value>Please fix this field.</value>
   </data>
+  <data name="SignedInt" xml:space="preserve">
+    <value>Please enter an integer value, sign allowed.</value>
+  </data>
   <data name="Time" xml:space="preserve">
     <value>Please enter a valid time.</value>
+  </data>
+  <data name="UnsignedInt" xml:space="preserve">
+    <value>Please enter a positive integer value.</value>
   </data>
   <data name="Url" xml:space="preserve">
     <value>Please enter a valid URL.</value>

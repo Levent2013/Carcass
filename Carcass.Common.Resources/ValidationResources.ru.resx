@@ -136,7 +136,7 @@
     <value>Пожалуйста, вводите только цифры.</value>
   </data>
   <data name="EditorTemplateNotFoundFor" xml:space="preserve">
-    <value>Редоктор для "{0}" не найден.</value>
+    <value>Редактор для "{0}" не найден.</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Пожалуйста, введите корректный адрес электронной почты.</value>
@@ -187,8 +187,14 @@
   <data name="Remote" xml:space="preserve">
     <value>Пожалуйста, введите правильное значение.</value>
   </data>
+  <data name="SignedInt" xml:space="preserve">
+    <value>Требуется целое число.</value>
+  </data>
   <data name="Time" xml:space="preserve">
     <value>Пожалуйста, введите корректное значение времени.</value>
+  </data>
+  <data name="UnsignedInt" xml:space="preserve">
+    <value>Требуется положительное целое число.</value>
   </data>
   <data name="Url" xml:space="preserve">
     <value>Пожалуйста, введите корректный URL.</value>

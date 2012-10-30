@@ -25,15 +25,15 @@ namespace Carcass.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "UserName", ResourceType = typeof(AccountResources))]
+        [Display(ResourceType = typeof(AccountResources), Name = "UserName", Description="UserNameDescription")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password", ResourceType = typeof(AccountResources))]
+        [Display(ResourceType = typeof(AccountResources), Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(ResourceType = typeof(AccountResources), Name = "RememberMe")]
         public bool RememberMe { get; set; }
     }
 

@@ -31,7 +31,7 @@
                     { "placeholder", Html.DisplayNameFor(m => m.UserName) },
                     { "rel", "popover" },
                     { "data-placement", "top" },
-                    { "data-content", "Please enter your user name" },
+                    { "data-content", Html.DescriptionFor(m => m.UserName) },
                     { "data-original-title", Html.DisplayNameFor(m => m.UserName) }
                 })
             @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "alert alert-error" })

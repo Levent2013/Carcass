@@ -36,6 +36,9 @@ namespace Carcass.Common.Resources
             sb.AppendFormat("\"{0}\": {1},\n", "equalTo", JavaScriptHelper.EncodeJavaScript(resources.GetString("EqualTo", locale)));
             sb.AppendFormat("\"{0}\": {1},\n", "accept", JavaScriptHelper.EncodeJavaScript(resources.GetString("Accept", locale)));
 
+            sb.AppendFormat("\"{0}\": {1},\n", "unsigned_int", JavaScriptHelper.EncodeJavaScript(resources.GetString("UnsignedInt", locale)));
+            sb.AppendFormat("\"{0}\": {1},\n", "signed_int", JavaScriptHelper.EncodeJavaScript(resources.GetString("SignedInt", locale)));
+
             sb.AppendFormat("\"{0}\": jQuery.validator.format({1}),\n", "maxlength", JavaScriptHelper.EncodeJavaScript(resources.GetString("MaxLength", locale)) );
             sb.AppendFormat("\"{0}\": jQuery.validator.format({1}),\n", "minlength", JavaScriptHelper.EncodeJavaScript(resources.GetString("MinLength", locale)));
             sb.AppendFormat("\"{0}\": jQuery.validator.format({1}),\n", "rangelength", JavaScriptHelper.EncodeJavaScript(resources.GetString("RangeLength", locale)));

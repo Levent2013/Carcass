@@ -132,6 +132,9 @@
   <data name="RegistrationForm" xml:space="preserve">
     <value>Регистрация пользователя</value>
   </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>Запомнить меня?</value>
+  </data>
   <data name="TimeZone" xml:space="preserve">
     <value>Часовой пояс</value>
   </data>
@@ -140,5 +143,8 @@
   </data>
   <data name="UserName" xml:space="preserve">
     <value>Имя пользователя</value>
+  </data>
+  <data name="UserNameDescription" xml:space="preserve">
+    <value>Имя пользователя которое будет использоваться для входа на сайт</value>
   </data>
 </root>

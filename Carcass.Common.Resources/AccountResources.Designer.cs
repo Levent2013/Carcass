@@ -115,6 +115,15 @@ namespace Carcass.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remember me?.
+        /// </summary>
+        public static string RememberMe {
+            get {
+                return ResourceManager.GetString("RememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time Zone.
         /// </summary>
         public static string TimeZone {
@@ -138,6 +147,15 @@ namespace Carcass.Common.Resources {
         public static string UserName {
             get {
                 return ResourceManager.GetString("UserName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your user name.
+        /// </summary>
+        public static string UserNameDescription {
+            get {
+                return ResourceManager.GetString("UserNameDescription", resourceCulture);
             }
         }
     }
