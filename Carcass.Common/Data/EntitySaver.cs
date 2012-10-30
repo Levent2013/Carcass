@@ -43,8 +43,7 @@ namespace Carcass.Common.Data
         public TSource Save()
         {
             Throw.IfNullArgument(_source, "Could not save entity, source is not set");
-            Throw.IfTrue(_target == null, (msg) => new InvalidOperationException(msg), "Database entity to update not found, source type: {0}", typeof(TSource));
-
+            
             var isNew = false;
             var target = _target;
             if (target == null)

@@ -1,5 +1,5 @@
 ﻿@model Carcass.Models.RegisterModel
-@using Carcass.Resources;
+@using Carcass.Common.Resources;
 @{ ViewBag.Title = AccountResources.RegistrationForm; }
 
 
@@ -15,9 +15,9 @@
 {
     @@Html.AntiForgeryToken()
     @@Html.CarcassValidationSummary(false, "Validation failed")
-    @@Html.CarcassFieldFor(m => m.UserName, new { placeholder = "User name", autocomplete = "off" })
-    @@Html.CarcassFieldFor(m => m.Password, new { placeholder = "Password", autocomplete = "off" })
-    @@Html.CarcassFieldFor(m => m.ConfirmPassword, new { placeholder = "Confirm password", autocomplete = "off" })
+    @@Html.CarcassFieldFor(m => m.UserName, new { placeholder = AccountResources.UserName, autocomplete = "off" })
+    @@Html.CarcassFieldFor(m => m.Password, new { placeholder = AccountResources.Password, autocomplete = "off" })
+    @@Html.CarcassFieldFor(m => m.ConfirmPassword, new { placeholder = AccountResources.ConfirmPassword, autocomplete = "off" })
     
     @@Html.CarcassFormActions(new Dictionary<string, object> 
         { { Buttons.Register, new { type = "submit", @@class="btn-primary" }} });
@@ -29,12 +29,12 @@
 {
     @Html.AntiForgeryToken()
     @Html.CarcassValidationSummary(false, "Validation failed")
-    @Html.CarcassFieldFor(m => m.UserName, new { placeholder = "User name", autocomplete = "off" })
-    @Html.CarcassFieldFor(m => m.Password, new { placeholder = "Password", autocomplete = "off" })
-    @Html.CarcassFieldFor(m => m.ConfirmPassword, new { placeholder = "Confirm password", autocomplete = "off" })
+    @Html.CarcassFieldFor(m => m.UserName, new { placeholder = AccountResources.UserName, autocomplete = "off" })
+    @Html.CarcassFieldFor(m => m.Password, new { placeholder = AccountResources.Password, autocomplete = "off" })
+    @Html.CarcassFieldFor(m => m.ConfirmPassword, new { placeholder = AccountResources.ConfirmPassword, autocomplete = "off" })
    
     @Html.CarcassFormActions(new Dictionary<string, object> 
-        { { Buttons.Register, new { type = "submit", @class="btn-primary" }} });
+        { { Carcass.Resources.Buttons.Register, new { type = "submit", @class="btn-primary" }} });
 }
 
 @section Scripts {
