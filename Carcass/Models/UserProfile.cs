@@ -22,6 +22,6 @@ namespace Carcass.Models
         /// <summary>
         /// Timezone offset in minutes
         /// </summary>
-        public int TimeZoneOffset { get; set; }
+        public string TimeZoneId { get; set; }
     }
 }

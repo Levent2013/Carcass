@@ -29,37 +29,35 @@
 
 .form-inline-validation .input-append input[type=text],
 .form-inline-validation .input-prepend input[type=text] { margin-top: 0; }
-
-.input-append .add-on, .input-prepend .add-on { min-width: 16px; }
 .form-inline-validation .wysihtml5-toolbar { margin-top: 5px; }
 .form-inline-validation .controls .field-validation-error { margin-top: 5px; }
 
 .input-block-level + .field-validation-error { display: block; }
 
+/* Bootstrap inputs CSS customization */
+.input-append .add-on, .input-prepend .add-on { min-width: 16px; }
+
 .input-append input[type=text], .input-prepend input[type=text] { width: 178px; }
 .input-append.input-medium input[type=text], .input-prepend.input-medium input[type=text] { width: 122px; }
-.input-append.input-xlarge input[type=text], .input-prepend.input-xlarge input[type=text] { width: 244px; }
-.input-append.input-xxlarge input[type=text], .input-prepend.input-xxlarge input[type=text] { width: 504px; }
-
-/*
-    
-
-.input-xlarge {
-  width: 270px;
-}
-
-.input-xxlarge {
-  width: 530px;
-}
-*/
+.input-append.input-large input[type=text], .input-prepend.input-large input[type=text] { width: 183px; }
+.input-append.input-xlarge input[type=text], .input-prepend.input-xlarge input[type=text] { width: 243px; }
+.input-append.input-xxlarge input[type=text], .input-prepend.input-xxlarge input[type=text] { width: 503px; }
 
 /* DateTime control */
 .datetime { display: inline-block; vertical-align: middle;}
     .datetime, .datetime.input-small, .datetime.input-medium { width: 220px; }
+    .datetime.input-large  { width: 224px; }
+    .datetime.input-xlarge { width: 284px; }
+    .datetime.input-xxlarge { width: 544px; }
+
 .datetime .datepicker-control { float: left;  }
 .datetime .timepicker-control { float: right; }
 .datetime .datepicker-control input { width: 75px; }
 .datetime .timepicker-control input { width: 45px; }
+.datetime.input-xlarge .datepicker-control input { width: 100px; }
+.datetime.input-xlarge .timepicker-control input { width: 80px; }
+.datetime.input-xxlarge .datepicker-control input { width: 280px; }
+.datetime.input-xxlarge .timepicker-control input { width: 150px; }
 
 /* Bordered tabs */
 .tabs-border .nav.nav-tabs { margin-bottom: 0; }
@@ -81,6 +79,73 @@
 /* Responsive layout */
 @media (max-width: 979px) {
 
+}
+
+@media (max-width: 767px) 
+{
+    .input-append.input-medium, 
+    .input-prepend.input-medium,
+    .input-append.input-xlarge, 
+    .input-prepend.input-xlarge,
+    .input-append.input-xxlarge, 
+    .input-prepend.input-xxlarge 
+    {
+        display: block;
+        width: 100%;
+        min-height: 30px;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+    }
+
+    .input-append.input-medium input[type=text], 
+    .input-prepend.input-medium input[type=text],
+    .input-append.input-xlarge input[type=text], 
+    .input-prepend.input-xlarge input[type=text],
+    .input-append.input-xxlarge input[type=text], 
+    .input-prepend.input-xxlarge input[type=text] 
+    {
+        display: block;
+        width: 100%;
+        min-height: 30px;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+        -webkit-border-radius: 4px;
+           -moz-border-radius: 4px;
+                border-radius: 4px;
+    }
+
+    .input-append.input-medium .add-on, 
+    .input-prepend.input-medium .add-on,
+    .input-append.input-xlarge .add-on, 
+    .input-prepend.input-xlarge .add-on,
+    .input-append.input-xxlarge .add-on, 
+    .input-prepend.input-xxlarge .add-on 
+    {
+        display: none;
+    }
+
+    .datetime, .datetime.input-small, .datetime.input-medium, .datetime.input-large, .datetime.input-xlarge, .datetime.input-xxlarge { width: 100%; }
+    .datetime .datepicker-control { width: 60%; }
+    .datetime .timepicker-control { width: 35%; }
+    
+    .datetime .datepicker-control input, .datetime .timepicker-control input,
+    .datetime.input-medium .datepicker-control input, .datetime.input-medium .timepicker-control input,
+    .datetime.input-large .datepicker-control input, .datetime.input-large .timepicker-control input,
+    .datetime.input-xlarge .datepicker-control input, .datetime.input-xlarge .timepicker-control input,
+    .datetime.input-xxlarge .datepicker-control input, .datetime.input-xxlarge .timepicker-control input { 
+        width: 100%; 
+        min-height: 30px;
+        -webkit-box-sizing: border-box;
+           -moz-box-sizing: border-box;
+                box-sizing: border-box;
+        -webkit-border-radius: 4px;
+           -moz-border-radius: 4px;
+                border-radius: 4px;
+    }
+
+    .datetime .datepicker-control .add-on, .datetime .timepicker-control .add-on { display: none; }
 }
 
 @media (max-width: 480px) {

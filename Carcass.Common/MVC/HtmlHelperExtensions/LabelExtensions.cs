@@ -14,7 +14,7 @@ using Carcass.Common.Resources;
 
 namespace Carcass.Common.MVC.HtmlHelperExtensions
 {
-    public static partial class FormExtensions
+    public static partial class LabelExtensions
     {
         /// <summary>
         /// Returns an HTML label element and the property name of the property that
@@ -29,8 +29,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         public static IHtmlString CarcassLabelFor<TModel, TValue>(this HtmlHelper<TModel> html, Expression<Func<TModel, TValue>> expression, object htmlAttributes = null)
         {
             Throw.IfNullArgument(expression, "expression");
-            
-            return FormExtensions.FormatCarcassLabel(
+
+            return LabelExtensions.FormatCarcassLabel(
                 (HtmlHelper)html,
                 ModelMetadata.FromLambdaExpression<TModel, TValue>(expression, html.ViewData),
                 ExpressionHelper.GetExpressionText((LambdaExpression) expression),

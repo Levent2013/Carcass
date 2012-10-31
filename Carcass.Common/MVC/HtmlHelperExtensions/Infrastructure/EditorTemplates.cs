@@ -149,7 +149,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                     {
                         var labelAttributes = isHorisontalForm 
                             ? new Dictionary<string, object> { { "class", CarcassMvcSettings.BootsrapFormLabelClass } } : null;
-                        var label = FormExtensions.FormatCarcassLabel(
+                        var label = LabelExtensions.FormatCarcassLabel(
                             (HtmlHelper)html, 
                             metadata,
                             metadata.PropertyName, 
@@ -285,6 +285,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         {
             editorAttributes = MergeAttributes(editorAttributes, "currency");
             MergeCurrencyAttributes (editorAttributes);
+
             return InputExtensions.TextBox(html, htmlFieldName, formattedValue, editorAttributes);
         }
 
@@ -374,14 +375,12 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata, 
             IDictionary<string, object> editorAttributes)
         {
-            var box = InputExtensions.TextBox(
-                html, 
-                htmlFieldName, 
-                formattedValue,
-                MergeAttributes(editorAttributes, "creditcard", null, true, html.ViewContext.UnobtrusiveJavaScriptEnabled));
+            var oldClass = LoadHtmlAttribute(editorAttributes, "class");
+            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "creditcard", "text", true));
+            var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
 
-            var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-credit-card""></i></span></div>";
-            return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
+            var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-credit-card""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, oldClass, box.ToHtmlString()));
         }
 
         /// <summary>
@@ -393,14 +392,12 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata, 
             IDictionary<string, object> editorAttributes)
         {
-            var box = InputExtensions.TextBox(
-                html, 
-                htmlFieldName, 
-                formattedValue,
-                MergeAttributes(editorAttributes, "url", "text", true, html.ViewContext.UnobtrusiveJavaScriptEnabled));
+            var oldClass = LoadHtmlAttribute(editorAttributes, "class");
+            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "url", "text", true));
+            var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
 
-            var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-globe""></i></span></div>";
-            return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
+            var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-globe""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, oldClass, box.ToHtmlString()));
         }
         
         /// <summary>
@@ -412,14 +409,12 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata, 
             IDictionary<string, object> editorAttributes)
         {
-            var box = InputExtensions.TextBox(
-                html, 
-                htmlFieldName, 
-                formattedValue,
-                MergeAttributes(editorAttributes, "phoneNumber", "text", true, html.ViewContext.UnobtrusiveJavaScriptEnabled));
+            var oldClass = LoadHtmlAttribute(editorAttributes, "class");
+            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "phone-number", "text", true));
+            var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
 
-            var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-phone""></i></span></div>";
-            return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
+            var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-phone""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, oldClass, box.ToHtmlString()));
         }
 
         /// <summary>
@@ -431,14 +426,12 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata, 
             IDictionary<string, object> editorAttributes)
         {
-            var box = InputExtensions.TextBox(
-                html, 
-                htmlFieldName, 
-                formattedValue,
-                MergeAttributes(editorAttributes, "email", "text", true, html.ViewContext.UnobtrusiveJavaScriptEnabled));
+            var oldClass = LoadHtmlAttribute(editorAttributes, "class");
+            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "email", "text", true));
+            var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
 
-            var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-e-mail""></i></span></div>";
-            return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
+            var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-e-mail""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, oldClass, box.ToHtmlString()));
         }
 
         /// <summary>
@@ -450,14 +443,15 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata, 
             IDictionary<string, object> editorAttributes)
         {
+            var oldClass = LoadHtmlAttribute(editorAttributes, "class");
             var box = InputExtensions.TextBox(
               html,
               htmlFieldName,
               formattedValue,
               MergeAttributes(editorAttributes, "date", "text", true));
 
-            var format = @"<div class=""input-append datepicker-control"" data-date-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-calendar""></i></span></div>";
-            return MvcHtmlString.Create(String.Format(format, GetDateFormat(), box.ToHtmlString()));
+            var format = @"<div class=""input-append {0} datepicker-control"" data-date-format=""{1}"" >{2}<span class=""add-on""><i class=""icon-calendar""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, oldClass, GetDateFormat(), box.ToHtmlString()));
         }
 
         /// <summary>
@@ -469,14 +463,15 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata,
             IDictionary<string, object> editorAttributes)
         {
+            var oldClass = LoadHtmlAttribute(editorAttributes, "class");
             var box = InputExtensions.TextBox(
               html,
               htmlFieldName,
               formattedValue,
               MergeAttributes(editorAttributes, "time", "text", true));
 
-            var format = @"<div class=""input-append timepicker-control"" data-time-format=""{0}"" >{1}<span class=""add-on""><i class=""icon-time""></i></span></div>";
-            return MvcHtmlString.Create(String.Format(format, GetTimeFormat(), box.ToHtmlString()));
+            var format = @"<div class=""input-append {0} timepicker-control"" data-time-format=""{1}"" >{2}<span class=""add-on""><i class=""icon-time""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, oldClass, GetTimeFormat(), box.ToHtmlString()));
         }
 
         internal static IHtmlString DateTimeTemplate(HtmlHelper html,
@@ -485,6 +480,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata,
             IDictionary<string, object> editorAttributes)
         {
+            var oldClass = LoadHtmlAttribute(editorAttributes, "class");
             var hidden = InputExtensions.Hidden(html, htmlFieldName, formattedValue);
             string dateValue = null, timeValue = null;
             if (formattedValue is DateTime)
@@ -494,11 +490,13 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 timeValue = dt.ToShortTimeString();
             }
 
-            var date = DateTemplate(html, dateValue, htmlFieldName + DateControlPostfix, metadata, new Dictionary<string, object>(editorAttributes));
-            var time = TimeTemplate(html, timeValue, htmlFieldName + TimeControlPostfix, metadata, new Dictionary<string, object>(editorAttributes));
+            var attrs = MergeAttributes(editorAttributes, String.Empty, null, true);
+            var date = DateTemplate(html, dateValue, htmlFieldName + DateControlPostfix, metadata, attrs);
+            var time = TimeTemplate(html, timeValue, htmlFieldName + TimeControlPostfix, metadata, attrs);
 
-            var format = @"<div class=""datetime"">{0} {1} {2}</div>";
+            var format = @"<div class=""datetime {0}"">{1} {2} {3}</div>";
             return MvcHtmlString.Create(String.Format(format,
+                oldClass,
                 date.ToHtmlString(), 
                 time.ToHtmlString(),
                 hidden.ToHtmlString()));
@@ -510,13 +508,12 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// </summary>
         internal static IHtmlString PostalCodeTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
-            var box = InputExtensions.TextBox(
-                html,
-                htmlFieldName,
-                formattedValue,
-                MergeAttributes(editorAttributes, "postal-code", "text", true));
-            var format = @"<div class=""input-append"">{0}<span class=""add-on""><i class=""icon-envelope""></i></span></div>";
-            return MvcHtmlString.Create(String.Format(format, box.ToHtmlString()));
+            var oldClass = LoadHtmlAttribute(editorAttributes, "class");
+            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "postal-code", "text", true));
+            var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
+
+            var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-envelope""></i></span></div>";
+            return MvcHtmlString.Create(String.Format(format, oldClass, box.ToHtmlString()));
         }
         
         /// <summary>
@@ -560,11 +557,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata,
             IDictionary<string, object> editorAttributes)
         {
-            return InputExtensions.TextBox(
-                html,
-                htmlFieldName,
-                formattedValue,
-                MergeAttributes(editorAttributes, "number", "text"));
+            return InputExtensions.TextBox(html, htmlFieldName, formattedValue, MergeAttributes(editorAttributes, "number", "text"));
         }
 
         /// <summary>
@@ -580,18 +573,13 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             if (formattedValue is bool)
                 isChecked = (bool)formattedValue;
             
-            return InputExtensions.CheckBox(
-                html,
-                htmlFieldName,
-                isChecked,
-                editorAttributes);
+            return InputExtensions.CheckBox(html, htmlFieldName, isChecked, editorAttributes);
         }
         
 
         private static string GetDateFormat()
         {
             var pattern = System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortDatePattern;
-
             if(String.IsNullOrEmpty(pattern))
                 return DefaultDateFormat;
 
@@ -601,7 +589,6 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         private static string GetTimeFormat()
         {
             var pattern = System.Threading.Thread.CurrentThread.CurrentCulture.DateTimeFormat.ShortTimePattern;
-
             if (String.IsNullOrEmpty(pattern))
                 return DefaultTimeFormat;
 
@@ -624,17 +611,36 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             }
         }
 
+        private static string LoadHtmlAttribute(IDictionary<string, object> attributes, string name)
+        {
+            if (attributes == null)
+                return null;
+
+            return attributes.Get<string>(name);
+        }
+
+        private static IDictionary<string, object> SetupValidationAttributes(HtmlHelper html, IDictionary<string, object> attributes)
+        {
+            if (attributes == null)
+                attributes = new Dictionary<string, object>();
+            
+            if (html.ViewContext.UnobtrusiveJavaScriptEnabled)
+                attributes.Set("data-val", "true");
+
+            return attributes;
+
+        }
+
         private static IDictionary<string, object> MergeAttributes(
             IDictionary<string, object> editorAttributes, 
             string className, 
             string inputType = null, 
-            bool replaceClass = false,
-            bool validate = false)
+            bool replaceClass = false)
         {
             if (editorAttributes == null)
                 editorAttributes = new Dictionary<string, object>();
 
-            if (!String.IsNullOrWhiteSpace(className))
+            if (className != null) // white-space allowed to reset classes
             {
                 if (editorAttributes.ContainsKey("class"))
                 {
@@ -665,9 +671,6 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             {
                 editorAttributes.Add("type", inputType);
             }
-
-            if (validate)
-                editorAttributes.Set("data-val", "true");
 
             return editorAttributes;
         }

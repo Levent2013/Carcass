@@ -14,7 +14,7 @@ using Carcass.Common.Resources;
 
 namespace Carcass.Common.MVC.HtmlHelperExtensions
 {
-    public static partial class FormExtensions
+    public static partial class DisplayExtensions
     {
         /// <summary>
         /// Format HTML layout for form field in display mode

@@ -64,7 +64,7 @@ namespace Carcass.Common.MVC.Validation
             Throw.IfNullArgument(validator.Metadata, "metadata");
             LoadDataType(validator);
 
-            // TODO: Refactor and implement server-side validors for Url, Credit Card, E-mail, and others
+            // TODO: Refactor and implement server-side validators for Url, Credit Card, E-mail, and others
 
             if(validator.DataType == DataType.DateTime) 
             {

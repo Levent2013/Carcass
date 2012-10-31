@@ -31,12 +31,12 @@ namespace Carcass.Models.Configurations
                 .MaximumLength(255)
                 .Order(3);
 
-            Configure(model => model.TimeZoneOffset)
+            Configure(model => model.TimeZoneId)
               .DisplayName(() => AccountResources.TimeZone)
               .RenderAction("TimeZones", "Account")
               .Order(4);
-
             // .NullDisplayText("---Please Select---")
+            
         }
     }
 }

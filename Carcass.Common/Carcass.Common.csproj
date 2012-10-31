@@ -129,9 +129,9 @@
     <Compile Include="MVC\HtmlHelperExtensions\CarcassMvcForm.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\CarcassMvcSettings.cs" />
     <Compile Include="MVC\Extensions\ValueExtensions.cs" />
-    <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Display.cs" />
+    <Compile Include="MVC\HtmlHelperExtensions\DisplayExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Field.cs" />
-    <Compile Include="MVC\HtmlHelperExtensions\FormExtensions.Label.cs" />
+    <Compile Include="MVC\HtmlHelperExtensions\LabelExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\Infrastructure\EditorTemplates.cs" />
     <Compile Include="MVC\Extensions\StringExtensions.cs" />
     <Compile Include="MVC\HtmlHelperExtensions\ValidationExtensions.cs" />

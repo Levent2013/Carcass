@@ -237,7 +237,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             var isHorisontalForm = (formClass ?? String.Empty).HasCssClass(CarcassMvcSettings.BootsrapFormClassHorisontal);
 
             var labelAttributes = isHorisontalForm ? new Dictionary<string, object> { { "class", CarcassMvcSettings.BootsrapFormLabelClass } } : null;
-            var label = FormExtensions.FormatCarcassLabel((HtmlHelper)html, metadata, htmlFieldName, null, labelAttributes);
+            var label = LabelExtensions.FormatCarcassLabel((HtmlHelper)html, metadata, htmlFieldName, null, labelAttributes);
             var editor = html.CarcassEditorFor(metadata, null, htmlFieldName, editorAttributes);
 
             IHtmlString validation = null;

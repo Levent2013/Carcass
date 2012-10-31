@@ -31,7 +31,11 @@
         @using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.CarcassValidationSummary("tab-form", true)
-            @Html.CarcassEditorForModel( new { CssClass = "tab-form", InlineValidation = true, ValidationClass = "alert alert-error" })
+            @Html.CarcassEditorForModel( new { 
+                    CssClass = "tab-form", 
+                    InlineValidation = true, 
+                    EditorClass = "input-xlarge",
+                    ValidationClass = "alert alert-error" })
             @Html.CarcassFormActions(new Dictionary<string, object> { 
                 { Buttons.Submit, new { type = "submit", @class = "btn-primary" } } });
         }

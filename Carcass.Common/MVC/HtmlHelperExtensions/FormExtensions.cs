@@ -24,7 +24,6 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
         public static FormContext GetFormContextForClientValidation(this HtmlHelper html)
         {
-            
             if (!html.ViewContext.ClientValidationEnabled)
                 return null;
             else
@@ -67,18 +66,15 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             this HtmlHelper htmlHelper,
             string actionName,
             string controllerName,
-            RouteValueDictionary routeValues,
-            object htmlAttributes = null)
+            object routeValues)
         {
-
             return CarcassBeginForm(
                 htmlHelper,
                 actionName,
                 controllerName,
-                routeValues,
                 FormMethod.Post,
-                (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
-                
+                routeValues,
+                null);
         }
 
         /// <summary>
@@ -133,8 +129,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             this HtmlHelper htmlHelper, 
             string actionName, 
             string controllerName,
+            FormMethod method, 
             object routeValues, 
-            FormMethod method = FormMethod.Post, 
             IDictionary<string, object> htmlAttributes = null)
         {
             var formAction = UrlHelper.GenerateUrl(
@@ -145,6 +141,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 htmlHelper.RouteCollection, 
                 htmlHelper.ViewContext.RequestContext, 
                 true);
+
             return CarcassBeginFormImpl(htmlHelper, formAction, CarcassMvcSettings.BootsrapFormClassHorisontal, method, htmlAttributes);
         }
 
@@ -201,9 +198,10 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// Form rendering options.
         /// Currently supported following options:
         /// <list type="table">
-        ///     <item><term>InlineValidation</term><description>Write validation messages for each field</description>
-        ///     </item>
+        ///     <item><term>CssClass</term><description>CSS class for parent editor</description></item>
+        ///     <item><term>InlineValidation</term><description>Write validation messages for each field</description></item>
         ///     <item><term>ValidationClass</term><description>CSS class for validation messages </description></item>
+        ///     <item><term>EditorClass</term><description>CSS class for properties editors fields (for example 'input-large') </description></item>
         /// </list>
         /// </param>
         /// <returns>An HTML input element for each property in the model.</returns>

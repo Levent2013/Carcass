@@ -67,6 +67,9 @@ window.Carcass = window.Carcass || {};
                     stylesheets: [cs.BaseUrl + "Content/css/wysiwyg-color.css"]
                 })
             });
+
+            // Fix Bootstrap dropdowns on Android
+        $(document).on('touchstart.dropdown', '.dropdown-menu', function(e) { e.stopPropagation(); });
             
     });
     

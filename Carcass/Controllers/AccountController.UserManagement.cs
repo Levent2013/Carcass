@@ -148,7 +148,7 @@ namespace Carcass.Controllers
 
         [ChildActionOnly, CarcassSelectListAction]
         // [OutputCache(VaryByParam="selected", Duration=1800)] 
-        public ActionResult TimeZones(string name, int selected)
+        public ActionResult TimeZones(string selected, string name /* HTML control name */)
         {
             var timeZones = TimeZoneInfo.GetSystemTimeZones();
             var items = new List<SelectListItem>();
@@ -159,15 +159,15 @@ namespace Carcass.Controllers
                 items.Add(new SelectListItem
                 {
                     Text = String.Format("{0} ({1})", timeZone.DisplayName, timeZone.Id),
-                    Value = offset.ToStringInvariant(),
-                    Selected = offset == selected
+                    Value = timeZone.Id,
+                    Selected = timeZone.Id.Equals(selected)
                 });
             }
 
             // Direct call could be used:
             // return Content(Carcass.Common.MVC.Html.HtmlRenderer.Dropdown(name, items).ToString());
 
-            return View("DropDownList", new SelectList(items, "Value", "Text", selected.ToStringInvariant()));
+            return View("DropDownList", new SelectList(items, "Value", "Text", selected));
         }
     }
 }

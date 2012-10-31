@@ -5,8 +5,8 @@ body, input, button, select, textarea {
 
 /* Bootstrap navbar customization */
 .navbar .navbar-inner { 
-    background: #111111 url("../img/bg01.png") repeat; border-bottom: 1px solid #000000; border-top: 1px solid #000000;
-    filter: progid:dximagetransform.microsoft.gradient(enabled=false);
+    border-bottom: 1px solid #000000; border-top: 1px solid #000000;
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 
 body > .navbar .brand {
@@ -84,4 +84,9 @@ h1 .cs-icon-number, h2 .cs-icon-number, h3 .cs-icon-number { margin: 7px 10px 3p
 
 @media (max-width: 480px) {
     form h4 { margin-left: 0; }
+    .logo-128 { min-height: 0; background-image: none; padding-left: 20px; }
 }
+
+/* Mobile devices settings */
+* { -webkit-tap-highlight-color: rgba(0,0,0,0); }
+
