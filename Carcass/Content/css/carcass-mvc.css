@@ -37,8 +37,13 @@
 /* Bootstrap inputs CSS customization */
 .input-append .add-on, .input-prepend .add-on { min-width: 16px; }
 
+.input-append.input-medium, .input-prepend.input-medium { width: 164px; }
+.input-append.input-large, .input-prepend.input-large { width: 224px; }
+.input-append.input-xlarge, .input-prepend.input-xlarge { width: 284px; }
+.input-append.input-xxlarge, .input-prepend.input-xxlarge { width: 544px; }
+
 .input-append input[type=text], .input-prepend input[type=text] { width: 178px; }
-.input-append.input-medium input[type=text], .input-prepend.input-medium input[type=text] { width: 122px; }
+.input-append.input-medium input[type=text], .input-prepend.input-medium input[type=text] { width: 123px; }
 .input-append.input-large input[type=text], .input-prepend.input-large input[type=text] { width: 183px; }
 .input-append.input-xlarge input[type=text], .input-prepend.input-xlarge input[type=text] { width: 243px; }
 .input-append.input-xxlarge input[type=text], .input-prepend.input-xxlarge input[type=text] { width: 503px; }

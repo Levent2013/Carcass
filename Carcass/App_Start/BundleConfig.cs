@@ -35,6 +35,11 @@ namespace Carcass
                         "~/Content/js/jquery.validate.unobtrusive.js",
                         "~/Content/js/carcass-validate.js")); // IMPORTANT: carcass-validate.js must be included after jquery.validate.js
 
+            bundles.Add(new ScriptBundle("~/bundles/prettify").Include(
+                        "~/Content/js/prettify.js",
+                        "~/Content/js/prettify-lang-css.js",
+                        "~/Content/js/prettify-loader.js"));
+
 
             bundles.Add(new StyleBundle("~/Content/css/main")
                 .Include("~/Content/css/bootstrap.css",
@@ -44,6 +49,7 @@ namespace Carcass
                     "~/Content/css/bootstrap-timepicker.css",
                     "~/Content/css/bootstrap-fileinput.css",
                     "~/Content/css/bootstrap-wysihtml5.css",
+                    "~/Content/css/prettify-bootstrap.css",
                     "~/Content/css/carcass-mvc.css",
                     "~/Content/css/site.css"));
         }

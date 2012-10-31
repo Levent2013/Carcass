@@ -245,6 +245,9 @@
     <Content Include="Content\css\bootstrap-fileinput.css" />
     <Content Include="Content\css\ie7.css" />
     <Content Include="Content\css\ie7-8.css" />
+    <Content Include="Content\css\prettify-bootstrap.css" />
+    <Content Include="Content\css\prettify-default.css" />
+    <Content Include="Content\css\prettify-sunburst.css" />
     <Content Include="Content\css\wysiwyg-color.css" />
     <Content Include="Content\img\bg01.png" />
     <Content Include="Content\img\bg02.png" />
@@ -275,6 +278,8 @@
     <Content Include="Content\js\carcass-mvc.js" />
     <Content Include="Content\js\carcass-validate.js" />
     <Content Include="Content\js\carcass-util.js" />
+    <Content Include="Content\js\prettify-lang-css.js" />
+    <Content Include="Content\js\prettify-loader.js" />
     <Content Include="Content\js\html5.js" />
     <Content Include="Content\js\jquery.validate.additional-methods.js" />
     <Content Include="Content\js\locales\bootstrap-datepicker.cs.js" />
@@ -345,6 +350,7 @@
     <Content Include="Content\js\locales\jquery-validation\methods_de.js" />
     <Content Include="Content\js\locales\jquery-validation\methods_nl.js" />
     <Content Include="Content\js\locales\jquery-validation\methods_pt.js" />
+    <Content Include="Content\js\prettify.js" />
     <Content Include="Content\js\purl.js" />
     <Content Include="Content\js\wysihtml5-0.3.0_rc2.js" />
     <Content Include="Content\js\wysihtml5_parser_rules\advanced.js" />

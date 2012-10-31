@@ -68,9 +68,8 @@ window.Carcass = window.Carcass || {};
                 })
             });
 
-            // Fix Bootstrap dropdowns on Android
-        $(document).on('touchstart.dropdown', '.dropdown-menu', function(e) { e.stopPropagation(); });
-            
+        // Fix Bootstrap dropdowns on Android
+        $(document).on('touchstart.dropdown', '.dropdown-menu', function(e) { e.stopPropagation(); })
     });
     
 }(window.jQuery, window.Carcass, window);

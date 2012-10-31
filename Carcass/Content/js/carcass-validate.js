@@ -24,7 +24,8 @@
 
         if (datepicker) {
             return datepicker.parseDate(value).valueOf() == datepicker.date.valueOf()
-                    && value == datepicker.formatDate(datepicker.date);
+                   && (value == datepicker.formatDate(datepicker.date)
+                       || ('0' + value) == datepicker.formatDate(datepicker.date));
         } else {
             return !/Invalid|NaN/.test(new Date(value));
         }

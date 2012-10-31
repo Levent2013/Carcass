@@ -19,8 +19,6 @@
     <p>Second tab (Html.EditorForModel) display result of legacy ASP.NET MVC <code>Html.EditorForModel</code> usage to compare.</p>
 </div>
 
-
-
 <div class="tabbable tabs-border">
     <ul class="nav nav-tabs">
         <li class="active"><a href="#CarcassEditorForModel" data-toggle="tab">Html.CarcassEditorForModel</a></li>
@@ -34,7 +32,7 @@
             @Html.CarcassEditorForModel( new { 
                     CssClass = "tab-form", 
                     InlineValidation = true, 
-                    EditorClass = "input-xlarge",
+                    EditorClass = "input-xxlarge",
                     ValidationClass = "alert alert-error" })
             @Html.CarcassFormActions(new Dictionary<string, object> { 
                 { Buttons.Submit, new { type = "submit", @class = "btn-primary" } } });
@@ -58,6 +56,7 @@
 
 
 @section Scripts {
+    @Scripts.Render("~/bundles/prettify")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render(Url.Action("Validation", "Localization", new { culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name } ))
 }

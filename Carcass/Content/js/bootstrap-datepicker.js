@@ -18,7 +18,7 @@
  * limitations under the License.
  * ========================================================= */
 
-/* artiz: Added .NET dat formats support */
+/* artiz: Added .NET Date formats support */
 
 !function( $ ) {
 
@@ -38,8 +38,8 @@
 		var that = this;
 
 		this.element = $(element);
-		this.language = options.language || this.element.data('date-language') || "en";
-	    this.language = this.language in dates ? this.language : "en";
+		this.language = options.language||this.element.data('date-language')||"en";
+		this.language = this.language in dates ? this.language : "en";
 		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||'mm/dd/yyyy');
 		this.picker = $(DPGlobal.template)
 							.appendTo('body')
@@ -153,16 +153,33 @@
 				$(document).off('mousedown', this.hide);
 			}
 			if (e && e.currentTarget.value)
-				this._setValue();
+				this.setValue();
 			this.element.trigger({
 				type: 'hide',
 				date: this.date
 			});
 		},
 
-        // private
-		_setValue: function () {
-		    var formatted = DPGlobal.formatDate(this.date, this.format, this.language);
+		getDate: function() {
+			var d = this.getUTCDate();
+			return new Date(d.getTime() + (d.getTimezoneOffset()*60000))
+		},
+
+		getUTCDate: function() {
+			return this.date;
+		},
+
+		setDate: function(d) {
+			this.setUTCDate(new Date(d.getTime() - (d.getTimezoneOffset()*60000)));
+		},
+
+		setUTCDate: function(d) {
+			this.date = d;
+			this.setValue();
+		},
+
+		setValue: function() {
+			var formatted = DPGlobal.formatDate(this.date, this.format, this.language);
 			if (!this.isInput) {
 				if (this.component){
 					this.element.find('input').prop('value', formatted);
@@ -228,9 +245,9 @@
 			} else if (this.date > this.endDate) {
 				this.viewDate = new Date(this.endDate);
 			} else {
-			    this.viewDate = new Date(this.date);
-			    if (isNaN(this.viewDate.getUTCFullYear()))
-			        this.viewDate = this.date;
+				this.viewDate = new Date(this.date);
+				if (isNaN(this.viewDate.getUTCFullYear()))
+					this.viewDate = this.date;
 			}
 
 			this.fill();
@@ -267,7 +284,7 @@
 				today = new Date();
 			
 			this.picker.find('.datepicker-days thead th:eq(1)')
-						.text(dates[this.language].months[month] + ' ' + year);
+						.text(dates[this.language].months[month]+' '+year);
 			this.picker.find('tfoot th.today')
 						.text(dates[this.language].today)
 						.toggle(this.todayBtn);
@@ -413,7 +430,8 @@
 								date.setUTCMilliseconds(0);
 
 								this.showMode(-2);
-								this._setDate(date);
+								var which = this.todayBtn == 'linked' ? undefined : 'view';
+								this._setDate(date, which);
 								break;
 						}
 						break;
@@ -472,7 +490,7 @@
 			if (!which || which  == 'view')
 				this.viewDate = date;
 			this.fill();
-			this._setValue();
+			this.setValue();
 			this.element.trigger({
 				type: 'changeDate',
 				date: this.date
@@ -485,8 +503,9 @@
 			}
 			if (element) {
 				element.change();
-				if (this.autoclose) 
-                    this.hide();
+				if (this.autoclose) {
+					this.hide();
+				}
 			}
 		},
 
@@ -571,7 +590,7 @@
 					if (this.dateWithinRange(newDate)){
 						this.date = newDate;
 						this.viewDate = newViewDate;
-						this._setValue();
+						this.setValue();
 						this.update();
 						e.preventDefault();
 						dateChanged = true;
@@ -596,7 +615,7 @@
 					if (this.dateWithinRange(newDate)){
 						this.date = newDate;
 						this.viewDate = newViewDate;
-						this._setValue();
+						this.setValue();
 						this.update();
 						e.preventDefault();
 						dateChanged = true;
@@ -652,10 +671,11 @@
 		});
 	};
 
-	$.fn.datepicker.defaults = { };
+	$.fn.datepicker.defaults = { 
+	};
 	$.fn.datepicker.Constructor = Datepicker;
 	var dates = $.fn.datepicker.dates = $.extend($.fn.datepicker.dates || {}, {
-	    "en": {
+		"en": {
 	        days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
 	        daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
 	        daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
@@ -688,11 +708,16 @@
 		getDaysInMonth: function (year, month) {
 			return [31, (DPGlobal.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month]
 		},
-		validParts: /dd?|mm?|MM?M?M?|yy(?:yy)?/g,
+		validParts: /dd?|mm?m?m?|yy(?:yy)?/ig,
 		nonpunctuation: /[^ -\/:-@\[-`{-~\t\n\r]+/g,
 		parseFormat: function(format){
 			// IE treats \0 as a string end in inputs (truncating the value),
 			// so it's a bad format delimiter, anyway
+			if(!format)
+				throw new Error("Date format is empty.");
+			
+			format = format.toLowerCase();
+			
 			var separators = format.replace(this.validParts, '\0').split('\0'),
 				parts = format.match(this.validParts);
 			if (!separators || !separators.length || !parts || parts.length == 0){
@@ -702,6 +727,7 @@
 		},
 
 		parseDate: function(date, format, language) {
+
 			if (date instanceof Date) return date;
 			if (/^[-+]\d+[dmwy]([\s,]+[-+]\d+[dmwy])*$/.test(date)) {
 				var part_re = /([-+]\d+)([dmwy])/,
@@ -728,10 +754,11 @@
 				}
 				return UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0);
 			}
+			
 			var parts = date && date.match(this.nonpunctuation) || [],
 				date = new Date(),
 				parsed = {},
-				setters_order = ['yyyy', 'yy', 'M', 'MM', 'MMM', 'MMMM', 'm', 'mm', 'd', 'dd'],
+				setters_order = ['yyyy', 'yy', 'm', 'mm', 'mmm', 'mmmm', 'd', 'dd'],
 				setters_map = {
 					yyyy: function(d,v){ return d.setUTCFullYear(v); },
 					yy: function(d,v){ return d.setUTCFullYear(2000+v); },
@@ -747,7 +774,8 @@
 					d: function(d,v){ return d.setUTCDate(v); }
 				},
 				val, filtered, part;
-			setters_map['M'] = setters_map['MM'] = setters_map['MMM'] = setters_map['MMMM'] = setters_map['mm'] = setters_map['m'];
+
+			setters_map['mmmm'] = setters_map['mmm'] = setters_map['mm'] = setters_map['m'];
 			setters_map['dd'] = setters_map['d'];
 
 			date = UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0);
@@ -757,7 +785,7 @@
 					part = format.parts[i];
 					if (isNaN(val)) {
 						switch(part) {
-							case 'MMMM':
+							case 'mmmm':
 								filtered = $(dates[language].months).filter(function(){
 									var m = this.slice(0, parts[i].length),
 										p = parts[i].slice(0, m.length);
@@ -765,7 +793,7 @@
 								});
 								val = $.inArray(filtered[0], dates[language].months) + 1;
 								break;
-							case 'MMM':
+							case 'mmm':
 								filtered = $(dates[language].monthsShort).filter(function(){
 									var m = this.slice(0, parts[i].length),
 										p = parts[i].slice(0, m.length);
@@ -773,11 +801,14 @@
 								});
 								val = $.inArray(filtered[0], dates[language].monthsShort) + 1;
 								break;
+							default:
+								val = 0;
+								throw new Error("Invalid month name format specifier: '" + part + "', please use 'mmm' or 'mmmm'");
 						}
 					}
 					parsed[part] = val;
 				}
-				for (var i=0, s; i<setters_order.length; i++){
+				for (var i=0, s; i < setters_order.length; i++){
 					s = setters_order[i];
 					if (s in parsed)
 						setters_map[s](date, parsed[s])
@@ -787,24 +818,20 @@
 		},
 
 		formatDate: function (date, format, language) {
-		    if (!date)
-		        return '';
+			if (!date)
+				return '';
 
 			var val = {
 				d: date.getUTCDate(),
 				m: date.getUTCMonth() + 1,
-				MMM: dates[language].monthsShort[date.getUTCMonth()],
-				MMMM: dates[language].months[date.getUTCMonth()],
+				mmm: dates[language].monthsShort[date.getUTCMonth()],
+				mmmm: dates[language].months[date.getUTCMonth()],
 				yy: date.getUTCFullYear().toString().substring(2),
 				yyyy: date.getUTCFullYear()
 			};
 			val.dd = (val.d < 10 ? '0' : '') + val.d;
-			val.M = val.m;
-			val.MM = val.mm = (val.m < 10 ? '0' : '') + val.m;
-			val.mmm = val.MMM;
-			val.mmmm = val.MMMM;
-            
-
+			val.mm = (val.m < 10 ? '0' : '') + val.m;
+			
 			var date = [],
 				seps = $.extend([], format.separators);
 			for (var i=0, cnt = format.parts.length; i < cnt; i++) {
