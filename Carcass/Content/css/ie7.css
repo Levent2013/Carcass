@@ -5,3 +5,11 @@
 
 /* MVC integration */
 .alert.field-validation-error { display: inline; vertical-align: middle; }
+
+/* Carcass MVC classes overrides */
+.input-append.input-block-level input[type=text], .input-prepend.input-block-level input[type=text] { 
+    padding-right: 4px;
+}
+
+.input-append.input-block-level .add-on, .input-prepend.input-block-level .add-on { 
+    top: -31px; margin-bottom: -30px; right: -12px;}

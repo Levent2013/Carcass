@@ -88,18 +88,17 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             }
             else
             {
+                var fullHtmlFieldName = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName);
+
                 var tg = new TagBuilder("label");
-                
                 tg.AddCssClass("control-label");
-                tg.Attributes.Add(
-                    "for", 
-                    TagBuilder.CreateSanitizedId(html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName)));
+                tg.Attributes.Add("for", TagBuilder.CreateSanitizedId(fullHtmlFieldName));
 
                 if (metadata.IsRequired)
                 {
                     string requredMessage = null;
                     var validationAttributes = html.GetUnobtrusiveValidationAttributes(htmlFieldName, metadata);
-                    html.ViewContext.FormContext.RenderedField(htmlFieldName, false);
+                    html.ViewContext.FormContext.RenderedField(fullHtmlFieldName, false);
                     if (validationAttributes.ContainsKey(CarcassMvcSettings.ValidationAttributeRequired))
                         requredMessage = validationAttributes[CarcassMvcSettings.ValidationAttributeRequired] as string;
                     if (requredMessage == null)

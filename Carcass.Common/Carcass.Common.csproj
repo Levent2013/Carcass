@@ -150,6 +150,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\AssemblyExtensions.cs" />
     <Compile Include="Reflection\ClassScanner.cs" />
+    <Compile Include="Reflection\TypeHelper.cs" />
     <Compile Include="Utility\Throw.cs" />
   </ItemGroup>
   <ItemGroup>

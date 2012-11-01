@@ -17,7 +17,7 @@ namespace Carcass.Infrastructure
             if (HttpContext.Current == null)
                 return date;
 
-            // TODO: Load current user timezone and apply it
+            // TODO: Load current user timezone and apply it (ApplicationContext.CurrentTimeZoneOffset)
             return date;
         }
     }

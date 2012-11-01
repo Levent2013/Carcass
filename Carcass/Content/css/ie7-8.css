@@ -3,7 +3,6 @@ body, input, button, select, textarea {
 }
 
 /* Enable some nice Bootstrap design features in IE7-8 */
-
 img { max-width: 10000px; }
 
 /* Buttons */
@@ -69,6 +68,14 @@ img { max-width: 10000px; }
 }
 
 .nav-collapse.collapse { overflow: visible; }
-
 .alert .close { vertical-align: baseline;}
 .popover .arrow { visibility: hidden; }
+
+/* Carcass MVC classes overrides */
+.input-block-level { min-height: 20px; }
+.input-append.input-block-level input[type=text], .input-prepend.input-block-level input[type=text] { 
+    min-height: 20px;
+    padding-right: 40px;
+}
+
+.input-append.input-block-level .add-on, .input-prepend.input-block-level .add-on { top: 0; margin-bottom: -20px; }

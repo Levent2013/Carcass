@@ -22,8 +22,8 @@ namespace Carcass.Models.Configurations
 
             Configure(model => model.DateCreated).Hide();
             Configure(model => model.DateModified).Hide();
+            Configure(model => model.AuthorId).AsHidden();
             Configure(model => model.Author).Hide();
-            Configure(model => model.AuthorId).Hide();
             Configure(model => model.AuthorName).Hide();
             Configure(model => model.CommentsCount).Hide();
             Configure(model => model.CommentsEnabled).Hide();

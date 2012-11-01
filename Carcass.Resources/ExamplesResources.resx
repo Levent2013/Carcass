@@ -126,6 +126,9 @@
   <data name="BlogSpace" xml:space="preserve">
     <value>Blog Space</value>
   </data>
+  <data name="CollectionTemplate" xml:space="preserve">
+    <value>Collection Template</value>
+  </data>
   <data name="ComplexForm" xml:space="preserve">
     <value>Complex form</value>
   </data>

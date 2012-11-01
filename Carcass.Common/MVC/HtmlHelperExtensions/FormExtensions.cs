@@ -207,7 +207,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         /// <returns>An HTML input element for each property in the model.</returns>
         public static IHtmlString CarcassEditorForModel(this HtmlHelper html, object options = null)
         {
-            return CarcassEditorFor(
+            return RenderCarcassEditor(
                 html, 
                 html.ViewData.ModelMetadata, 
                 "Object", 

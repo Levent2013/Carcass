@@ -1,0 +1,46 @@
+﻿@using Carcass.Resources
+@using Carcass.Common.Reflection
+@if (ViewBag.Title == null) {
+    ViewBag.Title = TypeHelper.GetUserFriendlyName(Model.GetType());
+}
+
+<div class="alert alert-comment">
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    <p>This is an example of <code>Html.CarcassEditorForModel()</code> usage.</p>
+    <p>This template creates common editor form for model with customized form <b>action</b> and controls buttons.</p>
+    
+    @if (ViewBag.Comment != null) {
+        <p>@ViewBag.Comment</p>
+    }
+</div>
+
+@{ 
+    Func<HtmlHelper<dynamic> , IDisposable> formLoader = null;
+    if(ViewBag.FormAction == null) {
+        formLoader = (html) => html.CarcassBeginForm();
+    } else {
+        formLoader = (html) => html.CarcassBeginForm(
+            ViewBag.FormAction as string, 
+            ViewBag.FormController as string, 
+            ViewBag.FormRouteValues as object);
+    }
+}
+
+@using( formLoader(Html)) {
+    @Html.AntiForgeryToken()
+    @Html.CarcassValidationSummary(true)
+    @Html.CarcassEditorForModel()
+
+    <div class="form-actions">
+        <input type="submit" class="btn btn-primary" value="@Buttons.Save" />
+        @if (ViewBag.ReturnUrl != null) {
+            <a href="@ViewBag.ReturnUrl" class="btn">@Buttons.Return</a>
+        }
+    </div>
+}
+ 
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render(Url.Action("Validation", "Localization", new { culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name } ))
+}

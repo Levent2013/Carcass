@@ -1,4 +1,5 @@
-﻿@using Carcass.Resources
+﻿@model Carcass.Models.ComplexModel
+@using Carcass.Resources
 
 @{ ViewBag.Title = ExamplesResources.ComplexForm; }
 <div class="alert alert-comment">
@@ -8,11 +9,18 @@
     </p>
     <p>Complete server side description for this complicated form contains only 6 lines of code. 
 <pre>
-    @@using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @@using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, 
+                                    new { enctype = "multipart/form-data" }))
     {
+        @@Html.AntiForgeryToken()
         @@Html.CarcassValidationSummary("tab-form", true)
-        @@Html.CarcassEditorForModel( new { CssClass = "tab-form", InlineValidation = true, ValidationClass = "alert alert-error" })
-        @@Html.CarcassFormActions(new Dictionary&lt;string, object&gt; { { Buttons.Submit, new { type = "submit", @@class = "btn-primary" } } });
+        @@Html.CarcassEditorForModel( new { 
+                CssClass = "tab-form", 
+                InlineValidation = true, 
+                EditorClass = "input-xxlarge",
+                ValidationClass = "alert alert-error" })
+        @@Html.CarcassFormActions(new Dictionary&lt;string, object&gt; { 
+            { Buttons.Submit, new { type = "submit", @@class = "btn-primary" } } });
     }
 </pre>
     </p>
@@ -28,6 +36,7 @@
     <div class="tab-pane active" id="CarcassEditorForModel">
         @using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
+            @Html.AntiForgeryToken()
             @Html.CarcassValidationSummary("tab-form", true)
             @Html.CarcassEditorForModel( new { 
                     CssClass = "tab-form", 
@@ -41,8 +50,9 @@
     <div class="tab-pane" id="EditorForModel">
         @using (Html.BeginForm("ComplexForm", "Example", FormMethod.Post, new { @class = "legacy-mvc-form" }))
         {
-           <div class="tab-form">
+            <div class="tab-form">
                 @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
                 @Html.EditorForModel()
             </div>
             

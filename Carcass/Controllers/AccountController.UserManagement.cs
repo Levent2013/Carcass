@@ -143,7 +143,7 @@ namespace Carcass.Controllers
         public ActionResult Users()
         {
             var users = Query.For<Carcass.Models.User>();
-            return View("DisplayList", users.ToList());
+            return View("Templates/DisplayList", users.ToList());
         }
 
         [ChildActionOnly, CarcassSelectListAction]
@@ -167,7 +167,7 @@ namespace Carcass.Controllers
             // Direct call could be used:
             // return Content(Carcass.Common.MVC.Html.HtmlRenderer.Dropdown(name, items).ToString());
 
-            return View("DropDownList", new SelectList(items, "Value", "Text", selected));
+            return View("Templates/DropDownList", new SelectList(items, "Value", "Text", selected));
         }
     }
 }

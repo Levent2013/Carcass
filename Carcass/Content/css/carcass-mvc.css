@@ -41,12 +41,31 @@
 .input-append.input-large, .input-prepend.input-large { width: 224px; }
 .input-append.input-xlarge, .input-prepend.input-xlarge { width: 284px; }
 .input-append.input-xxlarge, .input-prepend.input-xxlarge { width: 544px; }
+.input-append.input-block-level, .input-prepend.input-block-level { width: 100%; }
 
 .input-append input[type=text], .input-prepend input[type=text] { width: 178px; }
 .input-append.input-medium input[type=text], .input-prepend.input-medium input[type=text] { width: 123px; }
 .input-append.input-large input[type=text], .input-prepend.input-large input[type=text] { width: 183px; }
 .input-append.input-xlarge input[type=text], .input-prepend.input-xlarge input[type=text] { width: 243px; }
 .input-append.input-xxlarge input[type=text], .input-prepend.input-xxlarge input[type=text] { width: 503px; }
+.input-append.input-block-level input[type=text], .input-prepend.input-block-level input[type=text] { 
+    width: 100%; 
+    min-height: 30px;
+    padding-right: 40px;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+            box-sizing: border-box;
+    -webkit-border-radius: 4px;
+       -moz-border-radius: 4px;
+            border-radius: 4px;
+}
+
+.input-append.input-block-level .add-on, .input-prepend.input-block-level .add-on { 
+    float: right; 
+    position: relative;
+    top: -30px;
+    margin-bottom: -30px;
+}
 
 /* DateTime control */
 .datetime { display: inline-block; vertical-align: middle;}

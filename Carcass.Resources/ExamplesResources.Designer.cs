@@ -88,6 +88,15 @@ namespace Carcass.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collection Template.
+        /// </summary>
+        public static string CollectionTemplate {
+            get {
+                return ResourceManager.GetString("CollectionTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Complex form.
         /// </summary>
         public static string ComplexForm {

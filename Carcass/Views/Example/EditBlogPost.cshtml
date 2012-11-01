@@ -4,9 +4,6 @@
 @{ ViewBag.Title = ExamplesResources.AddBlogPost; }
 @using (Html.CarcassBeginForm("form-horizontal form-inline-validation", FormMethod.Post))
 {
-    @Html.HiddenFor(m => m.Id)
-    @Html.HiddenFor(m => m.AuthorId)
-
     @Html.AntiForgeryToken()
     @Html.CarcassValidationSummary(true)
     @Html.CarcassEditorForModel( new { InlineValidation = true, ValidationClass = "alert alert-error", EditorClass = "input-block-level" })

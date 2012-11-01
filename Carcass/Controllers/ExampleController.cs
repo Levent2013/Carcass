@@ -31,11 +31,33 @@ namespace Carcass.Controllers
 
         public ActionResult ComplexForm()
         {
-            // Use dynamic typing without @model usage on view
             return View(new Models.ComplexModel
                 {
                     Date = ServerTime.Now,
                     Currency = 50.0m
+                });
+        }
+        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ComplexForm(Models.ComplexModel complexModel)
+        {
+            if (ModelState.IsValid)
+            {
+                ViewBag.ReturnUrl = Url.Action("ComplexForm", "Example");
+                return View("Templates/DisplayModel", complexModel);
+            }
+
+            return View(complexModel);
+        }
+
+        public ActionResult CollectionTemplate()
+        {
+            return View("Templates/EditModel", new List<CarModel>()
+                {
+                    new CarModel { Id = 1, Brand = "Honda", Model = "Jazz", Price = 12200m, ProductionYear = 2005 },
+                    new CarModel { Id = 2, Brand = "Honda", Model = "Civic", Price = 10900m, ProductionYear = 2006 },
+                    new CarModel { Id = 3, Brand = "Acura", Model = "MDX", Price = 41100m, ProductionYear = 2013 },
                 });
         }
 
@@ -115,18 +137,6 @@ namespace Carcass.Controllers
                 return HttpNotFound("Post not found");
 
             return View(post);
-        }
-        
-        [HttpPost]
-        public ActionResult ComplexForm(Models.ComplexModel complexModel)
-        {
-            if (ModelState.IsValid)
-            {
-                ViewBag.ReturnUrl = Url.Action("ComplexForm", "Example");
-                return View("DisplayModel", complexModel);
-            }
-
-            return View(complexModel);
         }
     }
 }

@@ -226,8 +226,9 @@
     <Compile Include="Infrastructure\Tasks\LocalizationTask.cs" />
     <Compile Include="Models\BlogPost.cs" />
     <Compile Include="Models\Configurations\BlogPostConfiguration.cs" />
+    <Compile Include="Models\Configurations\CarModelConfiguration.cs" />
     <Compile Include="Models\Configurations\UserProfileConfiguration.cs" />
-    <Compile Include="Models\ProductEditModel.cs" />
+    <Compile Include="Models\CarModel.cs" />
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\ComplexModel.cs" />
     <Compile Include="Models\User.cs" />
@@ -630,9 +631,9 @@
     <Content Include="Content\tinymce\utils\mctabs.js" />
     <Content Include="Content\tinymce\utils\validate.js" />
     <Content Include="Views\Example\ComplexForm.cshtml" />
-    <Content Include="Views\Shared\DisplayModel.cshtml" />
+    <Content Include="Views\Shared\Templates\DisplayModel.cshtml" />
     <Content Include="Views\Shared\_Languages.cshtml" />
-    <Content Include="Views\Shared\DisplayList.cshtml" />
+    <Content Include="Views\Shared\Templates\DisplayList.cshtml" />
     <Content Include="application.config" />
     <Content Include="Views\Account\ManagePassword.cshtml" />
     <Content Include="Views\Example\Bootbox.cshtml" />
@@ -642,7 +643,8 @@
     <Content Include="Views\Shared\_ClientGlobals.cshtml" />
     <Content Include="Views\Example\_BlogPostHeader.cshtml" />
     <Content Include="Views\Home\Index.ru.cshtml" />
-    <Content Include="Views\Shared\DropDownList.cshtml" />
+    <Content Include="Views\Shared\Templates\DropDownList.cshtml" />
+    <Content Include="Views\Shared\Templates\EditModel.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -702,7 +704,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

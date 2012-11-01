@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.Linq;
 using System.Globalization;
@@ -15,6 +16,7 @@ using System.Web.Routing;
 using Carcass.Common.Utility;
 using Carcass.Common.Collections.Extensions;
 using Carcass.Common.Resources;
+using Carcass.Common.Reflection;
 using Carcass.Common.MVC.Extensions;
 
 using MvcExtensions;
@@ -43,17 +45,21 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         private static readonly Dictionary<string, ActionDelegate> _defaultEditorActions
             = new Dictionary<string, ActionDelegate>((IEqualityComparer<string>)StringComparer.OrdinalIgnoreCase)
         {
+            // Complex models
+            { "Object", ObjectTemplate },
+            { "Collection", CollectionTemplate },
+            
+            { "RenderAction", RenderActionTemplate },
+
+            // Simple models
             { "HiddenInput", HiddenInputTemplate },
             { "MultilineText", MultilineTextTemplate },
             { "Password", PasswordTemplate },
             { "Text", StringTemplate },
             { "CreditCard", CreditCardTemplate },
             { "Currency", CurrencyTemplate },
-            
             { "Html", HtmlTemplate },
-            //{ "Collection", CollectionTemplate },
             { "Duration", FloatTemplate },
-            
             { "PhoneNumber", PhoneNumberTemplate },
             { "Url", UrlTemplate },
             { "ImageUrl", UrlTemplate },
@@ -64,25 +70,19 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { "Time", TimeTemplate },
             { "Upload", UploadTemplate },
             
-            { "RenderAction", RenderActionTemplate },
-            
             { typeof (sbyte).Name, SignedIntegerTemplate},
             { typeof (int).Name, SignedIntegerTemplate },
             { typeof (short).Name, SignedIntegerTemplate },
             { typeof (long).Name, SignedIntegerTemplate },
-            
             { typeof (byte).Name, UnsignedIntegerTemplate },
             { typeof (ushort).Name, UnsignedIntegerTemplate },
             { typeof (uint).Name, UnsignedIntegerTemplate },
             { typeof (ulong).Name, UnsignedIntegerTemplate },
-            
             { typeof (bool).Name, BooleanTemplate},
             { typeof (decimal).Name, FloatTemplate},
             { typeof (float).Name, FloatTemplate},
             { typeof (double).Name, FloatTemplate},
-            
             { typeof (string).Name, StringTemplate},
-            { typeof (object).Name, ObjectTemplate}
         };
 
         internal static ActionDelegate FindAction(string fieldType)
@@ -92,17 +92,97 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 : NotImplementedTemplate; 
         }
 
+        internal static IHtmlString FormatAlert(string format, params object[] args)
+        {
+            var content = String.Format(format, args);
+            return MvcHtmlString.Create(String.Format("<div class=\"alert\">{0}</div>", content));
+        }
+
         internal static IHtmlString NotImplementedTemplate(HtmlHelper html,
             object formattedValue,
             string htmlFieldName,
             ModelMetadata modelMetadata,
             IDictionary<string, object> htmlAttributes)
         {
-            return MvcHtmlString.Create(String.Format(
-                "<div class=\"alert\">Editor for property \"{0}\" is not implemented</div>",
-                htmlFieldName ?? modelMetadata.DisplayName ?? modelMetadata.PropertyName));
+            var propertyName = htmlFieldName ?? modelMetadata.DisplayName ?? modelMetadata.PropertyName;
+
+            if(!String.IsNullOrEmpty(propertyName))
+            {
+                return FormatAlert("Editor for property \"{0}\" is not implemented", propertyName);
+            }
+
+            return FormatAlert("Editor for model of type \"{0}\" is not implemented");
         }
 
+        internal static IHtmlString CollectionTemplate(HtmlHelper html, 
+            object formattedValue, 
+            string htmlFieldName,
+            ModelMetadata modelMetadata, 
+            IDictionary<string, object> htmlAttributes)
+        {
+            var viewData = html.ViewContext.ViewData;
+            var templateInfo = viewData.TemplateInfo;
+            object model = modelMetadata.Model;
+            if (model == null)
+            {
+                return MvcHtmlString.Empty;
+            }
+
+            IEnumerable enumerable = model as IEnumerable;
+            if (enumerable == null)
+            {
+                throw new InvalidOperationException(
+                        String.Format("Type {0} must implement System.Collections.IEnumerable", model.GetType().FullName));
+            }
+
+            var itemType = typeof(string);
+            var genericInterface = TypeHelper.ExtractGenericInterface(enumerable.GetType(), typeof(IEnumerable<>));
+            if (genericInterface != null)
+                itemType = genericInterface.GetGenericArguments()[0];
+
+            bool isItemTypeNullable = TypeHelper.IsNullableValueType(itemType);
+            
+            var stringBuilder = new StringBuilder();
+            int num = 0;
+            var htmlFieldNamePrefix = templateInfo.GetFullHtmlFieldName(htmlFieldName);
+            if (!String.IsNullOrEmpty(htmlFieldNamePrefix))
+                htmlFieldNamePrefix += ".";
+
+            IEnumerator enumerator = enumerable.GetEnumerator();
+            try
+            {
+                while (enumerator.MoveNext())
+                {
+                    if (num > 0)
+                        stringBuilder.Append("<hr />");
+                    
+                    object item = enumerator.Current;
+                    var modelType = itemType;
+                    if (item != null && !isItemTypeNullable)
+                        modelType = item.GetType();
+
+                    var metadataForType = ModelMetadataProviders.Current.GetMetadataForType(() => item, modelType);
+                    var itemFieldName = String.Format(
+                        (IFormatProvider) CultureInfo.InvariantCulture, 
+                        "{0}[{1}]", 
+                        htmlFieldNamePrefix,
+                        num++
+                    );
+
+                    var editor = html.RenderCarcassEditor(metadataForType, null, itemFieldName);
+                    stringBuilder.Append(editor.ToHtmlString());
+                }
+            }
+            finally
+            {
+                var disposable = enumerator as IDisposable;
+                if (disposable != null)
+                    disposable.Dispose();
+            }
+
+            return MvcHtmlString.Create(stringBuilder.ToString());
+        }
+                
         internal static IHtmlString ObjectTemplate(HtmlHelper html, 
             object formattedValue, 
             string htmlFieldName,
@@ -125,36 +205,39 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 else
                     return MvcHtmlString.Create(modelMetadata.NullDisplayText);
             }
-            else
-            {
-                var inlineValidation = htmlAttributes.Get("InlineValidation", true);
-                var validationClass = htmlAttributes.Get("ValidationClass", CarcassMvcSettings.ValidationMessageClass);
-                var validationAttrs = new Dictionary<string, object>() { { "class", validationClass } };
-                
-                var editorAttributes = new Dictionary<string, object>();
-                if(htmlAttributes.ContainsKey("EditorClass"))
-                    editorAttributes.Add("class", htmlAttributes["EditorClass"]);
-                
-                var content = new TagBuilder("div");
-                if (htmlAttributes.ContainsKey("CssClass"))
-                    content.AddCssClass(htmlAttributes["CssClass"] as string);
-                sb.Append(content.ToString(TagRenderMode.StartTag));
+            
+            var inlineValidation = htmlAttributes.Get("InlineValidation", true);
+            var validationClass = htmlAttributes.Get("ValidationClass", CarcassMvcSettings.ValidationMessageClass);
+            var validationAttrs = new Dictionary<string, object>() { { "class", validationClass } };
 
+            var editorAttributes = new Dictionary<string, object>();
+            if (htmlAttributes.ContainsKey("EditorClass"))
+                editorAttributes.Add("class", htmlAttributes["EditorClass"]);
+
+            var content = new TagBuilder("div");
+            if (htmlAttributes.ContainsKey("CssClass"))
+                content.AddCssClass(htmlAttributes["CssClass"] as string);
+                
+            sb.Append(content.ToString(TagRenderMode.StartTag));
+
+            // setup controls hierarchy
+            var initHtmlFieldPrefix = templateInfo.HtmlFieldPrefix;
+            if (!String.IsNullOrEmpty(htmlFieldName))
+                templateInfo.HtmlFieldPrefix = templateInfo.GetFullHtmlFieldName(htmlFieldName);
+
+            try
+            {
                 foreach (var metadata in modelMetadata.Properties.Where(pm => EditorTemplates.ShouldShow(pm, templateInfo)))
                 {
                     var fieldType = metadata.TemplateHint ?? metadata.DataTypeName;
                     var isHidden = fieldType == "HiddenInput";
+                    var itemFieldName = metadata.PropertyName;
 
                     if (!isHidden && !metadata.HideSurroundingHtml)
                     {
-                        var labelAttributes = isHorisontalForm 
+                        var labelAttributes = isHorisontalForm
                             ? new Dictionary<string, object> { { "class", CarcassMvcSettings.BootsrapFormLabelClass } } : null;
-                        var label = LabelExtensions.FormatCarcassLabel(
-                            (HtmlHelper)html, 
-                            metadata,
-                            metadata.PropertyName, 
-                            null, 
-                            labelAttributes);
+                        var label = LabelExtensions.FormatCarcassLabel(html, metadata, itemFieldName, null, labelAttributes);
 
                         if (isHorisontalForm)
                             sb.AppendFormat("<div class=\"{0}\">", CarcassMvcSettings.BootsrapFormFieldClass);
@@ -164,11 +247,24 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                     }
 
                     // Reset ViewBag values
-                    if (containerData.ContainsKey(metadata.PropertyName))
-                        containerData.Remove(metadata.PropertyName);
-                    
-                    var fieldName = templateInfo.GetFullHtmlFieldName(metadata.PropertyName);
-                    sb.Append(html.CarcassEditorFor(metadata, null, fieldName, editorAttributes.Clone()).ToHtmlString());
+                    if (containerData.ContainsKey(itemFieldName))
+                        containerData.Remove(itemFieldName);
+
+                    var controlAttributes = editorAttributes.Clone();
+
+                    var fullHtmlFieldName = templateInfo.GetFullHtmlFieldName(itemFieldName);
+                    var validationAttributes = html.GetUnobtrusiveValidationAttributes(itemFieldName, metadata);
+                    formContext.RenderedField(fullHtmlFieldName, false);
+
+                    foreach (var attr in validationAttributes) 
+                    {
+                        if(!controlAttributes.ContainsKey(attr.Key))
+                            controlAttributes.Add(attr);
+                    }
+
+                    sb.Append("\r\n");
+                    sb.Append(html.RenderCarcassEditor(metadata, null, itemFieldName, controlAttributes).ToHtmlString());
+                    sb.Append("\r\n");
 
                     if (!isHidden && !metadata.HideSurroundingHtml)
                     {
@@ -177,24 +273,24 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                             var typeName = metadata.ModelType.Name;
                             if (metadata.IsNullableValueType && metadata.ModelType.GenericTypeArguments.Length > 0)
                                 typeName = metadata.ModelType.GenericTypeArguments[0].Name;
-                            
+
                             sb.Append(" ");
                             if (typeName == "DateTime")
                             {
                                 sb.Append(
-                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + DateControlPostfix, null, validationAttrs.Clone())
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, itemFieldName + DateControlPostfix, null, validationAttrs.Clone())
                                         .ToHtmlString()).Append(" ");
                                 sb.Append(
-                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName + TimeControlPostfix, null, validationAttrs.Clone())
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, itemFieldName + TimeControlPostfix, null, validationAttrs.Clone())
                                         .ToHtmlString()).Append(" ");
                                 sb.Append(
-                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName, null, validationAttrs.Clone())
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, itemFieldName, null, validationAttrs.Clone())
                                         .ToHtmlString());
                             }
                             else
                             {
                                 sb.Append(
-                                    ValidationExtensions.FieldValidationMessage(html, metadata, metadata.PropertyName, null, validationAttrs.Clone())
+                                    ValidationExtensions.FieldValidationMessage(html, metadata, itemFieldName, null, validationAttrs.Clone())
                                     .ToHtmlString());
                             }
                         }
@@ -203,10 +299,13 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                             sb.Append("</div></div>\r\n");
                     }
                 }
-
-                sb.Append(content.ToString(TagRenderMode.EndTag));
+            }
+            finally
+            {
+                templateInfo.HtmlFieldPrefix = initHtmlFieldPrefix;
             }
 
+            sb.Append(content.ToString(TagRenderMode.EndTag));
             return MvcHtmlString.Create(sb.ToString());
         }
 
@@ -241,7 +340,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 formattedValue as string,
                 CarcassMvcSettings.TextAreaRows, 
                 0, 
-                MergeAttributes(editorAttributes, "multi-line"));
+                LoadAttributes(editorAttributes, "multi-line"));
         }
 
         internal static IHtmlString HtmlTemplate(HtmlHelper html,
@@ -254,7 +353,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html,
                 htmlFieldName,
                 formattedValue as string, CarcassMvcSettings.HtmlTextAreaRows, 0,
-                MergeAttributes(editorAttributes, "html-editor"));
+                LoadAttributes(editorAttributes, "html-editor"));
         }
 
         internal static IHtmlString PasswordTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
@@ -266,7 +365,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "password", "password"));
+                LoadAttributes(editorAttributes, "password", "password"));
         }
 
         internal static IHtmlString StringTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
@@ -278,13 +377,13 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html,
                 htmlFieldName, 
                 formattedValue,
-                editorAttributes);
+                LoadAttributes(editorAttributes, "single-line"));
         }
 
         internal static IHtmlString CurrencyTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
-            editorAttributes = MergeAttributes(editorAttributes, "currency");
-            MergeCurrencyAttributes (editorAttributes);
+            editorAttributes = LoadAttributes(editorAttributes, "currency");
+            LoadDecimalValidationAttributes (editorAttributes);
 
             return InputExtensions.TextBox(html, htmlFieldName, formattedValue, editorAttributes);
         }
@@ -327,11 +426,11 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
 
         internal static IHtmlString UploadTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
-            var inputAttributes = MergeAttributes(editorAttributes, null, "file");
+            var inputAttributes = LoadAttributes(editorAttributes, null, "file");
             
             var property = metadata.ContainerType.GetProperty(
-                metadata.PropertyName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
-            Throw.IfNullArgument(property, "Property {0} not found in {1}", metadata.PropertyName, metadata.ContainerType.Name);
+                htmlFieldName, BindingFlags.IgnoreCase | BindingFlags.Instance | BindingFlags.Public);
+            Throw.IfNullArgument(property, "Property {0} not found in {1}", htmlFieldName, metadata.ContainerType.Name);
 
             var uploadAttr = property.GetCustomAttribute<DataAnnotations.FileUploadAttribute>();
             if(uploadAttr != null) {
@@ -376,7 +475,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             IDictionary<string, object> editorAttributes)
         {
             var oldClass = LoadHtmlAttribute(editorAttributes, "class");
-            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "creditcard", "text", true));
+            var attrs = LoadAttributes(editorAttributes, "creditcard", "text", true);
             var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
 
             var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-credit-card""></i></span></div>";
@@ -393,7 +492,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             IDictionary<string, object> editorAttributes)
         {
             var oldClass = LoadHtmlAttribute(editorAttributes, "class");
-            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "url", "text", true));
+            var attrs = LoadAttributes(editorAttributes, "url", "text", true);
             var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
 
             var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-globe""></i></span></div>";
@@ -410,7 +509,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             IDictionary<string, object> editorAttributes)
         {
             var oldClass = LoadHtmlAttribute(editorAttributes, "class");
-            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "phone-number", "text", true));
+            var attrs = LoadAttributes(editorAttributes, "phone-number", "text", true);
             var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
 
             var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-phone""></i></span></div>";
@@ -427,7 +526,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             IDictionary<string, object> editorAttributes)
         {
             var oldClass = LoadHtmlAttribute(editorAttributes, "class");
-            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "email", "text", true));
+            var attrs = LoadAttributes(editorAttributes, "email", "text", true);
             var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
 
             var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-e-mail""></i></span></div>";
@@ -448,7 +547,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
               html,
               htmlFieldName,
               formattedValue,
-              MergeAttributes(editorAttributes, "date", "text", true));
+              LoadAttributes(editorAttributes, "date", "text", true));
 
             var format = @"<div class=""input-append {0} datepicker-control"" data-date-format=""{1}"" >{2}<span class=""add-on""><i class=""icon-calendar""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, oldClass, GetDateFormat(), box.ToHtmlString()));
@@ -468,7 +567,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
               html,
               htmlFieldName,
               formattedValue,
-              MergeAttributes(editorAttributes, "time", "text", true));
+              LoadAttributes(editorAttributes, "time", "text", true));
 
             var format = @"<div class=""input-append {0} timepicker-control"" data-time-format=""{1}"" >{2}<span class=""add-on""><i class=""icon-time""></i></span></div>";
             return MvcHtmlString.Create(String.Format(format, oldClass, GetTimeFormat(), box.ToHtmlString()));
@@ -490,7 +589,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 timeValue = dt.ToShortTimeString();
             }
 
-            var attrs = MergeAttributes(editorAttributes, String.Empty, null, true);
+            var attrs = LoadAttributes(editorAttributes, String.Empty, null, true);
             var date = DateTemplate(html, dateValue, htmlFieldName + DateControlPostfix, metadata, attrs);
             var time = TimeTemplate(html, timeValue, htmlFieldName + TimeControlPostfix, metadata, attrs);
 
@@ -509,7 +608,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         internal static IHtmlString PostalCodeTemplate(HtmlHelper html, object formattedValue, string htmlFieldName, ModelMetadata metadata, IDictionary<string, object> editorAttributes)
         {
             var oldClass = LoadHtmlAttribute(editorAttributes, "class");
-            var attrs = SetupValidationAttributes(html, MergeAttributes(editorAttributes, "postal-code", "text", true));
+            var attrs = LoadAttributes(editorAttributes, "postal-code", "text", true);
             var box = InputExtensions.TextBox(html, htmlFieldName, formattedValue, attrs);
 
             var format = @"<div class=""input-append {0}"">{1}<span class=""add-on""><i class=""icon-envelope""></i></span></div>";
@@ -529,7 +628,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html, 
                 htmlFieldName, 
                 formattedValue,
-                MergeAttributes(editorAttributes, "unsigned_int", "number"));
+                LoadAttributes(editorAttributes, "unsigned_int", "number"));
         }
 
         /// <summary>
@@ -545,7 +644,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
                 html,
                 htmlFieldName,
                 formattedValue,
-                MergeAttributes(editorAttributes, "signed_int", "number"));
+                LoadAttributes(editorAttributes, "signed_int", "number"));
         }
 
         /// <summary>
@@ -557,7 +656,9 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             ModelMetadata metadata,
             IDictionary<string, object> editorAttributes)
         {
-            return InputExtensions.TextBox(html, htmlFieldName, formattedValue, MergeAttributes(editorAttributes, "number", "text"));
+            var attributes = LoadAttributes(editorAttributes, "number", "text");
+            LoadDecimalValidationAttributes(editorAttributes);
+            return InputExtensions.TextBox(html, htmlFieldName, formattedValue, attributes);
         }
 
         /// <summary>
@@ -572,8 +673,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             var isChecked = false;
             if (formattedValue is bool)
                 isChecked = (bool)formattedValue;
-            
-            return InputExtensions.CheckBox(html, htmlFieldName, isChecked, editorAttributes);
+
+            return InputExtensions.CheckBox(html, htmlFieldName, isChecked, LoadAttributes(editorAttributes, "boolean"));
         }
         
 
@@ -619,19 +720,8 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             return attributes.Get<string>(name);
         }
 
-        private static IDictionary<string, object> SetupValidationAttributes(HtmlHelper html, IDictionary<string, object> attributes)
-        {
-            if (attributes == null)
-                attributes = new Dictionary<string, object>();
-            
-            if (html.ViewContext.UnobtrusiveJavaScriptEnabled)
-                attributes.Set("data-val", "true");
 
-            return attributes;
-
-        }
-
-        private static IDictionary<string, object> MergeAttributes(
+        private static IDictionary<string, object> LoadAttributes(
             IDictionary<string, object> editorAttributes, 
             string className, 
             string inputType = null, 
@@ -675,7 +765,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             return editorAttributes;
         }
 
-        private static void MergeCurrencyAttributes(IDictionary<string, object> attributes)
+        private static void LoadDecimalValidationAttributes (IDictionary<string, object> attributes)
         {
             Throw.IfNullArgument(attributes, "attributes");
             

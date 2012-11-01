@@ -125,7 +125,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             htmlFieldName = htmlFieldName ?? ExpressionHelper.GetExpressionText((LambdaExpression)expression);
             var metadata = ModelMetadata.FromLambdaExpression<TModel, TValue>(expression, html.ViewData);
 
-            return RenderCarcassFieldFor(html, metadata, htmlFieldName, formClass, editorAttributes, inlineValidation, validationAttributes);
+            return RenderCarcassField(html, metadata, htmlFieldName, formClass, editorAttributes, inlineValidation, validationAttributes);
         }
 
         /// <summary>
@@ -149,15 +149,15 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
         {
             Throw.IfNullArgument(expression, "expression");
 
-            return CarcassEditorFor(
+            return RenderCarcassEditor(
                 (HtmlHelper)html,
-                (ModelMetadata)ModelMetadata.FromLambdaExpression(expression, html.ViewData),
+                ModelMetadata.FromLambdaExpression(expression, html.ViewData),
                 templateName,
                 htmlFieldName,
                 editorAttributes);
         }
 
-        public static IHtmlString CarcassEditorFor(
+        internal static IHtmlString RenderCarcassEditor(
             this HtmlHelper html, 
             ModelMetadata metadata, 
             string templateName = null,
@@ -168,7 +168,6 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             if (metadata.Model != null && !string.IsNullOrEmpty(metadata.EditFormatString))
                 formattedValue = String.Format(CultureInfo.CurrentCulture, metadata.EditFormatString, metadata.Model);
             
-            var htmlFieldPrefix = html.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(htmlFieldName);
             var localTemplates = new string[3] { templateName, metadata.TemplateHint, metadata.DataTypeName };
 
             var localViewData = new ViewDataDictionary(html.ViewDataContainer.ViewData)
@@ -178,7 +177,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 TemplateInfo = new TemplateInfo()
                 {
                     FormattedModelValue = formattedValue,
-                    HtmlFieldPrefix = htmlFieldPrefix
+                    HtmlFieldPrefix = html.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix
                 }
             };
 
@@ -211,7 +210,15 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
                 typeName = metadata.ModelType.GenericTypeArguments[0].Name;
             }
 
-            var fieldType = templateName ?? metadata.TemplateHint ?? metadata.DataTypeName ?? typeName;
+            var fieldType = templateName ?? metadata.TemplateHint ?? metadata.DataTypeName 
+                ?? (metadata.IsComplexType ? "Object" : typeName);
+            
+            // check Collection Model
+            if (fieldType == "Object" && typeof(System.Collections.IEnumerable).IsAssignableFrom(metadata.ModelType))
+            {
+                fieldType = "Collection";
+            }
+                        
             Infrastructure.EditorTemplates.ActionDelegate formatAction = Infrastructure.EditorTemplates.FindAction(fieldType); 
 
             if (formatAction == null)
@@ -224,7 +231,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
             return formatAction(html, formattedValue, htmlFieldName, metadata, editorAttributes);
         }
 
-        internal static IHtmlString RenderCarcassFieldFor<TModel>(
+        internal static IHtmlString RenderCarcassField<TModel>(
            HtmlHelper<TModel> html,
            ModelMetadata metadata,
            string htmlFieldName,
@@ -238,7 +245,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions
 
             var labelAttributes = isHorisontalForm ? new Dictionary<string, object> { { "class", CarcassMvcSettings.BootsrapFormLabelClass } } : null;
             var label = LabelExtensions.FormatCarcassLabel((HtmlHelper)html, metadata, htmlFieldName, null, labelAttributes);
-            var editor = html.CarcassEditorFor(metadata, null, htmlFieldName, editorAttributes);
+            var editor = html.RenderCarcassEditor(metadata, null, htmlFieldName, editorAttributes);
 
             IHtmlString validation = null;
             if (inlineValidation)
