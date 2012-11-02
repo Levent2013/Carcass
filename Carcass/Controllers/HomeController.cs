@@ -17,5 +17,11 @@ namespace Carcass.Controllers
         {
             return View();
         }
+
+
+        public ActionResult Documentation(string id)
+        {
+            return View("Documentation/" + id);
+        }
     }
 }

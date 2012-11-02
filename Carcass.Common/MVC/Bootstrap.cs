@@ -21,6 +21,7 @@ using MvcExtensions;
 using Carcass.Common.Reflection;
 using Carcass.Common.Resources;
 using Carcass.Common.Utility;
+using Carcass.Common.MVC.Localization;
 using Carcass.Common.MVC.Validation;
 
 namespace Carcass.Common.MVC
@@ -69,7 +70,7 @@ namespace Carcass.Common.MVC
             ClientDataTypeModelValidatorProvider.ResourceClassKey = resourcesClass;
 
             var scanner = new ClassScanner(assembly, p => p.GetInterface("IModelMetadataConfiguration") == null);
-            scanner.Process(modelsNamespace, model => LocalizeModelValidators(model, extMetadataRegistry));
+            scanner.Process(modelsNamespace, model => SetupModelExtendedValidators(model, extMetadataRegistry));
         }
 
         /// <summary>
@@ -94,13 +95,12 @@ namespace Carcass.Common.MVC
                 new DataTypes.Binding.PostedFileArrayBinder());
         }
 
-        private static void LocalizeModelValidators(
+        private static void SetupModelExtendedValidators(
             Type modelType,
             IModelMetadataRegistry extMetadataRegistry)
         {
             Throw.IfNullArgument(modelType, "model");
 
-            var metadata = ModelMetadataProviders.Current.GetMetadataForType(() => Activator.CreateInstance(modelType), modelType);
             var extendedMetadata = extMetadataRegistry.GetModelPropertiesMetadata(modelType);
             if (extendedMetadata == null)
             {
@@ -113,35 +113,8 @@ namespace Carcass.Common.MVC
 
 
             _log.DebugFormat("Localize model {0}", modelType.Name);
-
-            var modelTypeProperties = modelType.GetProperties();
-
-            foreach (var property in extendedMetadata)
-            {
-                var propertyName = property.Key;
-                var modelProperty = modelTypeProperties.Single(p => p.Name == propertyName);
-                var propertyMetadata = metadata.Properties.Single(p => p.PropertyName == propertyName);
-                var propTypeName = modelProperty.PropertyType.Name;
-
-                if (Nullable.GetUnderlyingType(modelProperty.PropertyType) != null
-                        && modelProperty.PropertyType.GenericTypeArguments.Length > 0)
-                    propTypeName = modelProperty.PropertyType.GenericTypeArguments[0].Name;
-
-                if (property.Value.IsRequired ?? false)
-                {
-                    var validator = property.Value.GetValidationOrCreateNew<RequiredValidationMetadata>();
-                    
-                    // check that message is not localized yet
-                    if (validator.ErrorMessage == null && validator.ErrorMessageResourceType == null)
-                    {
-                        validator.ErrorMessage = () => ValidationResources.PropertyValueRequired;
-                    }
-                }
-              
-                var typeValidator = property.Value.GetValidationOrCreateNew<CustomValidationMetadata<DataTypeModelValidator>>();
-                typeValidator.Factory = (mdata, context) => new DataTypeModelValidator(mdata, context);
-                typeValidator.Configure = v => DataTypeModelValidator.Configure(v);
-            }
+            var localizer = new ValidationLocalizer(modelType, extendedMetadata);
+            localizer.ProcessModel();
         }
        
     }

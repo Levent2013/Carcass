@@ -51,14 +51,16 @@ namespace Carcass.Controllers
             return View(complexModel);
         }
 
-        public ActionResult CollectionTemplate()
+        public ActionResult CollectionTemplate(List<CarModel> models)
         {
-            return View("Templates/EditModel", new List<CarModel>()
-                {
-                    new CarModel { Id = 1, Brand = "Honda", Model = "Jazz", Price = 12200m, ProductionYear = 2005 },
-                    new CarModel { Id = 2, Brand = "Honda", Model = "Civic", Price = 10900m, ProductionYear = 2006 },
-                    new CarModel { Id = 3, Brand = "Acura", Model = "MDX", Price = 41100m, ProductionYear = 2013 },
-                });
+            models = models ?? new List<CarModel>()
+            {
+                new CarModel { Id = 1, Brand = "Honda", Model = "Jazz", Price = 12200m, ProductionYear = 2005 },
+                new CarModel { Id = 2, Brand = "Honda", Model = "Civic", Price = 10900m, ProductionYear = 2006 },
+                new CarModel { Id = 3, Brand = "Acura", Model = "MDX", Price = 41100m, ProductionYear = 2013 },
+            };
+
+            return View("Templates/EditModel", models);
         }
 
         public ActionResult Bootbox()

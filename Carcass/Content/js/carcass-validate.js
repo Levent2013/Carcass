@@ -2,6 +2,19 @@
     if (!cs || !cs.util)
         return alert('carcass-util.js required')
 
+    cs.loadNumberValue = function (element, value) {
+        /// parse local numeric value
+        var $element = $(element),
+            decimalSep = $element.data('num-decimal-separator') || false,
+            groupSep = $element.data('num-group-separator') || '';
+
+        value = String(value).replace(groupSep, '');
+        if (decimalSep !== false)
+            value = value.replace(decimalSep, '.');
+
+        return parseFloat(value);
+    }
+
     // Add validation methods for unsigned/signed integers
     $.validator.addMethod("unsigned_int", function (value, element) {
         return (this.optional && this.optional(element))
@@ -80,6 +93,11 @@
         
         return validator.test(value);
     };
+    
+    $.validator.methods['range'] = function (value, element, param) {
+        value = cs.loadNumberValue(element, value);
+        return this.optional(element) || (value >= param[0] && value <= param[1]);
+    },
 
     // connect them to a css classes
     $.validator.addClassRules({

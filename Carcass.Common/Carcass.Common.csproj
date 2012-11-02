@@ -44,6 +44,9 @@
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="HttpSimulator">
+      <HintPath>..\packages\HttpSimulator.1.0.0.0\lib\Net40\HttpSimulator.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
@@ -139,6 +142,7 @@
     <Compile Include="MVC\Html\HtmlRenderer.cs" />
     <Compile Include="MVC\Html\JavaScriptHelper.cs" />
     <Compile Include="MVC\Localization\LocalizedRazorViewEngine.cs" />
+    <Compile Include="MVC\Localization\ValidationLocalizer.cs" />
     <Compile Include="MVC\Metadata\CarcassSelectListAction.cs" />
     <Compile Include="MVC\MvcHelper.cs" />
     <Compile Include="MVC\Security\AuthorizeWithMessageAttribute.cs" />

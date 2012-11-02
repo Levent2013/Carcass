@@ -13,10 +13,11 @@
 .display-field { margin: 14px 20px 0 150px; clear: right; min-height: 20px; clear: right; word-wrap: break-word; }
 
 .control-group .controls .alert { margin: 0; }
+.field-validation-error.alert { padding: 4px 14px;  min-height: 20px; vertical-align: middle;  }
 .field-validation-valid { display: none; }
 .field-validation-error { display: inline-block; margin: 5px 0 10px;}
     .field-validation-error.strong { font-weight: bold; }
-    .field-validation-error.alert { margin: 0; padding: 4px 14px;  min-height: 20px; vertical-align: middle; display: inline-block; }
+    
 
 .form-inline-validation .control-group .control-label { margin-top: 5px; margin-bottom: 0; }
 .form-inline-validation .controls input,

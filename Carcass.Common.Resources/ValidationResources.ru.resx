@@ -179,6 +179,9 @@
     <comment>Localization for legacy MVC DefaultModelBinder</comment>
   </data>
   <data name="Range" xml:space="preserve">
+    <value>Пожалуйста, введите число от {1} до {2}.</value>
+  </data>
+  <data name="RangeClient" xml:space="preserve">
     <value>Пожалуйста, введите число от {0} до {1}.</value>
   </data>
   <data name="RangeLength" xml:space="preserve">

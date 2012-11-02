@@ -59,7 +59,7 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { "CreditCard", CreditCardTemplate },
             { "Currency", CurrencyTemplate },
             { "Html", HtmlTemplate },
-            { "Duration", FloatTemplate },
+            { "Duration", DecimalTemplate },
             { "PhoneNumber", PhoneNumberTemplate },
             { "Url", UrlTemplate },
             { "ImageUrl", UrlTemplate },
@@ -78,11 +78,11 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
             { typeof (ushort).Name, UnsignedIntegerTemplate },
             { typeof (uint).Name, UnsignedIntegerTemplate },
             { typeof (ulong).Name, UnsignedIntegerTemplate },
-            { typeof (bool).Name, BooleanTemplate},
-            { typeof (decimal).Name, FloatTemplate},
-            { typeof (float).Name, FloatTemplate},
-            { typeof (double).Name, FloatTemplate},
-            { typeof (string).Name, StringTemplate},
+            { typeof (bool).Name, BooleanTemplate },
+            { typeof (decimal).Name, DecimalTemplate },
+            { typeof (float).Name, DecimalTemplate },
+            { typeof (double).Name, DecimalTemplate },
+            { typeof (string).Name, StringTemplate },
         };
 
         internal static ActionDelegate FindAction(string fieldType)
@@ -650,15 +650,15 @@ namespace Carcass.Common.MVC.HtmlHelperExtensions.Infrastructure
         /// <summary>
         /// Format editor for float number
         /// </summary>
-        internal static IHtmlString FloatTemplate(HtmlHelper html,
+        internal static IHtmlString DecimalTemplate(HtmlHelper html,
             object formattedValue,
             string htmlFieldName,
             ModelMetadata metadata,
             IDictionary<string, object> editorAttributes)
         {
-            var attributes = LoadAttributes(editorAttributes, "number", "text");
+            editorAttributes = LoadAttributes(editorAttributes, "number", "text");
             LoadDecimalValidationAttributes(editorAttributes);
-            return InputExtensions.TextBox(html, htmlFieldName, formattedValue, attributes);
+            return InputExtensions.TextBox(html, htmlFieldName, formattedValue, editorAttributes);
         }
 
         /// <summary>

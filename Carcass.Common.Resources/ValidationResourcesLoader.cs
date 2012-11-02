@@ -42,7 +42,7 @@ namespace Carcass.Common.Resources
             sb.AppendFormat("\"{0}\": jQuery.validator.format({1}),\n", "maxlength", JavaScriptHelper.EncodeJavaScript(resources.GetString("MaxLength", locale)) );
             sb.AppendFormat("\"{0}\": jQuery.validator.format({1}),\n", "minlength", JavaScriptHelper.EncodeJavaScript(resources.GetString("MinLength", locale)));
             sb.AppendFormat("\"{0}\": jQuery.validator.format({1}),\n", "rangelength", JavaScriptHelper.EncodeJavaScript(resources.GetString("RangeLength", locale)));
-            sb.AppendFormat("\"{0}\": jQuery.validator.format({1}),\n", "range", JavaScriptHelper.EncodeJavaScript(resources.GetString("Range", locale)));
+            sb.AppendFormat("\"{0}\": jQuery.validator.format({1}),\n", "range", JavaScriptHelper.EncodeJavaScript(resources.GetString("RangeClient", locale)));
             sb.AppendFormat("\"{0}\": jQuery.validator.format({1}),\n", "max", JavaScriptHelper.EncodeJavaScript(resources.GetString("Max", locale)));
             sb.AppendFormat("\"{0}\": jQuery.validator.format({1})", "min", JavaScriptHelper.EncodeJavaScript(resources.GetString("Min", locale)) );
 
