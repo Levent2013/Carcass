@@ -26,6 +26,10 @@ namespace Carcass.Infrastructure.Modules
             
             builder.Register<IRepository<UserEntity>>(container => new EntityRepository<DatabaseContext, UserEntity>(container, p => p.Users));
             
+            builder.Register<IFinder<UserEntity>>(
+                container => new EntityFinder<UserEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),
+                    (context, id) => context.Users.Find(id)));
+
             builder.Register<IRepository<User>>(container =>
                 new EntityRepository<DatabaseContext, UserEntity, User>(
                     container,
@@ -41,6 +45,12 @@ namespace Carcass.Infrastructure.Modules
                     })    
             );
 
+            builder.Register<IFinder<User>>(
+                container => new EntityFinder<User, DatabaseContext>(container.Resolve<DatabaseContext>(),
+                    (context, id) => context.Users.Find(id).MapTo<User>()));
+          
+
+
             builder.Register<ILookuper<UserProfile>>(container =>
             {
                 var context = container.Resolve<DatabaseContext>();
@@ -50,14 +60,7 @@ namespace Carcass.Infrastructure.Modules
                     p => p.Id /* primary key load function */);
             });
 
-            builder.Register<IFinder<UserEntity>>(
-                container => new EntityFinder<UserEntity, DatabaseContext>(container.Resolve<DatabaseContext>(),
-                    (context, id) => context.Users.Find(id)));
 
-            builder.Register<IFinder<User>>(
-                container => new EntityFinder<User, DatabaseContext>(container.Resolve<DatabaseContext>(),
-                    (context, id) => context.Users.Find(id).MapTo<User>()));
-          
             #endregion
 
             base.Load(builder);

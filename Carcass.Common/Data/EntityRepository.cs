@@ -31,12 +31,13 @@ namespace Carcass.Common.Data
 
         public IQueryable<T> Source
         {
-            get { return _source; }
+            get { return _source.AsNoTracking(); }
         }
     }
 
     public class EntityRepository<TDbContext, TSource, TDest> : IRepository<TDest>
         where TSource : class
+        where TDest : class
         where TDbContext : DbContext
     {
         private IQueryable<TDest> _source;
@@ -55,7 +56,7 @@ namespace Carcass.Common.Data
 
         public IQueryable<TDest> Source
         {
-            get { return _source; }
+            get { return _source.AsNoTracking<TDest>(); }
         }
     }
 }

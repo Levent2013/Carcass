@@ -122,6 +122,7 @@
     <Compile Include="Data\SafeTransaction.cs" />
     <Compile Include="Http\MimeType.cs" />
     <Compile Include="IO\StreamPipe.cs" />
+    <Compile Include="MVC\ApplicationContex.cs" />
     <Compile Include="MVC\AreaHelper.cs" />
     <Compile Include="MVC\Bootstrap.cs" />
     <Compile Include="MVC\DataAnnotations\TemplatesVisibilityAttribute.cs" />

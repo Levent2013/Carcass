@@ -203,6 +203,7 @@
     <Compile Include="Infrastructure\ServerTime.cs" />
     <Compile Include="Infrastructure\Modules\BlogsPersistenceModule.cs" />
     <Compile Include="Infrastructure\Modules\CommonPersistenceModule.cs" />
+    <Compile Include="Infrastructure\Tasks\ApplicationContextTask.cs" />
     <Compile Include="Infrastructure\Tasks\InitializeMappings.cs" />
     <Compile Include="Infrastructure\RegisterPerRequestServices.cs" />
     <Compile Include="Infrastructure\Tasks\InitializeCarcass.cs" />
